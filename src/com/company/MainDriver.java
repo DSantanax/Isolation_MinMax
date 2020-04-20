@@ -1,4 +1,5 @@
 package com.company;
+import java.util.*;
 
 /**
  * Authors: Brandon Dayauon, Daniel Santana
@@ -25,6 +26,10 @@ public class MainDriver {
     public static void main(String[] args) {
         System.out.println("Who goes first?");
 
+        Board board = new Board();
+        System.out.println(board.toString());
 
     }
+
+
 }
