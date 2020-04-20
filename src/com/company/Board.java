@@ -1,51 +1,70 @@
 package com.company;
+import java.util.*;
+import java.util.ArrayList;
 
 public class Board {
-    private char[][] board;
+    private String[][] board;
     private int boardLength = 8;
+    private String[][] gameState;
 
-    public static void main(String[] args){
+    ArrayList<Board> children;
 
-    }
-
-
-    public Board (int boardLength)
+    public Board()
     {
-        this.boardLength = boardLength;
-        this.board = new char [boardLength][boardLength];
+        gameState = new String[boardLength][boardLength];
+        gameState[0][0] = "X";
+        gameState[7][7] = "Y";
+
     }
 
 
-    public Board(Board oldBoard){ //prints the Board
-              // public static void printMatrix(char[][] board) {
-            // 8x8 board
-            this.boardLength = oldBoard.boardLength;
-            this.board = new char [boardLength][boardLength];
-            for (int i = 0; i < boardLength; i++) {
-                for (int j = 0; j < boardLength; j++) {
-                    this.board[i][j] = oldBoard.board[i][j];
-                   // System.out.print(board[i][j] + "|");
-                }
-                System.out.println();
-            }
-            System.out.println("------------------------------");
-        }
+    public Board (String[][] gameState) //put positionX and positionO
+    {
+        this.gameState = gameState;
+    }
+
+
+//    public Board(){ //prints the Board
+//            // public static void printMatrix(char[][] board) {
+//            // 8x8 board
+//            char[][] boardState = new char[boardLength][boardLength];
+//            for (int i = 0; i < boardLength; i++) {
+//                for (int j = 0; j < boardLength; j++) {
+//                    boardState[i][j] = '-';
+//                }
+//                System.out.println();
+//            }
+////            System.out.println("------------------------------");
+//
+//            this.board = boardState;
+//        }
 
     @Override
     public String toString() {
         StringBuilder res = new StringBuilder();
-        System.out.println("------------------------------");
+        //res.append("------------------------------\n");
         for (int i = 0; i < boardLength; i++) {
             for (int j = 0; j < boardLength; j++) {
-                res.append(board[i][j] + "|");
+                if (gameState[i][j] == null){
+                    res.append('-');
+                }
+                res.append(board[i][j] +  ' ');
                 // System.out.print(board[i][j] + "|");
             }
-            System.out.println();
+            res.append("\n");
         }
-        System.out.println("------------------------------");
+     //  res.append("------------------------------\n");
 
         return res.toString();
     }
+
+
+
+
+
+    //// Print the current board state
+    //// Get all legal moves
+
 }
 
 
