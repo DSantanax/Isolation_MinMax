@@ -12,7 +12,7 @@ public class Board {
     private String oPosition;
 
     public Board() {
-        successors = new ArrayList<Board>();
+        successors = new ArrayList<>();
         gameState = new String[boardLength][boardLength];
         gameState[0][0] = "X";
         gameState[7][7] = "O";
@@ -22,7 +22,7 @@ public class Board {
 
     public Board (String[][] gameState, String xPosition, String oPosition) {
         this.gameState = gameState;
-        successors = new ArrayList<Board>();
+        successors = new ArrayList<>();
     }
 
     @Override
@@ -42,7 +42,6 @@ public class Board {
 
         return res.toString();
     }
-
 
     //// Print the current board state
     //// Get all legal moves
