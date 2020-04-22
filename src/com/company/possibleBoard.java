@@ -11,6 +11,9 @@ public class possibleBoard extends Board{
     public String[][] copyMatrix(Board board)
     {
         String[][] gameState = board.getArr(); //gameState points to Board
+        System.out.println("yoyo");
+
+        System.out.println(Arrays.deepToString(gameState));
 
         //edgeCase if gameState is ever null
         if (gameState == null){
@@ -55,7 +58,7 @@ public class possibleBoard extends Board{
 
         // System.out.println(Arrays.deepToString(res)); //just prints it in array form
 
-        System.out.println(pb.copyMatrix(board).toString());
+        System.out.println(pb.copyMatrix(board));
     }
 
 
