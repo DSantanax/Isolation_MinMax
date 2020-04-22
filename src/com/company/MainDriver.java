@@ -9,7 +9,7 @@ import java.util.*;
  *
  */
 
-public class MainDriver {
+public class MainDriver extends Board{
     /*
     Requirements:
 - Your computer is required to prompt for “Who goes first, C for computer, O for opponent:
@@ -33,9 +33,14 @@ public class MainDriver {
             System.out.println("Who goes first? C for Computer, O for opponent.");
             firstMove = sc.nextLine();
         }
+
+
         System.out.println("Going first: " + firstMove);
         Board board = new Board();
         System.out.println(board.toString());
+
+
+
 
     }
 
