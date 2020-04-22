@@ -1,6 +1,5 @@
 package com.company;
 
-public class MinMaxAB {
 
 /**
  * Implement depth after completing MinMax with AB pruning for
@@ -59,5 +58,5 @@ public class MinMaxAB {
     private static boolean terminalTest(Object state) {
         return true;
     }
-  
+
 }
