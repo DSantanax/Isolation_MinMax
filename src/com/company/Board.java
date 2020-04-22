@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Board {
     ArrayList<Board> successors;
 
-    private String[][] board;
     private int boardLength = 8;
     private String player;
     private String[][] gameState;
@@ -38,6 +37,7 @@ public class Board {
         this.oPosition = oPosition;
         successors = new ArrayList<Board>();
     }
+
 
     @Override
     public String toString(){

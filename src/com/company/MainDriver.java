@@ -34,12 +34,14 @@ public class MainDriver extends Board{
             firstMove = sc.nextLine();
         }
 
-
         System.out.println("Going first: " + firstMove);
         Board board = new Board();
         System.out.println(board.toString());
 
-
+        System.out.println("Enter opponent's move: ");
+//        System.out.println("copy matrix");
+//        board.copyMatrix()
+//        System.out.println(board.copyMatrix());
 
 
     }

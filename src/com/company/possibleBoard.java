@@ -11,15 +11,11 @@ public class possibleBoard extends Board{
     public String[][] copyMatrix(Board board)
     {
         String[][] gameState = board.getArr(); //gameState points to Board
-        System.out.println("yoyo");
 
-        System.out.println(Arrays.deepToString(gameState));
-
-        //edgeCase if gameState is ever null
+       // System.out.println(Arrays.deepToString(gameState));
         if (gameState == null){
             return null;
         }
-
         //create another 2d array that will copy elements of Board
         String[][] res  = new String[boardLength][boardLength];
         for(int i = 0; i < boardLength; i+= 1){
@@ -54,15 +50,13 @@ public class possibleBoard extends Board{
         System.out.println(board.toString());
         System.out.println("hi");
 
-        //String[][] res = pb.copyMatrix(board);
+        String[][] res = pb.copyMatrix(board);
 
-        // System.out.println(Arrays.deepToString(res)); //just prints it in array form
-
-        System.out.println(pb.copyMatrix(board));
+        System.out.println(Arrays.deepToString(res));
     }
 
 
-
     //do alpha beta pruning here? *might make another class*
+
 
 }
