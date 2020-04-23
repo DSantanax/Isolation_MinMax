@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class UI {
     private String opponentInput;
 
-    public static boolean inputCheck(String opponentInput){
+    public static boolean moveInputCheck(String opponentInput){
         String letter = opponentInput.substring(0,1);
         int number = 9;
         boolean isValid = true;
@@ -41,7 +41,20 @@ public class UI {
         return isValid;
     }
 
+    public static String chooseAISymbol(){ //can do input validation
 
+        Scanner input = new Scanner(System.in);
+
+        System.out.println("\nWhat is our AI choosing to play? (X or O).");
+
+        String symbol = input.nextLine();
+
+        return symbol;
+    }
+    
+    public static void main(String [] args){
+        System.out.println(moveInputCheck("A2"));
+    }
 
 
 }
