@@ -41,17 +41,19 @@ public class UI {
         return isValid;
     }
 
-    public static String chooseAISymbol(){ //can do input validation
+    public String chooseAISymbol(){ //can do input validation
 
         Scanner input = new Scanner(System.in);
 
-        System.out.println("\nWhat is our AI choosing to play? (X or O).");
+        System.out.println("\nWho goes first? C for Computer, O for opponent. (C or O).");
 
-        String symbol = input.nextLine();
+        String firstMove = input.nextLine();
 
-        return symbol;
+        System.out.println("Going first: " + firstMove);
+
+        return firstMove;
     }
-    
+
     public static void main(String [] args){
         System.out.println(moveInputCheck("A2"));
     }

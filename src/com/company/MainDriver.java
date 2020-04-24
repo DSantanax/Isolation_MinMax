@@ -24,18 +24,13 @@ public class MainDriver extends Board{
      */
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
 
-        String firstMove;
-        if (args.length == 1) {
-            firstMove = args[0].replace("-", "");
-        } else {
-            System.out.println("Who goes first? C for Computer, O for opponent.");
-            firstMove = sc.nextLine();
-        }
-
-        System.out.println("Going first: " + firstMove);
         Board board = new Board();
+        UI userInterface = new UI();
+
+
+        userInterface.chooseAISymbol();
+
         System.out.println(board.toString());
 
         System.out.println("Enter opponent's move: ");
