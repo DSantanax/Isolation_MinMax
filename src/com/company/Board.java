@@ -21,7 +21,7 @@ public class Board {
 
     }
 
-    public String[][] updateGameState(int row, int column, String val){
+    public String[][] updateGameState(int row, int column, String val){ //sample Code of how we utilize this method
 
         this.gameState[row][column] = val;
 
