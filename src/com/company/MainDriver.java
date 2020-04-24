@@ -27,13 +27,16 @@ public class MainDriver extends Board{
 
         Board board = new Board();
         UI userInterface = new UI();
+        possibleBoard pb = new possibleBoard();
 
-
+        //ask to see who chooses AI symbol.
         userInterface.chooseAISymbol();
 
         System.out.println(board.toString());
+        String opponentMove = userInterface.getOpponentMove();
+        board.opponentTurnToMove(opponentMove);
 
-        System.out.println("Enter opponent's move: ");
+        System.out.println(board.toString());
 //        System.out.println("copy matrix");
 //        board.copyMatrix()
 //        System.out.println(board.copyMatrix());

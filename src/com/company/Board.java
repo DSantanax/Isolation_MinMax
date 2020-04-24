@@ -10,6 +10,7 @@ public class Board {
     private String[][] gameState;
     private String xPosition;
     private String oPosition;
+    private String opponentPiece = "O";
 
     public Board() {
         successors = new ArrayList<>();
@@ -26,6 +27,47 @@ public class Board {
         this.gameState[row][column] = val;
 
         return this.gameState;
+    }
+
+    public String[][] opponentTurnToMove(String moveInput){
+        int rowVal = getRowVal(moveInput);
+        int columnVal = getColVal(moveInput);
+
+        //validOpponentPlacement() check for placement. If not valid than put somewhere else
+
+        this.gameState[rowVal][columnVal] = this.opponentPiece;
+
+        return this.gameState;
+    }
+
+    public int getRowVal(String moveInput){
+        int rowVal = -1;
+
+        String letter = moveInput.substring(0,1);
+
+        if (letter.equals("A"))
+            rowVal = 0;
+        else if (letter.equals("B"))
+            rowVal = 1;
+        else if (letter.equals("C"))
+            rowVal = 2;
+        else if (letter.equals("D"))
+            rowVal = 3;
+        else if (letter.equals("E"))
+            rowVal = 4;
+        else if (letter.equals("F"))
+            rowVal = 5;
+        else if (letter.equals("G"))
+            rowVal = 6;
+        else if (letter.equals("H"))
+            rowVal = 7;
+
+        return rowVal;
+    }
+    public int getColVal(String moveInput){
+        int columnVal = Integer.parseInt(moveInput.substring(1)) - 1;
+
+        return columnVal;
     }
 
     public String[][] getGameState(){

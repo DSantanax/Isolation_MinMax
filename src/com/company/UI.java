@@ -4,30 +4,15 @@ import java.util.Scanner;
 
 public class UI {
     private String opponentInput;
+    private String firstMove;
 
     public static boolean moveInputCheck(String opponentInput){
-        String letter = opponentInput.substring(0,1);
-        int number = 9;
+        Board board = new Board();
+
+        int number = board.getRowVal(opponentInput);
+        int opponentInputNumber = board.getColVal(opponentInput);
+
         boolean isValid = true;
-
-        if (letter.equals("A"))
-            number = 0;
-        else if (letter.equals("B"))
-            number = 1;
-        else if (letter.equals("C"))
-            number = 2;
-        else if (letter.equals("D"))
-            number = 3;
-        else if (letter.equals("E"))
-            number = 4;
-        else if (letter.equals("F"))
-            number = 5;
-        else if (letter.equals("G"))
-            number = 6;
-        else if (letter.equals("H"))
-            number = 7;
-
-        int opponentInputNumber = Integer.parseInt(opponentInput.substring(1)) - 1;
 
         if (number < 0)
             isValid = false;
@@ -38,7 +23,23 @@ public class UI {
         else if (opponentInputNumber > 7)
             isValid = false;
 
+        System.out.println("Number is " + number);
+
         return isValid;
+    }
+
+    public String getOpponentMove(){
+        System.out.println("Enter opponent's move: ");
+        Scanner input = new Scanner(System.in);
+
+        opponentInput = input.nextLine();
+
+        while (!moveInputCheck(opponentInput)){
+            System.out.println("Invalid input. Put in something legit.");
+            opponentInput = input.nextLine();
+        }
+
+        return opponentInput;
     }
 
     public String chooseAISymbol(){ //can do input validation
@@ -47,15 +48,18 @@ public class UI {
 
         System.out.println("\nWho goes first? C for Computer, O for opponent. (C or O).");
 
-        String firstMove = input.nextLine();
+        this.firstMove = input.nextLine();
 
-        System.out.println("Going first: " + firstMove);
+        System.out.println("Going first: " + this.firstMove);
 
-        return firstMove;
+        return this.firstMove;
     }
 
+
+
     public static void main(String [] args){
-        System.out.println(moveInputCheck("A2"));
+        System.out.println(moveInputCheck("100"));
+
     }
 
 
