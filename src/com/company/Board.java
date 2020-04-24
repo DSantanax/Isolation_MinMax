@@ -21,8 +21,15 @@ public class Board {
 
     }
 
-    public String[][] getArr(){
-        return gameState;
+    public String[][] updateGameState(int row, int column, String val){
+
+        this.gameState[row][column] = val;
+
+        return this.gameState;
+    }
+
+    public String[][] getGameState(){
+        return this.gameState;
     }
 
     public Board(String[][] gameState)
@@ -66,10 +73,10 @@ public class Board {
 
             res.append(letter + " ");
             for(int j = 0; j < boardLength; j+= 1){
-                if(gameState[i][j] == null)
+                if(this.gameState[i][j] == null)
                     res.append("-" + " ");
                 else {
-                    res.append(gameState[i][j] + " ");
+                    res.append(this.gameState[i][j] + " ");
                 }
             }
             res.append("\n");
@@ -78,9 +85,5 @@ public class Board {
         return res.toString();
     }
 
-
-
-    //// Print the current board state
-    //// Get all legal moves
 
 }

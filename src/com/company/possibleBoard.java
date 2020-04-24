@@ -7,23 +7,26 @@ public class possibleBoard extends Board{
     private String[][] board;
     int boardLength = 8;
 
-
+    //helper that makes successors
     public String[][] copyMatrix(Board board)
     {
-        String[][] gameState = board.getArr(); //gameState points to Board
+        String[][] gameStateCopy = board.getGameState(); //gameState points to Board
 
        // System.out.println(Arrays.deepToString(gameState));
-        if (gameState == null){
+        if (gameStateCopy == null){
             return null;
         }
         //create another 2d array that will copy elements of Board
-        String[][] res  = new String[boardLength][boardLength];
+        String[][] res  = new String[boardLength][];
         for(int i = 0; i < boardLength; i+= 1){
-            res[i] = gameState[i].clone();
+            res[i] = gameStateCopy[i].clone();
         }
 
         return res;
     }
+
+
+
 
 //    //takes in a possible board and produces other possible boards O
 //    public ArrayList<possibleBoard> generateSuccessors(Board board)
@@ -47,13 +50,18 @@ public class possibleBoard extends Board{
         Board board = new Board();
         possibleBoard pb = new possibleBoard();
 
-        System.out.println(board.toString());
-        System.out.println("hi");
-
         String[][] res = pb.copyMatrix(board);
 
-        System.out.println(Arrays.deepToString(res));
+        //System.out.println(Arrays.deepToString(board.getGameState()));
+        board.updateGameState(2,1,"3");
+
+        System.out.println(board.toString());
+
+        System.out.println(res == board.getGameState());
+//        System.out.println();
+//        System.out.println(Arrays.deepToString(res));
     }
+
 
 
     //do alpha beta pruning here? *might make another class*
