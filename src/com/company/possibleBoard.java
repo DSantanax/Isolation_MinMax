@@ -1,5 +1,6 @@
 package com.company;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.*;
 
@@ -17,7 +18,7 @@ public class possibleBoard extends Board{
             return null;
         }
         //create another 2d array that will copy elements of Board
-        String[][] res  = new String[boardLength][];
+        String[][] res  = new String[boardLength][boardLength];
         for(int i = 0; i < boardLength; i+= 1){
             res[i] = gameStateCopy[i].clone();
         }
@@ -50,13 +51,12 @@ public class possibleBoard extends Board{
         Board board = new Board();
         possibleBoard pb = new possibleBoard();
 
+        board.updateGameState(2,1,"X");
+
         String[][] res = pb.copyMatrix(board);
 
-        //System.out.println(Arrays.deepToString(board.getGameState()));
-        board.updateGameState(2,1,"3");
-
         System.out.println(board.toString());
-
+        System.out.println(Arrays.deepToString(res));
         System.out.println(res == board.getGameState());
 //        System.out.println();
 //        System.out.println(Arrays.deepToString(res));

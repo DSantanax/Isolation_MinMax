@@ -30,11 +30,13 @@ public class MainDriver extends Board{
         possibleBoard pb = new possibleBoard();
 
         //ask to see who chooses AI symbol.
-        userInterface.chooseAISymbol();
+        String firstMove = userInterface.chooseAISymbol();
 
-        System.out.println(board.toString());
-        String opponentMove = userInterface.getOpponentMove();
-        board.opponentTurnToMove(opponentMove);
+        if (firstMove.equals("C")){
+            //while gameIsNotFinished will keep looping this to get the turn for computer and opponent
+            String computerMove = userInterface.getComputerMove();
+            board.computerTurnToMove(computerMove);
+        }
 
         System.out.println(board.toString());
 //        System.out.println("copy matrix");

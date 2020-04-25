@@ -11,6 +11,7 @@ public class Board {
     private String xPosition;
     private String oPosition;
     private String opponentPiece = "O";
+    private String computerPiece = "X";
 
     public Board() {
         successors = new ArrayList<>();
@@ -39,6 +40,19 @@ public class Board {
 
         return this.gameState;
     }
+
+    public String[][] computerTurnToMove(String moveInput){
+        int rowVal = getRowVal(moveInput);
+        int columnVal = getColVal(moveInput);
+
+        //validPlacement() check for placement. If not valid than put somewhere else
+
+        this.gameState[rowVal][columnVal] = this.computerPiece;
+
+        return this.gameState;
+    }
+
+
 
     public int getRowVal(String moveInput){
         int rowVal = -1;
@@ -87,6 +101,9 @@ public class Board {
         successors = new ArrayList<Board>();
     }
 
+//    public boolean isGameOver(){
+//
+//    }
 
     @Override
     public String toString(){

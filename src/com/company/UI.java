@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class UI {
     private String opponentInput;
     private String firstMove;
+    private String computerMove;
 
     public static boolean moveInputCheck(String opponentInput){
         Board board = new Board();
@@ -42,17 +43,34 @@ public class UI {
         return opponentInput;
     }
 
+    public String getComputerMove(){ //function will get modified to implement min max
+        Scanner input = new Scanner(System.in);
+
+        System.out.println("put in a computerMove");
+        computerMove = input.nextLine();
+
+        while(!moveInputCheck(computerMove)){
+            System.out.println("Invalid input. Put in something legit.");
+            computerMove = input.nextLine();
+        }
+
+        System.out.println("Computer's move is: " + computerMove);
+
+        return computerMove;
+    }
+
+
     public String chooseAISymbol(){ //can do input validation
 
         Scanner input = new Scanner(System.in);
 
         System.out.println("\nWho goes first? C for Computer, O for opponent. (C or O).");
 
-        this.firstMove = input.nextLine();
+        firstMove = input.nextLine();
 
-        System.out.println("Going first: " + this.firstMove);
+        System.out.println("Going first: " + firstMove);
 
-        return this.firstMove;
+        return firstMove;
     }
 
 
