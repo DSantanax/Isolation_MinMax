@@ -36,6 +36,19 @@ public class MainDriver extends Board{
             //while gameIsNotFinished will keep looping this to get the turn for computer and opponent
             String computerMove = userInterface.getComputerMove();
             board.computerTurnToMove(computerMove);
+
+            String opponentMove = userInterface.getOpponentMove();
+            System.out.println(board.toString());
+            board.opponentTurnToMove(opponentMove);
+
+            computerMove = userInterface.getComputerMove();
+            board.computerTurnToMove(computerMove);
+
+            System.out.println(board.toString());
+        }
+        else if(firstMove.equals("O")){
+            String opponentMove = userInterface.getOpponentMove();
+            board.opponentTurnToMove(opponentMove);
         }
 
         System.out.println(board.toString());

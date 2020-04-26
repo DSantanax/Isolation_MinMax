@@ -1,24 +1,28 @@
 package com.company;
-import java.util.*;
-import java.util.ArrayList;
+
+/*
+Change the syntax name to reduce confusion.
+
+
+ */
+
 
 public class Board {
 
+    private String[][] gameState;
     private int boardLength = 8;
     private String player;
-    private String[][] gameState;
-    private String xPosition;
-    private String oPosition;
+    private String currentXPosition;
+    private String currentOPosition;
     private String opponentPiece = "O";
     private String computerPiece = "X";
 
     public Board() {
+        currentXPosition = "A1";
+        currentOPosition = "H8";
         gameState = new String[boardLength][boardLength];
         gameState[0][0] = "X";
         gameState[7][7] = "O";
-        xPosition = "A1";
-        oPosition = "H8";
-
     }
 
     //call isValid before calling updateGameState method
@@ -27,14 +31,15 @@ public class Board {
         int prevCol;
 
         if (val.equals("O")) {
-            prevRow = getORowNum();
-            prevCol = getOColNum();
+            prevRow = getRowVal(currentOPosition);
+            prevCol = getColVal(currentOPosition);
         }
         //Movement is X
         else {
-            prevRow = getXRowNum();
-            prevCol = getXColNum();
+            prevRow = getRowVal(currentXPosition);
+            prevCol = getColVal(currentXPosition);
         }
+
         this.gameState[prevRow][prevCol] = "#";
 
         this.gameState[newRowMove][newColMove] = val;
@@ -48,7 +53,9 @@ public class Board {
 
         //validOpponentPlacement() check for placement. If not valid than put somewhere else
 
-        this.gameState[rowVal][columnVal] = this.opponentPiece;
+        updateGameState(rowVal,columnVal,this.opponentPiece);
+        //this.gameState[rowVal][columnVal] = this.opponentPiece;
+        this.currentOPosition = moveInput;
 
         return this.gameState;
     }
@@ -58,8 +65,9 @@ public class Board {
         int columnVal = getColVal(moveInput);
 
         //validPlacement() check for placement. If not valid than put somewhere else
-
-        this.gameState[rowVal][columnVal] = this.computerPiece;
+        updateGameState(rowVal,columnVal,this.computerPiece);
+        //this.gameState[rowVal][columnVal] = this.computerPiece;
+        this.currentXPosition = moveInput;
 
         return this.gameState;
     }
@@ -103,11 +111,11 @@ public class Board {
         this.gameState = gameState;
     }
 
-    public Board (String[][] gameState, String player, String xPosition, String oPosition) {
+    public Board (String[][] gameState, String player, String currentXPosition, String currentOPosition) {
         this.gameState = gameState;
         this.player = player;
-        this.xPosition = xPosition;
-        this.oPosition = oPosition;
+        this.currentXPosition = currentXPosition;
+        this.currentOPosition = currentOPosition;
     }
 
 //    public boolean isGameOver(){
@@ -155,27 +163,27 @@ public class Board {
     }
 
     public String getXPosition() {
-        return xPosition;
+        return currentXPosition;
     }
 
     public String getOPosition() {
-        return oPosition;
+        return currentOPosition;
     }
 
     public Integer getORowNum() {
-        return Integer.parseInt(oPosition.substring(0, 1));
+        return Integer.parseInt(currentOPosition.substring(0, 1));
     }
 
     public Integer getOColNum() {
-        return Integer.parseInt(oPosition.substring(1));
+        return Integer.parseInt(currentOPosition.substring(1));
     }
 
     public Integer getXRowNum() {
-        return Integer.parseInt(oPosition.substring(0, 1));
+        return Integer.parseInt(currentOPosition.substring(0, 1));
     }
 
     public Integer getXColNum() {
-        return Integer.parseInt(oPosition.substring(1));
+        return Integer.parseInt(currentOPosition.substring(1));
     }
 
     //Check if the position is null
