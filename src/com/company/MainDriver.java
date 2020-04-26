@@ -24,22 +24,24 @@ public class MainDriver extends Board{
      */
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
 
-        String firstMove;
-        if (args.length == 1) {
-            firstMove = args[0].replace("-", "");
-        } else {
-            System.out.println("Who goes first? C for Computer, O for opponent.");
-            firstMove = sc.nextLine();
+        Board board = new Board();
+        UI userInterface = new UI();
+        possibleBoard pb = new possibleBoard(board);
+
+        //ask to see who chooses AI symbol.
+        String firstMove = userInterface.chooseAISymbol();
+
+        if (firstMove.equals("C")){
+            //while gameIsNotFinished will keep looping this to get the turn for computer and opponent
+            String computerMove = userInterface.getComputerMove();
+            board.computerTurnToMove(computerMove);
         }
 
-
-        System.out.println("Going first: " + firstMove);
-        Board board = new Board();
         System.out.println(board.toString());
-
-
+//        System.out.println("copy matrix");
+//        board.copyMatrix()
+//        System.out.println(board.copyMatrix());
 
 
     }

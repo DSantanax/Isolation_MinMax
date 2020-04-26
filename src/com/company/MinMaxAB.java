@@ -2,19 +2,21 @@ package com.company;
 
 
 /**
- * Implement depth after completing MinMax with AB pruning for
+ * Implement 'depth' after completing MinMax with AB pruning for
  * efficiency.
+ * <p>
+ * TODO: Utility, Terminal state, & Successor functions
  */
 
 public class MinMaxAB {
 
-    public static Object miniMaxDecision(Object state) {
+    public static Board miniMaxDecision(Board state) {
         int max = maxValue(state, Integer.MIN_VALUE, Integer.MAX_VALUE);
         //return state.max = max
         return state;
     }
 
-    private static int maxValue(Object state, int alpha, int beta) {
+    private static int maxValue(Board state, int alpha, int beta) {
         if (terminalTest(state))
             return utility(state);
 
@@ -32,11 +34,13 @@ public class MinMaxAB {
         return value;
     }
 
-    private static int successors(Object state) {
+    private static int successors(Board state) {
+
+
         return 0;
     }
 
-    private static int minValue(Object state, int alpha, int beta) {
+    private static int minValue(Board state, int alpha, int beta) {
         int value = Integer.MAX_VALUE;
 
         //find actions is successors
@@ -51,11 +55,20 @@ public class MinMaxAB {
         return value;
     }
 
-    private static int utility(Object state) {
+    //Evaluation function
+    private static int utility(Board state) {
+
+
         return 0;
     }
 
-    private static boolean terminalTest(Object state) {
+    //Check if their is moves available
+    private static boolean terminalTest(Board state) {
+        String compPosition = state.getOPosition();
+        int rowPos = state.getORowNum();
+        int colPos = state.getOColNum();
+
+
         return true;
     }
 
