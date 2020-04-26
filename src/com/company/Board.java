@@ -3,7 +3,6 @@ import java.util.*;
 import java.util.ArrayList;
 
 public class Board {
-    ArrayList<Board> successors;
 
     private int boardLength = 8;
     private String player;
@@ -14,7 +13,6 @@ public class Board {
     private String computerPiece = "X";
 
     public Board() {
-        successors = new ArrayList<>();
         gameState = new String[boardLength][boardLength];
         gameState[0][0] = "X";
         gameState[7][7] = "O";
@@ -23,9 +21,23 @@ public class Board {
 
     }
 
-    public String[][] updateGameState(int row, int column, String val){ //sample Code of how we utilize this method
+    //call isValid before calling updateGameState method
+    public String[][] updateGameState(int newRowMove, int newColMove, String val) { //sample Code of how we utilize this method
+        int prevRow;
+        int prevCol;
 
-        this.gameState[row][column] = val;
+        if (val.equals("O")) {
+            prevRow = getORowNum();
+            prevCol = getOColNum();
+        }
+        //Movement is X
+        else {
+            prevRow = getXRowNum();
+            prevCol = getXColNum();
+        }
+        this.gameState[prevRow][prevCol] = "#";
+
+        this.gameState[newRowMove][newColMove] = val;
 
         return this.gameState;
     }
@@ -53,11 +65,10 @@ public class Board {
     }
 
 
-
-    public int getRowVal(String moveInput){
+    public int getRowVal(String input) {
         int rowVal = -1;
 
-        String letter = moveInput.substring(0,1);
+        String letter = input.substring(0, 1);
 
         if (letter.equals("A"))
             rowVal = 0;
@@ -79,9 +90,8 @@ public class Board {
         return rowVal;
     }
     public int getColVal(String moveInput){
-        int columnVal = Integer.parseInt(moveInput.substring(1)) - 1;
 
-        return columnVal;
+        return Integer.parseInt(moveInput.substring(1)) - 1;
     }
 
     public String[][] getGameState(){
@@ -98,7 +108,6 @@ public class Board {
         this.player = player;
         this.xPosition = xPosition;
         this.oPosition = oPosition;
-        successors = new ArrayList<Board>();
     }
 
 //    public boolean isGameOver(){
@@ -107,9 +116,10 @@ public class Board {
 
     @Override
     public String toString(){
+
         StringBuilder res = new StringBuilder();
         String letter = "";
-        res.append("  1 2 3 4 5 6 7 8" + "\n");
+        res.append("  1 2 3 4 5 6 7 8\t\tComputer Vs. Opponent\n");
 
         for(int i = 0; i < boardLength; i+= 1){
 
@@ -131,8 +141,8 @@ public class Board {
                 letter = "H";
 
             res.append(letter + " ");
-            for(int j = 0; j < boardLength; j+= 1){
-                if(this.gameState[i][j] == null)
+            for (int j = 0; j < boardLength; j++) {
+                if (this.gameState[i][j] == null)
                     res.append("-" + " ");
                 else {
                     res.append(this.gameState[i][j] + " ");
@@ -144,5 +154,32 @@ public class Board {
         return res.toString();
     }
 
+    public String getXPosition() {
+        return xPosition;
+    }
 
+    public String getOPosition() {
+        return oPosition;
+    }
+
+    public Integer getORowNum() {
+        return Integer.parseInt(oPosition.substring(0, 1));
+    }
+
+    public Integer getOColNum() {
+        return Integer.parseInt(oPosition.substring(1));
+    }
+
+    public Integer getXRowNum() {
+        return Integer.parseInt(oPosition.substring(0, 1));
+    }
+
+    public Integer getXColNum() {
+        return Integer.parseInt(oPosition.substring(1));
+    }
+
+    //Check if the position is null
+    public boolean getPositionValid(int rowNum, int colNum) {
+        return gameState[rowNum][colNum] != null;
+    }
 }

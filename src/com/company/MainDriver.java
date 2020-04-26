@@ -27,7 +27,7 @@ public class MainDriver extends Board{
 
         Board board = new Board();
         UI userInterface = new UI();
-        possibleBoard pb = new possibleBoard();
+        possibleBoard pb = new possibleBoard(board);
 
         //ask to see who chooses AI symbol.
         String firstMove = userInterface.chooseAISymbol();

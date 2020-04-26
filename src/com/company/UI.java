@@ -10,21 +10,20 @@ public class UI {
     public static boolean moveInputCheck(String opponentInput){
         Board board = new Board();
 
-        int number = board.getRowVal(opponentInput);
-        int opponentInputNumber = board.getColVal(opponentInput);
+        int rowNum = board.getRowVal(opponentInput);
+        int colNum = board.getColVal(opponentInput);
 
         boolean isValid = true;
 
-        if (number < 0)
+        if (rowNum < 0 || rowNum > 7)
             isValid = false;
-        else if (number > 7)
+        if (colNum < 0 || colNum > 7)
             isValid = false;
-        if (opponentInputNumber < 0)
-            isValid = false;
-        else if (opponentInputNumber > 7)
+        if (board.getPositionValid(rowNum, colNum))
             isValid = false;
 
-        System.out.println("Number is " + number);
+        System.out.println("Index selection is " + rowNum + " " + colNum);
+        System.out.printf("Movement: [%s][%s] \n", opponentInput.substring(0, 1), opponentInput.substring(1));
 
         return isValid;
     }
@@ -76,7 +75,7 @@ public class UI {
 
 
     public static void main(String [] args){
-        System.out.println(moveInputCheck("100"));
+        System.out.println(moveInputCheck("A7"));
 
     }
 
