@@ -19,11 +19,11 @@ public class UI {
             isValid = false;
         if (colNum < 0 || colNum > 7)
             isValid = false;
-        if (board.getPositionValid(rowNum, colNum))
+        if (board.isOccupied(rowNum, colNum))
             isValid = false;
 
-        System.out.println("Index selection is " + rowNum + " " + colNum);
-        System.out.printf("Movement: [%s][%s] \n", opponentInput.substring(0, 1), opponentInput.substring(1));
+//        System.out.println("Index selection is " + rowNum + " " + colNum);
+//        System.out.printf("Movement: [%s][%s] \n", opponentInput.substring(0, 1), opponentInput.substring(1));
 
         return isValid;
     }
@@ -45,7 +45,7 @@ public class UI {
     public String getComputerMove(){ //function will get modified to implement min max
         Scanner input = new Scanner(System.in);
 
-        System.out.println("put in a computerMove");
+        System.out.println("Computer's move is: ");
         computerMove = input.nextLine();
 
         while(!moveInputCheck(computerMove)){
@@ -78,6 +78,5 @@ public class UI {
         System.out.println(moveInputCheck("A7"));
 
     }
-
 
 }

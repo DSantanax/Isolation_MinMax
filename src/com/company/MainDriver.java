@@ -32,23 +32,37 @@ public class MainDriver extends Board{
         //ask to see who chooses AI symbol.
         String firstMove = userInterface.chooseAISymbol();
 
-        if (firstMove.equals("C")){
-            //while gameIsNotFinished will keep looping this to get the turn for computer and opponent
-            String computerMove = userInterface.getComputerMove();
-            board.computerTurnToMove(computerMove);
-
-            String opponentMove = userInterface.getOpponentMove();
-            System.out.println(board.toString());
-            board.opponentTurnToMove(opponentMove);
-
-            computerMove = userInterface.getComputerMove();
-            board.computerTurnToMove(computerMove);
+        if (firstMove.equals("C")) {
 
             System.out.println(board.toString());
+
+            while (!board.gameOver("C") || !board.gameOver("O")){
+                String computerMove = userInterface.getComputerMove();
+                board.computerTurnToMove(computerMove);
+
+                System.out.println(board.toString());
+
+                String opponentMove = userInterface.getOpponentMove();
+                board.opponentTurnToMove(opponentMove);
+
+                System.out.println(board.toString());
+
+            }
         }
         else if(firstMove.equals("O")){
-            String opponentMove = userInterface.getOpponentMove();
-            board.opponentTurnToMove(opponentMove);
+            System.out.println(board.toString());
+
+            while (!board.gameOver("C") || !board.gameOver("O")){
+                String opponentMove = userInterface.getOpponentMove();
+                board.opponentTurnToMove(opponentMove);
+
+                String computerMove = userInterface.getComputerMove();
+                board.computerTurnToMove(computerMove);
+
+                System.out.println(board.toString());
+            }
+
+
         }
 
         System.out.println(board.toString());

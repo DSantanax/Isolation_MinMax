@@ -23,7 +23,7 @@ public class Board {
         gameState = new String[boardLength][boardLength];
         gameState[0][0] = "X";
         gameState[7][7] = "O";
-        gameState[0][2] = "#";
+//        gameState[0][2] = "#";
 //        gameState[4][1] = "#";
 //        gameState[3][0] = "X";
       //  gameState[3][3] = "#";
@@ -227,7 +227,6 @@ public class Board {
 
         return false;
     }
-
     public boolean isSouth(String moveInput, String currentPlayerPosition)  //check if the intended move is South
     {
         int nextRowVal = getRowVal(moveInput);
@@ -250,7 +249,6 @@ public class Board {
 
         return false;
     }
-
     public boolean isEast(String moveInput, String currentPlayerPosition)  //check if the intended move is East
     {
         int nextRowVal = getRowVal(moveInput);
@@ -273,7 +271,6 @@ public class Board {
 
         return false;
     }
-
     public boolean isWest(String moveInput, String currentPlayerPosition)  //check if the intended move is West
     {
         int nextRowVal = getRowVal(moveInput);
@@ -296,7 +293,6 @@ public class Board {
 
         return false;
     }
-
     public boolean isNW(String moveInput, String currentPlayerPosition)  //check if the intended move is NW
     {
         int nextRowVal = getRowVal(moveInput);
@@ -328,7 +324,6 @@ public class Board {
 
         return false;
     }
-
     public boolean isSE(String moveInput, String currentPlayerPosition)  //check if the intended move is SE
     {
         int nextRowVal = getRowVal(moveInput);
@@ -359,7 +354,6 @@ public class Board {
 
         return false;
     }
-
     public boolean isNE(String moveInput, String currentPlayerPosition)  //check if the intended move is SE
     {
         int nextRowVal = getRowVal(moveInput);
@@ -387,7 +381,6 @@ public class Board {
 
         return false;
     }
-
     public boolean isSW(String moveInput, String currentPlayerPosition)  //check if the intended move is SW
     {
         int nextRowVal = getRowVal(moveInput);
@@ -415,15 +408,12 @@ public class Board {
 
         return false;
     }
-
     public boolean isDiagonal(String moveInput, String currentPlayerPosition){
         return isNW(moveInput,currentPlayerPosition) || isNE(moveInput,currentPlayerPosition) || isSW(moveInput,currentPlayerPosition) || isSE(moveInput,currentPlayerPosition);
     } //check if intended move is Diagonal
-
     public boolean isHorizontal(String moveInput, String currentPlayerPosition){
         return isEast(moveInput,currentPlayerPosition) || isWest(moveInput,currentPlayerPosition);
     } //check if intendedmove is Horizontal
-
     public boolean isVertical(String moveInput, String currentPlayerPosition){
         return isNorth(moveInput, currentPlayerPosition) || isSouth(moveInput, currentPlayerPosition);
     } //check if intended move is Vertical
