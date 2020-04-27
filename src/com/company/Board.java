@@ -18,7 +18,7 @@ public class Board {
     private Boolean gameOver = false;
 
     public Board() {
-        currentXPosition = "A1";
+        currentXPosition = "B6";
         currentOPosition = "H8";
         gameState = new String[boardLength][boardLength];
         gameState[0][0] = "X";
@@ -199,6 +199,223 @@ public class Board {
 
     public boolean isEmpty(int x, int y){
         return !isOccupied(x,y);
+    }
+
+    public boolean isNorth(String moveInput, String currentPlayerPosition)  //check if the intended move is North
+    {
+        int nextRowVal = getRowVal(moveInput);
+        int nextColumnVal = getColVal(moveInput);
+
+        if (currentPlayerPosition.equals("O")){
+            int currentRowVal = getRowVal(currentOPosition);
+            int currentColumnVal = getColVal(currentOPosition);
+
+            if (currentColumnVal == nextColumnVal && nextRowVal < currentRowVal)
+                return true;
+        }
+        else if (currentPlayerPosition.equals("C")){
+            int currentRowVal = getRowVal(currentXPosition);
+            int currentColumnVal = getColVal(currentXPosition);
+
+            if (currentColumnVal == nextColumnVal && nextRowVal < currentRowVal)
+                return true;
+        }
+
+        return false;
+    }
+
+    public boolean isSouth(String moveInput, String currentPlayerPosition)  //check if the intended move is South
+    {
+        int nextRowVal = getRowVal(moveInput);
+        int nextColumnVal = getColVal(moveInput);
+
+        if (currentPlayerPosition.equals("O")){
+            int currentRowVal = getRowVal(currentOPosition);
+            int currentColumnVal = getColVal(currentOPosition);
+
+            if (currentColumnVal == nextColumnVal && nextRowVal > currentRowVal)
+                return true;
+        }
+        else if (currentPlayerPosition.equals("C")){
+            int currentRowVal = getRowVal(currentXPosition);
+            int currentColumnVal = getColVal(currentXPosition);
+
+            if (currentColumnVal == nextColumnVal && nextRowVal > currentRowVal)
+                return true;
+        }
+
+        return false;
+    }
+
+    public boolean isEast(String moveInput, String currentPlayerPosition)  //check if the intended move is East
+    {
+        int nextRowVal = getRowVal(moveInput);
+        int nextColumnVal = getColVal(moveInput);
+
+        if (currentPlayerPosition.equals("O")){
+            int currentRowVal = getRowVal(currentOPosition);
+            int currentColumnVal = getColVal(currentOPosition);
+
+            if (currentRowVal == nextRowVal && currentColumnVal < nextColumnVal)
+                return true;
+        }
+        else if (currentPlayerPosition.equals("C")){
+            int currentRowVal = getRowVal(currentXPosition);
+            int currentColumnVal = getColVal(currentXPosition);
+
+            if (currentRowVal == nextRowVal && currentColumnVal < nextColumnVal)
+                return true;
+        }
+
+        return false;
+    }
+
+    public boolean isWest(String moveInput, String currentPlayerPosition)  //check if the intended move is West
+    {
+        int nextRowVal = getRowVal(moveInput);
+        int nextColumnVal = getColVal(moveInput);
+
+        if (currentPlayerPosition.equals("O")){
+            int currentRowVal = getRowVal(currentOPosition);
+            int currentColumnVal = getColVal(currentOPosition);
+
+            if (currentRowVal == nextRowVal && currentColumnVal > nextColumnVal)
+                return true;
+        }
+        else if (currentPlayerPosition.equals("C")){
+            int currentRowVal = getRowVal(currentXPosition);
+            int currentColumnVal = getColVal(currentXPosition);
+
+            if (currentRowVal == nextRowVal && currentColumnVal > nextColumnVal)
+                return true;
+        }
+
+        return false;
+    }
+
+    public boolean isNW(String moveInput, String currentPlayerPosition)  //check if the intended move is NW
+    {
+        int nextRowVal = getRowVal(moveInput);
+        int nextColumnVal = getColVal(moveInput);
+
+        if (currentPlayerPosition.equals("O")){
+            int currentRowVal = getRowVal(currentOPosition);
+            int currentColumnVal = getColVal(currentOPosition);
+
+            int rowDifference = currentRowVal - nextRowVal;
+            int colDifference = currentColumnVal - nextColumnVal;
+
+            if (colDifference == rowDifference && currentRowVal > nextRowVal){
+                return true;
+            }
+
+        }
+        else if (currentPlayerPosition.equals("C")){
+            int currentRowVal = getRowVal(currentXPosition);
+            int currentColumnVal = getColVal(currentXPosition);
+
+            int rowDifference = currentRowVal - nextRowVal;
+            int colDifference = currentColumnVal - nextColumnVal;
+
+            if (colDifference == rowDifference && currentRowVal > nextRowVal){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean isSE(String moveInput, String currentPlayerPosition)  //check if the intended move is SE
+    {
+        int nextRowVal = getRowVal(moveInput);
+        int nextColumnVal = getColVal(moveInput);
+
+        if (currentPlayerPosition.equals("O")){
+            int currentRowVal = getRowVal(currentOPosition);
+            int currentColumnVal = getColVal(currentOPosition);
+
+            int rowDifference = currentRowVal - nextRowVal;
+            int colDifference = currentColumnVal - nextColumnVal;
+
+            if (colDifference == rowDifference && currentRowVal < nextRowVal){
+                return true;
+            }
+        }
+        else if (currentPlayerPosition.equals("C")){
+            int currentRowVal = getRowVal(currentXPosition);
+            int currentColumnVal = getColVal(currentXPosition);
+
+            int rowDifference = currentRowVal - nextRowVal;
+            int colDifference = currentColumnVal - nextColumnVal;
+
+            if (colDifference == rowDifference && currentRowVal < nextRowVal){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean isNE(String moveInput, String currentPlayerPosition)  //check if the intended move is SE
+    {
+        int nextRowVal = getRowVal(moveInput);
+        int nextColumnVal = getColVal(moveInput);
+
+        if (currentPlayerPosition.equals("O")){
+            int currentRowVal = getRowVal(currentOPosition);
+            int currentColumnVal = getColVal(currentOPosition);
+
+            int rowDifference = currentRowVal - nextRowVal;
+
+            if ((currentColumnVal + rowDifference) == nextColumnVal)
+                return true;
+
+        }
+        else if (currentPlayerPosition.equals("C")){
+            int currentRowVal = getRowVal(currentXPosition);
+            int currentColumnVal = getColVal(currentXPosition);
+
+            int rowDifference = currentRowVal - nextRowVal;
+
+            if ((currentColumnVal + rowDifference) == nextColumnVal)
+                return true;
+        }
+
+        return false;
+    }
+    
+    public boolean isSW(String moveInput, String currentPlayerPosition)  //check if the intended move is SW
+    {
+        int nextRowVal = getRowVal(moveInput);
+        int nextColumnVal = getColVal(moveInput);
+
+        if (currentPlayerPosition.equals("O")){
+            int currentRowVal = getRowVal(currentOPosition);
+            int currentColumnVal = getColVal(currentOPosition);
+
+            int rowDifference = nextRowVal - currentRowVal;
+
+            if (rowDifference  == (currentColumnVal - nextColumnVal))
+                return true;
+
+        }
+        else if (currentPlayerPosition.equals("C")){
+            int currentRowVal = getRowVal(currentXPosition);
+            int currentColumnVal = getColVal(currentXPosition);
+
+            int rowDifference = nextRowVal - currentRowVal;
+
+            if (rowDifference  == (currentColumnVal - nextColumnVal))
+                return true;
+        }
+
+        return false;
+    }
+
+
+    public static void main(String[] args){
+        Board board = new Board();
+        System.out.println(board.isSW("D4", "C"));
     }
 
 }
