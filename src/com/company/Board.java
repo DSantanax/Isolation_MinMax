@@ -1,8 +1,7 @@
 package com.company;
 
 /*
-Change the syntax name to reduce confusion.
-
+Implement the rules part of the game:
 
  */
 
@@ -16,6 +15,7 @@ public class Board {
     private String currentOPosition;
     private String opponentPiece = "O";
     private String computerPiece = "X";
+    private Boolean gameOver = false;
 
     public Board() {
         currentXPosition = "A1";
@@ -72,6 +72,12 @@ public class Board {
         return this.gameState;
     }
 
+    public boolean isGameOver(){ //game is over when there are no more moves.
+
+        this.gameOver = true;
+
+        return this.gameOver;
+    }
 
     public int getRowVal(String input) {
         int rowVal = -1;
@@ -118,9 +124,9 @@ public class Board {
         this.currentOPosition = currentOPosition;
     }
 
-//    public boolean isGameOver(){
-//
-//    }
+
+
+
 
     @Override
     public String toString(){
@@ -187,7 +193,12 @@ public class Board {
     }
 
     //Check if the position is null
-    public boolean getPositionValid(int rowNum, int colNum) {
+    public boolean isOccupied(int rowNum, int colNum) {
         return gameState[rowNum][colNum] != null;
     }
+
+    public boolean isEmpty(int x, int y){
+        return !isOccupied(x,y);
+    }
+
 }
