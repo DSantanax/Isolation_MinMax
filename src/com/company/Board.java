@@ -2,9 +2,9 @@ package com.company;
 
 /*
 Implement the rules part of the game:
-
+-To do:
+    do the isValid.
  */
-
 
 public class Board {
 
@@ -18,7 +18,7 @@ public class Board {
     private Boolean gameOver = false;
 
     public Board() {
-        currentXPosition = "B6";
+        currentXPosition = "A1";
         currentOPosition = "H8";
         gameState = new String[boardLength][boardLength];
         gameState[0][0] = "X";
@@ -383,7 +383,7 @@ public class Board {
 
         return false;
     }
-    
+
     public boolean isSW(String moveInput, String currentPlayerPosition)  //check if the intended move is SW
     {
         int nextRowVal = getRowVal(moveInput);
@@ -412,10 +412,37 @@ public class Board {
         return false;
     }
 
+    public boolean isDiagonal(String moveInput, String currentPlayerPosition){
+        return isNW(moveInput,currentPlayerPosition) || isNE(moveInput,currentPlayerPosition) || isSW(moveInput,currentPlayerPosition) || isSE(moveInput,currentPlayerPosition);
+    } //check if intended move is Diagonal
+
+    public boolean isHorizontal(String moveInput, String currentPlayerPosition){
+        return isEast(moveInput,currentPlayerPosition) || isWest(moveInput,currentPlayerPosition);
+    } //check if intendedmove is Horizontal
+
+    public boolean isVertical(String moveInput, String currentPlayerPosition){
+        return isNorth(moveInput, currentPlayerPosition) || isSouth(moveInput, currentPlayerPosition);
+    } //check if intended move is Vertical
+
+//    public boolean validMove(String moveInput, String currentPlayerPosition){
+//
+////        if (currentPlayerPosition.equals("C")){
+////
+////        }
+////        else if (currentPlayerPosition.equals("O")){
+////
+////        }
+////
+////        return true;
+//    }
+
+
+
+
 
     public static void main(String[] args){
         Board board = new Board();
-        System.out.println(board.isSW("D4", "C"));
+        System.out.println(board.isVertical("B1", "C"));
     }
 
 }
