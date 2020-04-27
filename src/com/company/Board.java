@@ -18,11 +18,14 @@ public class Board {
     private Boolean gameOver = false;
 
     public Board() {
-        currentXPosition = "A1";
-        currentOPosition = "H8";
+        currentXPosition = "A1"; //A1
+        currentOPosition = "H8"; //H8
         gameState = new String[boardLength][boardLength];
         gameState[0][0] = "X";
         gameState[7][7] = "O";
+//        gameState[4][1] = "#";
+//        gameState[3][0] = "X";
+      //  gameState[3][3] = "#";
     }
 
     //call isValid before calling updateGameState method
@@ -424,17 +427,175 @@ public class Board {
         return isNorth(moveInput, currentPlayerPosition) || isSouth(moveInput, currentPlayerPosition);
     } //check if intended move is Vertical
 
-//    public boolean validMove(String moveInput, String currentPlayerPosition){
-//
-////        if (currentPlayerPosition.equals("C")){
-////
-////        }
-////        else if (currentPlayerPosition.equals("O")){
-////
-////        }
-////
-////        return true;
-//    }
+    public boolean validMove(String moveInput, String currentPlayerPosition){
+        int nextRowVal = getRowVal(moveInput);
+        int nextColumnVal = getColVal(moveInput);
+
+        if (this.gameState[nextRowVal][nextColumnVal] != null){
+            System.out.println("Invalid move, something is already occupying this intended space.");
+            return false;
+        }
+
+        if (currentPlayerPosition.equals("C")){
+            int currentRowVal = getRowVal(currentXPosition);
+            int currentColumnVal = getColVal(currentXPosition);
+
+            if (isVertical(moveInput, currentPlayerPosition)){ //check for occupied spaces vertically
+                if(isSouth(moveInput,currentPlayerPosition)){
+                    for(int i = currentRowVal + 1; i < nextRowVal; i++){
+                        if(this.gameState[i][currentRowVal] != null) //there is a spot occupied here
+                            return false;
+                    }
+                }
+                if(isNorth(moveInput,currentPlayerPosition)){
+                    for(int i = currentRowVal - 1; nextRowVal > i; i++){   //check this
+                        if(this.gameState[i][currentRowVal] != null) //there is a spot occupied here
+                            return false;
+                    }
+                }
+            }
+            else if (isHorizontal(moveInput, currentPlayerPosition)){
+                if(isWest(moveInput, currentPlayerPosition)){
+                    for(int i = currentRowVal+1; i < nextRowVal; i++){
+                        if(this.gameState[currentRowVal][i] != null) //there is a spot occupied here
+                            return false;
+                    }
+                }
+                if(isEast(moveInput, currentPlayerPosition)){
+                    for(int i = currentRowVal - 1; i > nextRowVal; i--){
+                        if(this.gameState[currentRowVal][i] != null) //there is a spot occupied here
+                            return false;
+                    }
+                }
+            }
+            else if (isDiagonal(moveInput,currentPlayerPosition)){
+
+                if(isNW(moveInput, currentPlayerPosition)){ //check this
+                    int col = currentColumnVal - 1;
+
+                    for(int i = currentRowVal - 1; i > nextRowVal; i--){
+                        if(this.gameState[i][col] != null) {
+                            return false;
+                        }
+                        col -= 1;
+                    }
+                }
+
+                if(isSE(moveInput, currentPlayerPosition)){ //WORKS!!!
+                    int col = currentColumnVal + 1;
+                    for(int i = currentRowVal + 1; i < nextRowVal; i++){
+                        if(this.gameState[i][col] != null){
+                            return false;
+                        }
+                        col ++;
+                    }
+                }
+
+                if(isNE(moveInput, currentPlayerPosition)){
+                    int col = currentColumnVal + 1;
+
+                    for(int i = currentRowVal - 1; i > nextRowVal; i -= 1){
+                        if(this.gameState[i][col] != null)
+                            return false;
+
+                        col += 1;
+                    }
+                }
+
+                if(isSW(moveInput, currentPlayerPosition)){
+                    int col = currentColumnVal - 1;
+                    for(int i = currentRowVal+1; i < nextRowVal; i += 1){
+                        if(this.gameState[i][col] != null)
+                            return false;
+                        col -= 1;
+                    }
+                }
+
+            }
+        }
+
+
+
+        else if (currentPlayerPosition.equals("O")){
+            int currentRowVal = getRowVal(currentOPosition);
+            int currentColumnVal = getColVal(currentOPosition);
+
+            if (isVertical(moveInput, currentPlayerPosition)){ //check for occupied spaces vertically
+                if(isSouth(moveInput,currentPlayerPosition)){
+                    for(int i = currentRowVal + 1; i < nextRowVal; i++){
+                        if(this.gameState[i][currentRowVal] != null) //there is a spot occupied here
+                            return false;
+                    }
+                }
+                if(isNorth(moveInput,currentPlayerPosition)){
+                    for(int i = currentRowVal - 1; nextRowVal > i; i++){   //check this
+                        if(this.gameState[i][currentRowVal] != null) //there is a spot occupied here
+                            return false;
+                    }
+                }
+            }
+            else if (isHorizontal(moveInput, currentPlayerPosition)){
+                if(isWest(moveInput, currentPlayerPosition)){
+                    for(int i = currentRowVal+1; i < nextRowVal; i++){
+                        if(this.gameState[currentRowVal][i] != null) //there is a spot occupied here
+                            return false;
+                    }
+                }
+                if(isEast(moveInput, currentPlayerPosition)){
+                    for(int i = currentRowVal - 1; i > nextRowVal; i--){
+                        if(this.gameState[currentRowVal][i] != null) //there is a spot occupied here
+                            return false;
+                    }
+                }
+            }
+            else if (isDiagonal(moveInput,currentPlayerPosition)){
+
+                if(isNW(moveInput, currentPlayerPosition)){ //check this
+                    int col = currentColumnVal - 1;
+
+                    for(int i = currentRowVal - 1; i > nextRowVal; i--){
+                        if(this.gameState[i][col] != null) {
+                            return false;
+                        }
+                        col -= 1;
+                    }
+                }
+
+                if(isSE(moveInput, currentPlayerPosition)){ //WORKS!!!
+                    int col = currentColumnVal + 1;
+                    for(int i = currentRowVal + 1; i < nextRowVal; i++){
+                        if(this.gameState[i][col] != null){
+                            return false;
+                        }
+                        col ++;
+                    }
+                }
+
+                if(isNE(moveInput, currentPlayerPosition)){
+                    int col = currentColumnVal + 1;
+
+                    for(int i = currentRowVal - 1; i > nextRowVal; i -= 1){
+                        if(this.gameState[i][col] != null)
+                            return false;
+
+                        col += 1;
+                    }
+                }
+
+                if(isSW(moveInput, currentPlayerPosition)){
+                    int col = currentColumnVal - 1;
+                    for(int i = currentRowVal+1; i < nextRowVal; i += 1){
+                        if(this.gameState[i][col] != null)
+                            return false;
+                        col -= 1;
+                    }
+                }
+
+            }
+        }
+
+        return true;
+    } //check if there are forks in the road
 
 
 
@@ -442,7 +603,9 @@ public class Board {
 
     public static void main(String[] args){
         Board board = new Board();
-        System.out.println(board.isVertical("B1", "C"));
+        System.out.println(board.validMove("H8", "C"));
+
+        System.out.println(board.toString());
     }
 
 }
