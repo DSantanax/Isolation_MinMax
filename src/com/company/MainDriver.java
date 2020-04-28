@@ -38,12 +38,23 @@ public class MainDriver extends Board{
 
             while (!board.gameOver("C") || !board.gameOver("O")){
                 String computerMove = userInterface.getComputerMove();
-                board.computerTurnToMove(computerMove);
+
+                while(!board.validMove(computerMove,"C")){
+                     computerMove = userInterface.getComputerMove();
+                }
+                board.playerTurnToMove(computerMove,"C");
+
+                System.out.println("New xPosition: " + board.getXPosition());
 
                 System.out.println(board.toString());
 
+
                 String opponentMove = userInterface.getOpponentMove();
-                board.opponentTurnToMove(opponentMove);
+                while(!board.validMove(opponentMove,"O")){
+                    opponentMove = userInterface.getOpponentMove();
+                }
+                board.playerTurnToMove(opponentMove, "O");
+                System.out.println("New oPosition: " + board.getOPosition());
 
                 System.out.println(board.toString());
 
@@ -54,10 +65,10 @@ public class MainDriver extends Board{
 
             while (!board.gameOver("C") || !board.gameOver("O")){
                 String opponentMove = userInterface.getOpponentMove();
-                board.opponentTurnToMove(opponentMove);
+                board.playerTurnToMove(opponentMove,"O");
 
                 String computerMove = userInterface.getComputerMove();
-                board.computerTurnToMove(computerMove);
+                board.playerTurnToMove(computerMove,"C");
 
                 System.out.println(board.toString());
             }

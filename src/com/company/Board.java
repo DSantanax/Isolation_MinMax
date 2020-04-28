@@ -37,6 +37,7 @@ public class Board {
         if (val.equals("O")) {
             prevRow = getRowVal(currentOPosition);
             prevCol = getColVal(currentOPosition);
+
         }
         //Movement is X
         else {
@@ -51,30 +52,56 @@ public class Board {
         return this.gameState;
     }
 
-    public String[][] opponentTurnToMove(String moveInput){
-        int rowVal = getRowVal(moveInput);
-        int columnVal = getColVal(moveInput);
 
-        //validOpponentPlacement() check for placement. If not valid than put somewhere else
+    public String[][] playerTurnToMove(String moveInput, String currentPlayerPosition){
 
-        updateGameState(rowVal,columnVal,this.opponentPiece);
-        //this.gameState[rowVal][columnVal] = this.opponentPiece;
-        this.currentOPosition = moveInput;
+        if(currentPlayerPosition.equals("O"))
+        {
+            int rowVal = getRowVal(moveInput);
+            int columnVal = getColVal(moveInput);
+
+            if(validMove(moveInput,currentPlayerPosition))
+                updateGameState(rowVal,columnVal,this.opponentPiece);
+
+            this.currentOPosition = moveInput;
+        }
+        else if (currentPlayerPosition.equals("C")){
+            int rowVal = getRowVal(moveInput);
+            int columnVal = getColVal(moveInput);
+
+            if(validMove(moveInput,currentPlayerPosition))
+                updateGameState(rowVal,columnVal,this.computerPiece);
+
+            this.currentXPosition = moveInput;
+        }
 
         return this.gameState;
     }
 
-    public String[][] computerTurnToMove(String moveInput){
-        int rowVal = getRowVal(moveInput);
-        int columnVal = getColVal(moveInput);
-
-        //validPlacement() check for placement. If not valid than put somewhere else
-        updateGameState(rowVal,columnVal,this.computerPiece);
-        //this.gameState[rowVal][columnVal] = this.computerPiece;
-        this.currentXPosition = moveInput;
-
-        return this.gameState;
-    }
+//    public String[][] opponentTurnToMove(String moveInput){
+//        int rowVal = getRowVal(moveInput);
+//        int columnVal = getColVal(moveInput);
+//
+//        //validOpponentPlacement() check for placement. If not valid than put somewhere else
+//
+//        updateGameState(rowVal,columnVal,this.opponentPiece);
+//        //this.gameState[rowVal][columnVal] = this.opponentPiece;
+//        this.currentOPosition = moveInput;
+//
+//        return this.gameState;
+//    }
+//
+//    public String[][] computerTurnToMove(String moveInput){
+//        int rowVal = getRowVal(moveInput);
+//        int columnVal = getColVal(moveInput);
+//
+//        //validPlacement() check for placement. If not valid than put somewhere else
+//        updateGameState(rowVal,columnVal,this.computerPiece);
+//        //this.gameState[rowVal][columnVal] = this.computerPiece;
+//        this.currentXPosition = moveInput;
+//
+//        return this.gameState;
+//    }
 
     public boolean isGameOver(){ //game is over when there are no more moves.
 
@@ -427,6 +454,18 @@ public class Board {
             return false;
         }
 
+        if (nextRowVal < 0 || nextRowVal > 7){
+            System.out.println("1");
+            return  false;}
+        if (nextColumnVal < 0 || nextColumnVal > 7) {
+            System.out.println("2");
+            return false;
+        }
+        if (isOccupied(nextRowVal, nextColumnVal)) {
+            System.out.println("3");
+            return false;
+        }
+
         if (currentPlayerPosition.equals("C")){
             int currentRowVal = getRowVal(currentXPosition);
             int currentColumnVal = getColVal(currentXPosition);
@@ -502,6 +541,9 @@ public class Board {
                     }
                 }
 
+            }
+            else if(!(isHorizontal(moveInput,currentPlayerPosition) || isVertical(moveInput, currentPlayerPosition) ||isDiagonal(moveInput,currentPlayerPosition))){
+                return false;
             }
         }
 
@@ -580,6 +622,9 @@ public class Board {
                     }
                 }
 
+            }
+            else if(!(isHorizontal(moveInput,currentPlayerPosition) || isVertical(moveInput, currentPlayerPosition) ||isDiagonal(moveInput,currentPlayerPosition))){
+                return false;
             }
         }
 
