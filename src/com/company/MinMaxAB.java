@@ -1,6 +1,8 @@
 package com.company;
 
 
+import java.util.ArrayList;
+
 /**
  * Implement 'depth' after completing MinMax with AB pruning for
  * efficiency.
@@ -16,6 +18,7 @@ public class MinMaxAB {
         return state;
     }
 
+    //Main Comp player is MaxValue
     private static int maxValue(Board state, int alpha, int beta) {
         if (terminalTest(state))
             return utility(state);
@@ -24,8 +27,9 @@ public class MinMaxAB {
 
         //add states to function to loop through them
         //passing each action of the current state
-        for (int i = 0; i < successors(state); i++) {
-            value = Math.max(value, minValue(state, alpha, beta));
+        ArrayList<Board> successor = successors(state);
+        for (Board board : successor) {
+            value = Math.max(value, minValue(board, alpha, beta));
             if (value >= beta) {
                 return value;
             }
@@ -34,18 +38,15 @@ public class MinMaxAB {
         return value;
     }
 
-    private static int successors(Board state) {
 
-
-        return 0;
-    }
-
+    //Main opponent is Min value
     private static int minValue(Board state, int alpha, int beta) {
         int value = Integer.MAX_VALUE;
 
         //find actions is successors
-        for (int i = 0; i < successors(state); i++) {
-            value = Math.min(value, maxValue(state, alpha, beta));
+        ArrayList<Board> successor = successors(state);
+        for (Board board : successor) {
+            value = Math.min(value, maxValue(board, alpha, beta));
             if (value <= alpha) {
                 return value;
             }
@@ -53,6 +54,11 @@ public class MinMaxAB {
 
         }
         return value;
+    }
+
+    private static ArrayList<Board> successors(Board state) {
+        possibleBoard pb = new possibleBoard(state);
+        return pb.successorsBoard();
     }
 
     //Evaluation function

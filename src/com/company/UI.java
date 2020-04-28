@@ -1,55 +1,49 @@
 package com.company;
 
+import org.w3c.dom.ls.LSOutput;
+
 import java.util.Scanner;
 
 public class UI {
     private String opponentInput;
     private String firstMove;
     private String computerMove;
+    private Scanner input = new Scanner(System.in);
 
-    public static boolean moveInputCheck(String opponentInput){
-        Board board = new Board();
 
-        int rowNum = board.getRowVal(opponentInput);
-        int colNum = board.getColVal(opponentInput);
-
+    public static boolean moveInputCheck(String moveInput, String currentPositionPlayer, Board board){
         boolean isValid = true;
 
-        if (rowNum < 0 || rowNum > 7)
+        if(!board.validMove(moveInput,currentPositionPlayer)) {
+            System.out.println("aksdalsjdad");
             isValid = false;
-        if (colNum < 0 || colNum > 7)
-            isValid = false;
-        if (board.getPositionValid(rowNum, colNum))
-            isValid = false;
-
-        System.out.println("Index selection is " + rowNum + " " + colNum);
-        System.out.printf("Movement: [%s][%s] \n", opponentInput.substring(0, 1), opponentInput.substring(1));
+        }
 
         return isValid;
     }
 
-    public String getOpponentMove(){
+    public String getOpponentMove(Board board){
         System.out.println("Enter opponent's move: ");
-        Scanner input = new Scanner(System.in);
-
+        
         opponentInput = input.nextLine();
 
-        while (!moveInputCheck(opponentInput)){
+        while (!moveInputCheck(opponentInput,"O", board) && !board.validMove(opponentInput,"O")){
             System.out.println("Invalid input. Put in something legit.");
+            System.out.println("Current O position" + board.getOPosition());
             opponentInput = input.nextLine();
         }
 
         return opponentInput;
     }
 
-    public String getComputerMove(){ //function will get modified to implement min max
-        Scanner input = new Scanner(System.in);
-
-        System.out.println("put in a computerMove");
+    public String getComputerMove(Board board){ //function will get modified to implement min max
+        
+        System.out.println("Computer's move is: ");
         computerMove = input.nextLine();
 
-        while(!moveInputCheck(computerMove)){
+        while (!moveInputCheck(computerMove, "C", board)) {
             System.out.println("Invalid input. Put in something legit.");
+
             computerMove = input.nextLine();
         }
 
@@ -59,9 +53,7 @@ public class UI {
     }
 
 
-    public String chooseAISymbol(){ //can do input validation
-
-        Scanner input = new Scanner(System.in);
+    public String chooseAISymbol(){ //can do input validation 
 
         System.out.println("\nWho goes first? C for Computer, O for opponent. (C or O).");
 
@@ -75,9 +67,8 @@ public class UI {
 
 
     public static void main(String [] args){
-        System.out.println(moveInputCheck("A7"));
+        //System.out.println(moveInputCheck("A7"));
 
     }
-
 
 }
