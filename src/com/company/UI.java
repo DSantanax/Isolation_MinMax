@@ -41,15 +41,14 @@ public class UI {
 
     public String getComputerMove(){ //function will get modified to implement min max
         Scanner input = new Scanner(System.in);
-        Board board = new Board();
+
 
         System.out.println("Computer's move is: ");
         computerMove = input.nextLine();
 
-        while(!moveInputCheck(computerMove,"C") && !board.validMove(computerMove,"C")){
-            System.out.println("Invalid input. Put in something legit." + moveInputCheck(computerMove,"C") + " " +
-                    board.validMove(computerMove,"C"));
-            System.out.println("Current X position" + board.getXPosition());
+        while (!moveInputCheck(computerMove, "C")) {
+            System.out.println("Invalid input. Put in something legit.");
+
             computerMove = input.nextLine();
         }
 
