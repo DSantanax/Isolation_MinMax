@@ -8,9 +8,10 @@ public class UI {
     private String opponentInput;
     private String firstMove;
     private String computerMove;
+    private Scanner input = new Scanner(System.in);
 
-    public static boolean moveInputCheck(String moveInput, String currentPositionPlayer){
-        Board board = new Board();
+
+    public static boolean moveInputCheck(String moveInput, String currentPositionPlayer, Board board){
         boolean isValid = true;
 
         if(!board.validMove(moveInput,currentPositionPlayer)) {
@@ -21,32 +22,26 @@ public class UI {
         return isValid;
     }
 
-    public String getOpponentMove(){
+    public String getOpponentMove(Board board){
         System.out.println("Enter opponent's move: ");
-        Scanner input = new Scanner(System.in);
-        Board board = new Board();
-
+        
         opponentInput = input.nextLine();
 
-        while (!moveInputCheck(opponentInput,"O") && !board.validMove(opponentInput,"O")){
+        while (!moveInputCheck(opponentInput,"O", board) && !board.validMove(opponentInput,"O")){
             System.out.println("Invalid input. Put in something legit.");
             System.out.println("Current O position" + board.getOPosition());
             opponentInput = input.nextLine();
         }
 
-
-
         return opponentInput;
     }
 
-    public String getComputerMove(){ //function will get modified to implement min max
-        Scanner input = new Scanner(System.in);
-
-
+    public String getComputerMove(Board board){ //function will get modified to implement min max
+        
         System.out.println("Computer's move is: ");
         computerMove = input.nextLine();
 
-        while (!moveInputCheck(computerMove, "C")) {
+        while (!moveInputCheck(computerMove, "C", board)) {
             System.out.println("Invalid input. Put in something legit.");
 
             computerMove = input.nextLine();
@@ -58,9 +53,7 @@ public class UI {
     }
 
 
-    public String chooseAISymbol(){ //can do input validation
-
-        Scanner input = new Scanner(System.in);
+    public String chooseAISymbol(){ //can do input validation 
 
         System.out.println("\nWho goes first? C for Computer, O for opponent. (C or O).");
 

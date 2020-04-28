@@ -3,7 +3,7 @@ package com.company;
 /*
 Implement the rules part of the game:
 -To do:
-    do the isValid.
+    do the isValid. Done
  */
 
 public class Board {
@@ -449,22 +449,20 @@ public class Board {
         int nextRowVal = getRowVal(moveInput);
         int nextColumnVal = getColVal(moveInput);
 
-        if (this.gameState[nextRowVal][nextColumnVal] != null){
-            System.out.println("Invalid move, something is already occupying this intended space.");
-            return false;
-        }
-
         if (nextRowVal < 0 || nextRowVal > 7){
-            System.out.println("1");
-            return  false;}
+            System.out.println("out of bounds for rows");
+            return  false;
+        }
         if (nextColumnVal < 0 || nextColumnVal > 7) {
-            System.out.println("2");
+            System.out.println("Out of bounds for columns");
             return false;
         }
         if (isOccupied(nextRowVal, nextColumnVal)) {
-            System.out.println("3");
             return false;
         }
+
+        if (moveInput.length() > 2) //A22
+            return false;
 
         if (currentPlayerPosition.equals("C")){
             int currentRowVal = getRowVal(currentXPosition);
@@ -486,13 +484,17 @@ public class Board {
             }
             else if (isHorizontal(moveInput, currentPlayerPosition)){
                 if(isWest(moveInput, currentPlayerPosition)){
-                    for(int i = currentRowVal+1; i < nextRowVal; i++){
+                   for(int i = currentRowVal - 1; i > nextRowVal; i--){
+                        System.err.println(currentRowVal);
+                        System.err.println(i);
                         if(this.gameState[currentRowVal][i] != null) //there is a spot occupied here
                             return false;
                     }
                 }
                 if(isEast(moveInput, currentPlayerPosition)){
-                    for(int i = currentRowVal - 1; i > nextRowVal; i--){
+                    for(int i = currentRowVal+1; i < nextRowVal; i++){
+                        System.err.println(currentRowVal);
+                        System.err.println(i);
                         if(this.gameState[currentRowVal][i] != null) //there is a spot occupied here
                             return false;
                     }
@@ -548,17 +550,19 @@ public class Board {
         }
 
         else if (currentPlayerPosition.equals("O")){
-            int currentRowVal = getRowVal(currentOPosition);
-            int currentColumnVal = getColVal(currentOPosition);
+            int currentRowVal = getRowVal(currentOPosition); //A3  its getting the array index of A
+            int currentColumnVal = getColVal(currentOPosition); //A3 its getting the index 3-1 so 2
 
             if (isVertical(moveInput, currentPlayerPosition)){ //check for occupied spaces vertically
                 if(isSouth(moveInput,currentPlayerPosition)){
                     for(int i = currentRowVal + 1; i < nextRowVal; i++){
+                        System.out.println("its going in is south");
                         if(this.gameState[i][currentRowVal] != null) //there is a spot occupied here
                             return false;
                     }
                 }
                 if(isNorth(moveInput,currentPlayerPosition)){
+                    System.out.println("its going in is north");
                     for(int i = currentRowVal - 1; nextRowVal > i; i++){   //check this
                         if(this.gameState[i][currentRowVal] != null) //there is a spot occupied here
                             return false;
@@ -566,16 +570,28 @@ public class Board {
                 }
             }
             else if (isHorizontal(moveInput, currentPlayerPosition)){
-                if(isWest(moveInput, currentPlayerPosition)){
-                    for(int i = currentRowVal+1; i < nextRowVal; i++){
-                        if(this.gameState[currentRowVal][i] != null) //there is a spot occupied here
+                 if(isWest(moveInput, currentPlayerPosition)){
+                     System.out.println("its going in is west");
+                   for(int i = currentRowVal; i > nextRowVal; i--){
+                        System.err.println(currentRowVal);
+                        System.err.println(i);
+                        if(this.gameState[currentRowVal][i] != null){ //there is a spot occupied here
+                            System.out.println("GOING WEST != null");
                             return false;
+                   }
                     }
                 }
                 if(isEast(moveInput, currentPlayerPosition)){
-                    for(int i = currentRowVal - 1; i > nextRowVal; i--){
+                    System.out.println("its going in isEast");
+                    System.err.println(currentRowVal + "  " + nextColumnVal);
+                    for(int i = currentRowVal; i < nextColumnVal; i++){
+                        System.err.println(currentRowVal);
+                        System.err.println(i);
                         if(this.gameState[currentRowVal][i] != null) //there is a spot occupied here
+                        {
+                            System.out.println("GOING EAST != null");
                             return false;
+                        }
                     }
                 }
             }
@@ -880,13 +896,4 @@ public class Board {
     public boolean gameOver(String currentPlayerPosition) {
         return !(canMoveHorizontal(currentPlayerPosition) || canMoveDiagonal(currentPlayerPosition) || canMoveVertical(currentPlayerPosition));
     }
-
-
-    public static void main(String[] args){
-        Board board = new Board();
-        System.out.println(board.canMoveSW("O"));
-
-        System.out.println(board.toString());
-    }
-
 }

@@ -13,7 +13,7 @@ public class possibleBoard extends Board {
     }
 
     //helper that makes successors
-    public String[][] copyMatrix(Board board) {
+    private String[][] copyMatrix(Board board) {
         String[][] gameStateCopy = board.getGameState(); //gameState points to Board
 
         // System.out.println(Arrays.deepToString(gameState));
@@ -77,25 +77,4 @@ public class possibleBoard extends Board {
 //
 //
 //    }
-
-    public static void main(String[] args){
-        Board board = new Board();
-        possibleBoard pb = new possibleBoard(board);
-
-        board.updateGameState(2,1,"X");
-
-        String[][] res = pb.copyMatrix(board);
-
-        System.out.println(board.toString());
-        System.out.println(Arrays.deepToString(res));
-        System.out.println(res == board.getGameState());
-//        System.out.println();
-//        System.out.println(Arrays.deepToString(res));
-    }
-
-
-
-    //do alpha beta pruning here? *might make another class*
-
-
 }
