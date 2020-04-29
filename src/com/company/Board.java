@@ -409,7 +409,7 @@ public class Board {
 
     public boolean isHorizontal(String moveInput, String currentPlayerPosition) {
         return isEast(moveInput, currentPlayerPosition) || isWest(moveInput, currentPlayerPosition);
-    } //check if intendedmove is Horizontal
+    } //check if intended move is Horizontal
 
     public boolean isVertical(String moveInput, String currentPlayerPosition) {
         return isNorth(moveInput, currentPlayerPosition) || isSouth(moveInput, currentPlayerPosition);
@@ -610,10 +610,10 @@ public class Board {
         return true;
     }
 
-    public boolean canMoveSouth(String currentPlayerPosition) {
-        if (currentPlayerPosition.equals("O")) {
+    public boolean canMoveSouth(String currentPlayer) {
+        if (currentPlayer.equals("O")) {
             int currentRowVal = getRowVal(currentOPosition);
-            int currentColVal = getRowVal(currentOPosition);
+            int currentColVal = getColVal(currentOPosition);
 
             if (currentRowVal + 1 > 7)
                 return false;
@@ -622,7 +622,7 @@ public class Board {
                 return true;
             return false;
 
-        } else if (currentPlayerPosition.equals("C")) {
+        } else if (currentPlayer.equals("C")) {
 
             int currentRowVal = getRowVal(currentXPosition);
             int currentColVal = getColVal(currentXPosition);
@@ -639,11 +639,11 @@ public class Board {
         return false;
     } //check to see if current position can move south
 
-    public boolean canMoveNorth(String currentPlayerPosition) {
+    public boolean canMoveNorth(String currentPlayer) {
 
-        if (currentPlayerPosition.equals("O")) {
+        if (currentPlayer.equals("O")) {
             int currentRowVal = getRowVal(currentOPosition);
-            int currentColVal = getRowVal(currentOPosition);
+            int currentColVal = getColVal(currentOPosition);
 
             if (currentRowVal - 1 < 0)
                 return false;
@@ -652,7 +652,7 @@ public class Board {
                 return true;
             return false;
 
-        } else if (currentPlayerPosition.equals("C")) {
+        } else if (currentPlayer.equals("C")) {
 
             int currentRowVal = getRowVal(currentXPosition);
             int currentColVal = getColVal(currentXPosition);
@@ -669,11 +669,11 @@ public class Board {
         return false;
     } //check to see if current position can move north
 
-    public boolean canMoveWest(String currentPlayerPosition) {
+    public boolean canMoveWest(String currentPlayer) {
 
-        if (currentPlayerPosition.equals("O")) {
+        if (currentPlayer.equals("O")) {
             int currentRowVal = getRowVal(currentOPosition);
-            int currentColVal = getRowVal(currentOPosition);
+            int currentColVal = getColVal(currentOPosition);
 
             if (currentColVal - 1 < 0)
                 return false;
@@ -682,7 +682,7 @@ public class Board {
                 return true;
             return false;
 
-        } else if (currentPlayerPosition.equals("C")) {
+        } else if (currentPlayer.equals("C")) {
 
             int currentRowVal = getRowVal(currentXPosition);
             int currentColVal = getColVal(currentXPosition);
@@ -698,20 +698,21 @@ public class Board {
         return false;
     } //check to see if current position can move west
 
-    public boolean canMoveEast(String currentPlayerPosition) {
+    public boolean canMoveEast(String currentPlayer) {
 
-        if (currentPlayerPosition.equals("O")) {
+        if (currentPlayer.equals("O")) {
             int currentRowVal = getRowVal(currentOPosition);
-            int currentColVal = getRowVal(currentOPosition);
+            int currentColVal = getColVal(currentOPosition);
 
             if (currentColVal + 1 > 7)
                 return false;
 
             if (this.gameState[currentRowVal][currentColVal + 1] == null)
                 return true;
+
             return false;
 
-        } else if (currentPlayerPosition.equals("C")) {
+        } else if (currentPlayer.equals("C")) {
 
             int currentRowVal = getRowVal(currentXPosition);
             int currentColVal = getColVal(currentXPosition);
@@ -721,16 +722,17 @@ public class Board {
 
             if (this.gameState[currentRowVal][currentColVal + 1] == null)
                 return true;
+                
             return false;
         }
 
         return false;
     } //check to see if current position can move east
 
-    public boolean canMoveNE(String currentPlayerPosition) {
-        if (currentPlayerPosition.equals("O")) {
+    public boolean canMoveNE(String currentPlayer) {
+        if (currentPlayer.equals("O")) {
             int currentRowVal = getRowVal(currentOPosition);
-            int currentColVal = getRowVal(currentOPosition);
+            int currentColVal = getColVal(currentOPosition);
 
             if (currentRowVal - 1 < 0 || currentColVal + 1 > 7)
                 return false;
@@ -739,7 +741,7 @@ public class Board {
                 return true;
             return false;
 
-        } else if (currentPlayerPosition.equals("C")) {
+        } else if (currentPlayer.equals("C")) {
 
             int currentRowVal = getRowVal(currentXPosition);
             int currentColVal = getColVal(currentXPosition);
@@ -756,10 +758,10 @@ public class Board {
         return false;
     } //check to see if current position can move NE
 
-    public boolean canMoveNW(String currentPlayerPosition) {
-        if (currentPlayerPosition.equals("O")) {
+    public boolean canMoveNW(String currentPlayer) {
+        if (currentPlayer.equals("O")) {
             int currentRowVal = getRowVal(currentOPosition);
-            int currentColVal = getRowVal(currentOPosition);
+            int currentColVal = getColVal(currentOPosition);
 
             if (currentRowVal - 1 < 0 || currentColVal - 1 < 0)
                 return false;
@@ -768,7 +770,7 @@ public class Board {
                 return true;
             return false;
 
-        } else if (currentPlayerPosition.equals("C")) {
+        } else if (currentPlayer.equals("C")) {
 
             int currentRowVal = getRowVal(currentXPosition);
             int currentColVal = getColVal(currentXPosition);
@@ -785,10 +787,10 @@ public class Board {
         return false;
     } //check to see if current position can move NW
 
-    public boolean canMoveSE(String currentPlayerPosition) {
-        if (currentPlayerPosition.equals("O")) {
+    public boolean canMoveSE(String currentPlayer) {
+        if (currentPlayer.equals("O")) {
             int currentRowVal = getRowVal(currentOPosition);
-            int currentColVal = getRowVal(currentOPosition);
+            int currentColVal = getColVal(currentOPosition);
 
             if (currentRowVal + 1 > 7 || currentColVal + 1 > 7)
                 return false;
@@ -797,7 +799,7 @@ public class Board {
                 return true;
             return false;
 
-        } else if (currentPlayerPosition.equals("C")) {
+        } else if (currentPlayer.equals("C")) {
 
             int currentRowVal = getRowVal(currentXPosition);
             int currentColVal = getColVal(currentXPosition);
@@ -814,10 +816,10 @@ public class Board {
         return false;
     } //check to see if current position can move SE
 
-    public boolean canMoveSW(String currentPlayerPosition) {
-        if (currentPlayerPosition.equals("O")) {
+    public boolean canMoveSW(String currentPlayer) {
+        if (currentPlayer.equals("O")) {
             int currentRowVal = getRowVal(currentOPosition);
-            int currentColVal = getRowVal(currentOPosition);
+            int currentColVal = getColVal(currentOPosition);
 
             if (currentRowVal + 1 > 7 || currentColVal - 1 < 0)
                 return false;
@@ -826,7 +828,7 @@ public class Board {
                 return true;
             return false;
 
-        } else if (currentPlayerPosition.equals("C")) {
+        } else if (currentPlayer.equals("C")) {
 
             int currentRowVal = getRowVal(currentXPosition);
             int currentColVal = getColVal(currentXPosition);
@@ -843,22 +845,23 @@ public class Board {
         return false;
     } //check to see if current position can move SW
 
-    public boolean canMoveHorizontal(String currentPlayerPosition) {
-        return canMoveEast(currentPlayerPosition) || canMoveWest(currentPlayerPosition);
+    public boolean canMoveHorizontal(String currentPlayer) {
+        return canMoveEast(currentPlayer) || canMoveWest(currentPlayer);
     }
 
-    public boolean canMoveVertical(String currentPlayerPosition) {
-        return canMoveSouth(currentPlayerPosition) || canMoveNorth(currentPlayerPosition);
+    public boolean canMoveVertical(String currentPlayer) {
+        return canMoveSouth(currentPlayer) || canMoveNorth(currentPlayer);
     }
 
-    public boolean canMoveDiagonal(String currentPlayerPosition) {
-        return canMoveNE(currentPlayerPosition) || canMoveNW(currentPlayerPosition) || canMoveSE(currentPlayerPosition) || canMoveSW(currentPlayerPosition);
+    public boolean canMoveDiagonal(String currentPlayer) {
+        return canMoveNE(currentPlayer) || canMoveNW(currentPlayer) || canMoveSE(currentPlayer) || canMoveSW(currentPlayer);
     }
-
 
     //gameOver when there are no more moves to make.
-    public boolean gameOver(String currentPlayerPosition) {
-        return !(canMoveHorizontal(currentPlayerPosition) || canMoveDiagonal(currentPlayerPosition) || canMoveVertical(currentPlayerPosition));
+    //TODO: fix
+    //pass the if O or if X player to clean code so we wont have any duplicate code!
+    public boolean gameOver(String currentPlayer) {
+        return !(canMoveHorizontal(currentPlayer) || canMoveDiagonal(currentPlayer) || canMoveVertical(currentPlayer));
     }
 
 	public Board getNewBoard(Board board, int rowNum, int colNum, String player2) {

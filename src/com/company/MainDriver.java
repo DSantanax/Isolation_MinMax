@@ -5,7 +5,6 @@ package com.company;
  * <p>
  * Description:
  */
-//TODO: remove 1 validMoves
 
 public class MainDriver extends Board {
     /*
@@ -20,6 +19,8 @@ public class MainDriver extends Board {
      * help if you also implement this with an iterative deepening.
      */
 
+     //TODO: gameOver, heuristic, combine methods, clean
+    //TODO: remove 1 validMoves
     public static void main(String[] args) {
 
         Board board = new Board();
@@ -27,12 +28,13 @@ public class MainDriver extends Board {
 
         // ask to see who chooses AI symbol.
         String firstMove = userInterface.chooseAISymbol();
+        String winnerGame = "";
 
         if (firstMove.equals("C")) {
 
             System.out.println(board.toString());
 
-            while (!board.gameOver("C") || !board.gameOver("O")) {
+            while (!board.gameOver("C") && !board.gameOver("O")) {
                 String computerMove = userInterface.getComputerMove(board);
 
                 while (!board.validMove(computerMove, "C")) {
@@ -68,12 +70,13 @@ public class MainDriver extends Board {
             }
 
         }
+        if(!board.gameOver("C"))
+            winnerGame = "Computer won!";
+        else{
+            winnerGame = "Player won!";
+        }
 
         System.out.println(board.toString());
-        // System.out.println("copy matrix");
-        // board.copyMatrix()
-        // System.out.println(board.copyMatrix());
-
+        System.out.println("Game Over!" + winnerGame);;
     }
-
 }
