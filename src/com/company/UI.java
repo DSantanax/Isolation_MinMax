@@ -11,10 +11,10 @@ public class UI {
     private Scanner input = new Scanner(System.in);
 
 
-    public static boolean moveInputCheck(String moveInput, String currentPositionPlayer, Board board){
+    public static boolean moveInputCheck(String moveInput, String currentPositionPlayer, Board board) {
         boolean isValid = true;
 
-        if(!board.validMove(moveInput,currentPositionPlayer)) {
+        if (!board.validMove(moveInput, currentPositionPlayer)) {
             System.out.println("aksdalsjdad");
             isValid = false;
         }
@@ -22,12 +22,12 @@ public class UI {
         return isValid;
     }
 
-    public String getOpponentMove(Board board){
+    public String getOpponentMove(Board board) {
         System.out.println("Enter opponent's move: ");
-        
+
         opponentInput = input.nextLine();
 
-        while (!moveInputCheck(opponentInput,"O", board) && !board.validMove(opponentInput,"O")){
+        while (!moveInputCheck(opponentInput, "O", board) && !board.validMove(opponentInput, "O")) {
             System.out.println("Invalid input. Put in something legit.");
             System.out.println("Current O position" + board.getOPosition());
             opponentInput = input.nextLine();
@@ -36,8 +36,8 @@ public class UI {
         return opponentInput;
     }
 
-    public String getComputerMove(Board board){ //function will get modified to implement min max
-        
+    public String getComputerMove(Board board) { //function will get modified to implement min max
+
         System.out.println("Computer's move is: ");
         computerMove = input.nextLine();
 
@@ -53,7 +53,7 @@ public class UI {
     }
 
 
-    public String chooseAISymbol(){ //can do input validation 
+    public String chooseAISymbol() { //can do input validation
 
         System.out.println("\nWho goes first? C for Computer, O for opponent. (C or O).");
 
@@ -65,8 +65,7 @@ public class UI {
     }
 
 
-
-    public static void main(String [] args){
+    public static void main(String[] args) {
         //System.out.println(moveInputCheck("A7"));
 
     }

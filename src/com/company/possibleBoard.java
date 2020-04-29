@@ -1,80 +1,96 @@
 package com.company;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.*;
 
 public class possibleBoard extends Board {
-    private String[][] board;
-    private int boardLength = 8;
-
-    possibleBoard(Board state) {
-        board = copyMatrix(state);
-    }
 
     //helper that makes successors
-    private String[][] copyMatrix(Board board) {
+    private static String[][] copyMatrix(Board board) {
         String[][] gameStateCopy = board.getGameState(); //gameState points to Board
 
         // System.out.println(Arrays.deepToString(gameState));
-        if (gameStateCopy == null) {
-            return null;
-        }
+
         //create another 2d array that will copy elements of Board
-        String[][] res = new String[boardLength][boardLength];
-        for (int i = 0; i < boardLength; i += 1) {
+        String[][] res = new String[8][8];
+        for (int i = 0; i < 8; i += 1) {
             res[i] = gameStateCopy[i].clone();
         }
 
         return res;
     }
 
-    public ArrayList<Board> successorsBoard() {
+    public static ArrayList<Board> successorsBoard(Board board, String player) {
+        String[][] boardSuccessor = copyMatrix(board);  //completely dif board that we're gonna change
+        //X player moves
+        int colNum = 0;
+        int rowNum = 0;
+        if (player.equals("X")) {
+            System.out.println("IN X");
+            colNum = board.getColVal(board.getXColNum());
+            rowNum = board.getRowVal(board.getXRowNum());
+        //O player moves
+        } else {
+            System.err.println("IN O");
+            colNum = board.getColVal(board.getOColNum());
+            rowNum = board.getRowVal(board.getORowNum());
+        }
         ArrayList<Board> successors = new ArrayList<>();
-
-
-        for (int i = 0; i < 10; i++) {
-
-
+        System.out.println(rowNum + " " + " " + colNum);
+        //North IS CORRECT!!
+        for (int i = rowNum - 1; i >= 0 ; i--) {           
+            //new board we changed X only to a new position
+            //[1][3]
+            System.out.println(i + " " + " " + colNum);
+            if(boardSuccessor[i][colNum] == null)
+                successors.add(board.getNewBoard(board, i, colNum, player));
         }
-        for (int i = 0; i < 10; i++) {
-
+    
+        // TODO: 8 - rowNum for possible Maxmoves
+        //South 
+        for (int i = rowNum + 1; i < 8; i++) {
+            if(boardSuccessor[i][colNum] == null)
+                successors.add(board.getNewBoard(board, i, colNum, player));
+        } 
+        //EAST
+        for (int i = rowNum; i < 8; i++) {
+            if(boardSuccessor[rowNum][i] == null)
+                successors.add(board.getNewBoard(board, rowNum, i - 1, player));
         }
-        for (int i = 0; i < 10; i++) {
-
-        }
-        for (int i = 0; i < 10; i++) {
-
-        }
-        for (int i = 0; i < 10; i++) {
-
-        }
-        for (int i = 0; i < 10; i++) {
-
-        }
-        for (int i = 0; i < 10; i++) {
-
+        //WEST
+        for (int i = rowNum; i >= 0; i--) {
+            if(boardSuccessor[rowNum][i] == null)
+                successors.add(board.getNewBoard(board, rowNum, i + 1, player));
         }
 
 
+        //NE
+
+        for (int i = rowNum - 1; i >= 0; i--) {
+            if(boardSuccessor[rowNum][i] == null)
+                successors.add(board.getNewBoard(board, i, i+1, player));
+        }
+
+
+        //NW
+        for (int i = rowNum - 1; i > 0; i--) {
+            if(boardSuccessor[rowNum][i] == null)
+                successors.add(board.getNewBoard(board, i, i-1, player));
+        }
+
+        //SE
+
+        int maxNumberOfMovesTilOOB = Math.min(8 - rowNum, 8 - colNum) - 1;
+        for (int i = rowNum + 1; i < maxNumberOfMovesTilOOB; i++) {
+            if(boardSuccessor[rowNum][i] == null)
+                successors.add(board.getNewBoard(board, i, i+1, player));
+        }
+        //SW
+        
+        for (int i = rowNum + 1; i < maxNumberOfMovesTilOOB; i++) {
+            if(boardSuccessor[rowNum][i] == null)
+                successors.add(board.getNewBoard(board, i, i-1, player));
+        }
+        
         return successors;
     }
-
-//    //takes in a possible board and produces other possible boards O
-//    public ArrayList<possibleBoard> generateSuccessors(Board board)
-//    {
-//
-////        Board childBoard[boardLength][boardLength] = board;
-////
-////        for(int i = 0; i < boardLength; i++)
-////        {
-////            for(int j = 0; j < boardLength; j++)
-////            {
-////
-////            }
-////        }
-//
-//
-//
-//    }
 }

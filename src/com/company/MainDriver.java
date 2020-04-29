@@ -1,15 +1,13 @@
 package com.company;
-import java.util.*;
 
 /**
  * Authors: Brandon Dayauon, Daniel Santana
  * Course: AI 4200
- *
- *      Description:
- *
+ * <p>
+ * Description:
  */
 
-public class MainDriver extends Board{
+public class MainDriver extends Board {
     /*
     Requirements:
 - Your computer is required to prompt for “Who goes first, C for computer, O for opponent:
@@ -27,7 +25,6 @@ public class MainDriver extends Board{
 
         Board board = new Board();
         UI userInterface = new UI();
-        possibleBoard pb = new possibleBoard(board);
 
         //ask to see who chooses AI symbol.
         String firstMove = userInterface.chooseAISymbol();
@@ -36,13 +33,13 @@ public class MainDriver extends Board{
 
             System.out.println(board.toString());
 
-            while (!board.gameOver("C") || !board.gameOver("O")){
+            while (!board.gameOver("C") || !board.gameOver("O")) {
                 String computerMove = userInterface.getComputerMove(board);
 
-                while(!board.validMove(computerMove,"C")){
-                     computerMove = userInterface.getComputerMove(board);
+                while (!board.validMove(computerMove, "C")) {
+                    computerMove = userInterface.getComputerMove(board);
                 }
-                board.playerTurnToMove(computerMove,"C");
+                board.playerTurnToMove(computerMove, "C");
 
                 System.out.println("New xPosition: " + board.getXPosition());
 
@@ -50,7 +47,7 @@ public class MainDriver extends Board{
 
 
                 String opponentMove = userInterface.getOpponentMove(board);
-                while(!board.validMove(opponentMove,"O")){
+                while (!board.validMove(opponentMove, "O")) {
                     opponentMove = userInterface.getOpponentMove(board);
                 }
                 board.playerTurnToMove(opponentMove, "O");
@@ -59,16 +56,15 @@ public class MainDriver extends Board{
                 System.out.println(board.toString());
 
             }
-        }
-        else if(firstMove.equals("O")){
+        } else if (firstMove.equals("O")) {
             System.out.println(board.toString());
 
-            while (!board.gameOver("C") || !board.gameOver("O")){
+            while (!board.gameOver("C") || !board.gameOver("O")) {
                 String opponentMove = userInterface.getOpponentMove(board);
-                board.playerTurnToMove(opponentMove,"O");
+                board.playerTurnToMove(opponentMove, "O");
 
                 String computerMove = userInterface.getComputerMove(board);
-                board.playerTurnToMove(computerMove,"C");
+                board.playerTurnToMove(computerMove, "C");
 
                 System.out.println(board.toString());
             }

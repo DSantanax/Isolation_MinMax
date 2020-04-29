@@ -3,6 +3,8 @@ package com.company;
 
 import java.util.ArrayList;
 
+
+
 /**
  * Implement 'depth' after completing MinMax with AB pruning for
  * efficiency.
@@ -11,6 +13,7 @@ import java.util.ArrayList;
  */
 
 public class MinMaxAB {
+
 
     public static Board miniMaxDecision(Board state) {
         int max = maxValue(state, Integer.MIN_VALUE, Integer.MAX_VALUE);
@@ -27,7 +30,7 @@ public class MinMaxAB {
 
         //add states to function to loop through them
         //passing each action of the current state
-        ArrayList<Board> successor = successors(state);
+        ArrayList<Board> successor = successors(state, "X");
         for (Board board : successor) {
             value = Math.max(value, minValue(board, alpha, beta));
             if (value >= beta) {
@@ -44,7 +47,7 @@ public class MinMaxAB {
         int value = Integer.MAX_VALUE;
 
         //find actions is successors
-        ArrayList<Board> successor = successors(state);
+        ArrayList<Board> successor = successors(state, "X");
         for (Board board : successor) {
             value = Math.min(value, maxValue(board, alpha, beta));
             if (value <= alpha) {
@@ -56,9 +59,8 @@ public class MinMaxAB {
         return value;
     }
 
-    private static ArrayList<Board> successors(Board state) {
-        possibleBoard pb = new possibleBoard(state);
-        return pb.successorsBoard();
+    private static ArrayList<Board> successors(Board state, String player) {
+        return possibleBoard.successorsBoard(state, player);
     }
 
     //Evaluation function
@@ -71,11 +73,26 @@ public class MinMaxAB {
     //Check if their is moves available
     private static boolean terminalTest(Board state) {
         String compPosition = state.getOPosition();
-        int rowPos = state.getORowNum();
-        int colPos = state.getOColNum();
 
 
         return true;
     }
 
+    public static void main(String[] args) {
+        Board mainBoard = new Board();
+        System.out.println(mainBoard.toString());
+        Board testBoard = mainBoard.getNewBoard(mainBoard, 2, 3, "X");
+    
+        System.out.println(testBoard.toString());
+        System.out.println(mainBoard.toString());
+    
+        ArrayList<Board> successorsBoard = possibleBoard.successorsBoard(testBoard, "X");
+        int counter = 0;
+        for(Board board: successorsBoard){
+            counter += 1;
+            System.out.println(counter);
+            System.out.println(board.toString());
+        }
+        System.out.println(counter);
+    }
 }
