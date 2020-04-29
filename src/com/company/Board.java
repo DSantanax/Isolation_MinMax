@@ -549,7 +549,7 @@ public class Board {
                 if (isEast(moveInput, currentPlayerPosition)) {
                     System.out.println("its going in isEast");
                     System.err.println(currentRowVal + "  " + nextColumnVal);
-                    for (int i = currentColumnVal; i < nextColumnVal; i++) {
+                    for (int i = currentColumnVal+1; i < nextColumnVal; i++) {
                         System.err.println(currentColumnVal);
                         System.err.println(i);
                         if (this.gameState[currentRowVal][i] != null) //there is a spot occupied here
