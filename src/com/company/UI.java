@@ -1,7 +1,5 @@
 package com.company;
 
-import org.w3c.dom.ls.LSOutput;
-
 import java.util.Scanner;
 
 public class UI {
@@ -15,7 +13,6 @@ public class UI {
         boolean isValid = true;
 
         if (!board.validMove(moveInput, currentPositionPlayer)) {
-            System.out.println("aksdalsjdad");
             isValid = false;
         }
 

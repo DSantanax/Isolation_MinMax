@@ -1,24 +1,23 @@
 package com.company;
 
 /**
- * Authors: Brandon Dayauon, Daniel Santana
- * Course: AI 4200
+ * Authors: Brandon Dayauon, Daniel Santana Course: AI 4200
  * <p>
  * Description:
  */
+//TODO: remove 1 validMoves
 
 public class MainDriver extends Board {
     /*
-    Requirements:
-- Your computer is required to prompt for “Who goes first, C for computer, O for opponent:
-- Your computer will be required to make its move within 20 seconds.
-- The board will be 8 x 8 with the coordinate A1 indicating the top left hand side of the board.
-- The user interface must display the game as demonstrated above
-- When a new game starts, It must prompt for the time limit per move and prompt for who goes first
-(computer or opponent)
-- Moves must be entered as shown above
-- The game must be implemented using the minimax algorithm with alpha-beta pruning
-- It will help if you also implement this with an iterative deepening.
+     * Requirements: - Your computer is required to prompt for “Who goes first, C
+     * for computer, O for opponent: - Your computer will be required to make its
+     * move within 20 seconds. - The board will be 8 x 8 with the coordinate A1
+     * indicating the top left hand side of the board. - The user interface must
+     * display the game as demonstrated above - When a new game starts, It must
+     * prompt for the time limit per move and prompt for who goes first (computer or
+     * opponent) - Moves must be entered as shown above - The game must be
+     * implemented using the minimax algorithm with alpha-beta pruning - It will
+     * help if you also implement this with an iterative deepening.
      */
 
     public static void main(String[] args) {
@@ -26,7 +25,7 @@ public class MainDriver extends Board {
         Board board = new Board();
         UI userInterface = new UI();
 
-        //ask to see who chooses AI symbol.
+        // ask to see who chooses AI symbol.
         String firstMove = userInterface.chooseAISymbol();
 
         if (firstMove.equals("C")) {
@@ -44,7 +43,6 @@ public class MainDriver extends Board {
                 System.out.println("New xPosition: " + board.getXPosition());
 
                 System.out.println(board.toString());
-
 
                 String opponentMove = userInterface.getOpponentMove(board);
                 while (!board.validMove(opponentMove, "O")) {
@@ -72,12 +70,10 @@ public class MainDriver extends Board {
         }
 
         System.out.println(board.toString());
-//        System.out.println("copy matrix");
-//        board.copyMatrix()
-//        System.out.println(board.copyMatrix());
-
+        // System.out.println("copy matrix");
+        // board.copyMatrix()
+        // System.out.println(board.copyMatrix());
 
     }
-
 
 }

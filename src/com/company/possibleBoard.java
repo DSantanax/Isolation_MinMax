@@ -1,19 +1,16 @@
 package com.company;
 
 import java.util.ArrayList;
-/*
-To do: EAST CHECK
 
-*/
 public class possibleBoard extends Board {
 
-    //helper that makes successors
+    // helper that makes successors
     private static String[][] copyMatrix(Board board) {
-        String[][] gameStateCopy = board.getGameState(); //gameState points to Board
+        String[][] gameStateCopy = board.getGameState(); // gameState points to Board
 
         // System.out.println(Arrays.deepToString(gameState));
 
-        //create another 2d array that will copy elements of Board
+        // create another 2d array that will copy elements of Board
         String[][] res = new String[8][8];
         for (int i = 0; i < 8; i += 1) {
             res[i] = gameStateCopy[i].clone();
@@ -22,113 +19,123 @@ public class possibleBoard extends Board {
         return res;
     }
 
-    public static ArrayList<Board> successorsBoard(Board board, String player) {
-        String[][] boardSuccessor = copyMatrix(board);  //completely dif board that we're gonna change
-        //X player moves
+    public static ArrayList<Board> successorsBoard(Board board, String player) { // DONE
+
+        // TODO: add global local counter
+        // set that counter in the end to the board.maxMoves()
+        // In the min max we call the terminal for the maxMoves()
+        int totalMoves = 0;
+        totalMoves++;
+
+        String[][] boardSuccessor = copyMatrix(board); // completely dif board that we're gonna change
+        // X player moves
         int colNum = 0;
         int rowNum = 0;
         if (player.equals("X")) {
-         
+
             colNum = board.getColVal(board.getXColNum());
             rowNum = board.getRowVal(board.getXRowNum());
-        //O player moves
+            // O player moves
         } else {
-         
+
             colNum = board.getColVal(board.getOColNum());
             rowNum = board.getRowVal(board.getORowNum());
         }
         ArrayList<Board> successors = new ArrayList<>();
-        //North IS CORRECT!!
-        for (int i = rowNum - 1; i >= 0 ; i--) {           
-            //new board we changed X only to a new position
-            //[1][3]
-   
-            if(boardSuccessor[i][colNum] == null)
+
+        // North IS CORRECT!!
+        for (int i = rowNum - 1; i >= 0; i--) {
+            // new board we changed X only to a new position
+            // [1][3]
+
+            if (boardSuccessor[i][colNum] == null) {
                 successors.add(board.getNewBoard(board, i, colNum, player));
-            else 
+                totalMoves++;
+            } else
                 break;
         }
-    
+
         // TODO: 8 - rowNum for possible Maxmoves
-        //South 
+        // South
         for (int i = rowNum + 1; i < 8; i++) {
-            if(boardSuccessor[i][colNum] == null)
+            if (boardSuccessor[i][colNum] == null) {
                 successors.add(board.getNewBoard(board, i, colNum, player));
-            else
+                totalMoves++;
+            } else
                 break;
-        } 
+        }
 
-
-        //EAST
+        // EAST
         for (int i = colNum + 1; i < 8; i++) {
-            if(boardSuccessor[rowNum][i] == null)
+            if (boardSuccessor[rowNum][i] == null) {
                 successors.add(board.getNewBoard(board, rowNum, i, player));
-            else 
-                break;
-        }
-        //WEST
-        for (int i = colNum; i > 0; i--) {
-            if(boardSuccessor[rowNum][i-1] == null)
-                successors.add(board.getNewBoard(board, rowNum, i - 1, player));
+                totalMoves++;
+            }
+
             else
                 break;
         }
-
-        //TODO: FIX 4 WAYS DIAGONALS: NW NE SW SE
-  
-        //NE
-        int maxNumberOfMovesTilOOB = Math.min(rowNum, ((8-colNum)-1));
+        // WEST
+        for (int i = colNum; i > 0; i--) {
+            if (boardSuccessor[rowNum][i - 1] == null) {
+                successors.add(board.getNewBoard(board, rowNum, i - 1, player));
+                totalMoves++;
+            } else
+                break;
+        }
+        // NE
+        int maxNumberOfMovesTilOOB = Math.min(rowNum, ((8 - colNum) - 1));
         int curRow = rowNum;
         int curCol = colNum;
-        for(int i = maxNumberOfMovesTilOOB ; i > 0; i--){
+        for (int i = maxNumberOfMovesTilOOB; i > 0; i--) {
             curRow -= 1;
             curCol += 1;
-            if(boardSuccessor[curRow][curCol] == null)
-                successors.add(board.getNewBoard(board,curRow, curCol, player));
+            if (boardSuccessor[curRow][curCol] == null)
+                successors.add(board.getNewBoard(board, curRow, curCol, player));
             else
                 break;
         }
 
-        //NW
+        // NW
         maxNumberOfMovesTilOOB = Math.min(rowNum, colNum);
         curRow = rowNum;
         curCol = colNum;
-        for(int i = maxNumberOfMovesTilOOB ; i > 0; i--){
+        for (int i = maxNumberOfMovesTilOOB; i > 0; i--) {
             curRow -= 1;
             curCol -= 1;
 
-            if(boardSuccessor[curRow][curCol] == null)
-                successors.add(board.getNewBoard(board,curRow, curCol, player));
+            if (boardSuccessor[curRow][curCol] == null)
+                successors.add(board.getNewBoard(board, curRow, curCol, player));
             else
                 break;
         }
 
-        //SE
+        // SE
         maxNumberOfMovesTilOOB = Math.min((8 - rowNum) - 1, ((8 - colNum) - 1));
         curRow = rowNum;
         curCol = colNum;
         for (int i = maxNumberOfMovesTilOOB; i > 0; i--) {
             curCol += 1;
             curRow += 1;
-            if(boardSuccessor[curRow][curCol] == null)
+            if (boardSuccessor[curRow][curCol] == null)
                 successors.add(board.getNewBoard(board, curRow, curCol, player));
             else
                 break;
         }
 
-        //SW 
-        maxNumberOfMovesTilOOB = Math.min(8-rowNum -1, colNum);
+        // SW
+        maxNumberOfMovesTilOOB = Math.min(8 - rowNum - 1, colNum);
         curRow = rowNum;
         curCol = colNum;
         for (int i = maxNumberOfMovesTilOOB; i > 0; i--) {
             curCol -= 1;
             curRow += 1;
-            if(boardSuccessor[curRow][curCol] == null)
+            if (boardSuccessor[curRow][curCol] == null)
                 successors.add(board.getNewBoard(board, curRow, curCol, player));
             else
                 break;
         }
-        
+        board.setMaxMoves(totalMoves);
         return successors;
     }
 }
