@@ -31,14 +31,14 @@ public class Board {
         int prevCol;
         
         if (player.equals("O")) {
-            System.out.println("Player O Moving");
+          
             prevRow = getRowVal(currentOPosition);
             prevCol = getColVal(currentOPosition);
             currentOPosition = stringValRow(newRowMove).concat(String.valueOf(newColMove+1));
         }
         //Movement is X
         else {
-            System.out.println("Player X Moving");
+         
             prevRow = getRowVal(currentXPosition);
             prevCol = getColVal(currentXPosition);
             currentXPosition = stringValRow(newRowMove).concat(String.valueOf(newColMove+1));
