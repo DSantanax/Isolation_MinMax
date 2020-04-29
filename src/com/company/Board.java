@@ -16,6 +16,7 @@ public class Board {
     private String opponentPiece = "O";
     private String computerPiece = "X";
     private Boolean gameOver = false;
+    private int numberOfMoves;
 
     public Board() {
         currentXPosition = "A1"; //A1

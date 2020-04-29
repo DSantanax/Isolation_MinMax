@@ -73,7 +73,7 @@ public class MinMaxAB {
     //Check if their is moves available
     private static boolean terminalTest(Board state) {
         String compPosition = state.getOPosition();
-
+        
 
         return true;
     }
@@ -81,7 +81,7 @@ public class MinMaxAB {
     public static void main(String[] args) {
         Board mainBoard = new Board();
         System.out.println(mainBoard.toString());
-        Board testBoard = mainBoard.getNewBoard(mainBoard, 2, 3, "X");
+        Board testBoard = mainBoard.getNewBoard(mainBoard, 0, 0, "X");
     
         System.out.println(testBoard.toString());
         System.out.println(mainBoard.toString());
