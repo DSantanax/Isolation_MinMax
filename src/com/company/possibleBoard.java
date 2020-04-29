@@ -64,7 +64,7 @@ public class possibleBoard extends Board {
                 successors.add(board.getNewBoard(board, rowNum, i - 1, player));
         }
 
-        //TODO: FIX 4 WAYS DIAGONALS
+        //TODO: FIX 4 WAYS DIAGONALS: NW NE SW SE
         //
         //NE
         //int maxNumberOfMovesTilOOB = Math.min(8 - rowNum, 8 - colNum);
