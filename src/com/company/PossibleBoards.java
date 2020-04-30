@@ -50,7 +50,6 @@ public class PossibleBoards extends Board {
                 break;
         }
 
-        // TODO: 8 - rowNum for possible Maxmoves
         // South
         for (int i = rowNum + 1; i < 8; i++) {
             if (boardSuccessor[i][colNum] == null) {
@@ -133,4 +132,6 @@ public class PossibleBoards extends Board {
         board.setMaxMoves(totalMoves);
         return successors;
     }
+
+
 }

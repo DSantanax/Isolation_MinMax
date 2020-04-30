@@ -89,4 +89,6 @@ public class MinMaxAB {
         }
         System.out.println(counter);
     }
+
+
 }

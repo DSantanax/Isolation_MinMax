@@ -9,13 +9,11 @@ Implement the rules part of the game:
 public class Board {
 
     private String[][] gameState;
-    private int boardLength = 8;
-    private String player;
+    private final int boardLength = 8;
     private String currentXPosition;
     private String currentOPosition;
     private String opponentPiece = "O";
     private String computerPiece = "X";
-    private Boolean gameOver = false;
     private int numberOfMoves;
 
     public Board() {
@@ -27,33 +25,71 @@ public class Board {
         numberOfMoves = 0;
     }
 
+    public static Board getNewBoard(Board board, int rowNum, int colNum, String player2) {
+        return new Board(board, rowNum, colNum, player2);
+    }
+
+    public Board(Board board, int rowNum, int colNum, String player2) {
+
+        gameState = copyBoard(board);  //copies the original board.
+
+        //Change X to new position
+        if (player2.equals("X")) {
+            //Update X
+            //New X position 
+            currentXPosition = stringValRow(rowNum).concat(String.valueOf(colNum + 1));
+            //Previous O position
+            currentOPosition = board.getOPosition();
+            //move X to new board index
+            updateGameState(rowNum, colNum, "X");
+
+            // gameState[rowNum][colNum] = "O";
+            //Return original value for O
+            //move O to board index
+            gameState[board.getRowVal(board.getORowNum())][board.getColVal(board.getOColNum())] = "O";
+
+        }
+        //Change O to new position
+        else {
+            //New O position
+            currentOPosition = stringValRow(rowNum).concat(String.valueOf(colNum + 1));
+            //Previous X position
+            currentXPosition = board.getXPosition();
+            //move O to new board index
+            updateGameState(rowNum, colNum, "O");
+            //move X to board index
+            gameState[board.getRowVal(board.getXRowNum())][board.getColVal(board.getXColNum())] = "X";
+        }
+
+    }
+
+
     //call isValid before calling updateGameState method
-    public String[][] updateGameState(int newRowMove, int newColMove, String player) { //sample Code of how we utilize this method
+    public void updateGameState(int newRowMove, int newColMove, String player) { //sample Code of how we utilize this method
         int prevRow;
         int prevCol;
-        
+
         if (player.equals("O")) {
-          
+
             prevRow = getRowVal(currentOPosition);
             prevCol = getColVal(currentOPosition);
-            currentOPosition = stringValRow(newRowMove).concat(String.valueOf(newColMove+1));
+            currentOPosition = stringValRow(newRowMove).concat(String.valueOf(newColMove + 1));
         }
         //Movement is X
         else {
-         
+
             prevRow = getRowVal(currentXPosition);
             prevCol = getColVal(currentXPosition);
-            currentXPosition = stringValRow(newRowMove).concat(String.valueOf(newColMove+1));
+            currentXPosition = stringValRow(newRowMove).concat(String.valueOf(newColMove + 1));
         }
 
         this.gameState[prevRow][prevCol] = "#";
 
         this.gameState[newRowMove][newColMove] = player;
 
-        return this.gameState;
     }
 
-    public String[][] playerTurnToMove(String moveInput, String currentPlayer) {
+    public void playerTurnToMove(String moveInput, String currentPlayer) {
 
         if (currentPlayer.equals("O")) {
             int rowVal = getRowVal(moveInput);
@@ -72,41 +108,43 @@ public class Board {
 
             this.currentXPosition = moveInput;
         }
-
-        return this.gameState;
-    }
-
-    public boolean isGameOver() { //game is over when there are no more moves.
-
-        this.gameOver = true;
-
-        return this.gameOver;
     }
 
     public int getRowVal(String input) { //input = "A3"
         int rowVal = -1;
 
-        String letter = input.substring(0,1);
+        String letter = input.substring(0, 1);
 
-        if (letter.equals("A"))
-            rowVal = 0;
-        else if (letter.equals("B"))
-            rowVal = 1;
-        else if (letter.equals("C"))
-            rowVal = 2;
-        else if (letter.equals("D"))
-            rowVal = 3;
-        else if (letter.equals("E"))
-            rowVal = 4;
-        else if (letter.equals("F"))
-            rowVal = 5;
-        else if (letter.equals("G"))
-            rowVal = 6;
-        else if (letter.equals("H"))
-            rowVal = 7;
+        switch (letter) {
+            case "A":
+                rowVal = 0;
+                break;
+            case "B":
+                rowVal = 1;
+                break;
+            case "C":
+                rowVal = 2;
+                break;
+            case "D":
+                rowVal = 3;
+                break;
+            case "E":
+                rowVal = 4;
+                break;
+            case "F":
+                rowVal = 5;
+                break;
+            case "G":
+                rowVal = 6;
+                break;
+            case "H":
+                rowVal = 7;
+                break;
+        }
 
         return rowVal;
     }
+
     public int getColVal(String moveInput) { //A4  [0][3]
         return Integer.parseInt(moveInput.substring(1)) - 1;
     }
@@ -115,50 +153,20 @@ public class Board {
         return this.gameState;
     }
 
-    public Board(String[][] gameState) {
-        this.gameState = gameState;
-    }
-
-    public Board(String[][] gameState, String player, String currentXPosition, String currentOPosition) {
-        this.gameState = gameState;
-        this.player = player;
-        this.currentXPosition = currentXPosition;
-        this.currentOPosition = currentOPosition;
-    }
-
-
     @Override
     public String toString() {
 
         StringBuilder res = new StringBuilder();
-        String letter = "";
         res.append("  1 2 3 4 5 6 7 8\t\tComputer Vs. Opponent\n");
 
         for (int i = 0; i < boardLength; i += 1) {
-
-            if (i == 0)
-                letter = "A";
-            else if (i == 1)
-                letter = "B";
-            else if (i == 2)
-                letter = "C";
-            else if (i == 3)
-                letter = "D";
-            else if (i == 4)
-                letter = "E";
-            else if (i == 5)
-                letter = "F";
-            else if (i == 6)
-                letter = "G";
-            else if (i == 7)
-                letter = "H";
-
-            res.append(letter + " ");
+            String letter = getCharacter(i);
+            res.append(letter).append(" ");
             for (int j = 0; j < boardLength; j++) {
                 if (this.gameState[i][j] == null)
-                    res.append("-" + " ");
+                    res.append("- ");
                 else {
-                    res.append(this.gameState[i][j] + " ");
+                    res.append(this.gameState[i][j]).append(" ");
                 }
             }
             res.append("\n");
@@ -194,10 +202,6 @@ public class Board {
     //Check if the position is null
     public boolean isOccupied(int rowNum, int colNum) {
         return gameState[rowNum][colNum] != null;
-    }
-
-    public boolean isEmpty(int x, int y) {
-        return !isOccupied(x, y);
     }
 
     public boolean isNorth(String moveInput, String currentPlayer)  //check if the intended move is North
@@ -360,8 +364,7 @@ public class Board {
 
             int rowDifference = currentRowVal - nextRowVal;
 
-            if ((currentColumnVal + rowDifference) == nextColumnVal)
-                return true;
+            return (currentColumnVal + rowDifference) == nextColumnVal;
 
         } else if (currentPlayer.equals("C")) {
             int currentRowVal = getRowVal(currentXPosition);
@@ -369,8 +372,7 @@ public class Board {
 
             int rowDifference = currentRowVal - nextRowVal;
 
-            if ((currentColumnVal + rowDifference) == nextColumnVal)
-                return true;
+            return (currentColumnVal + rowDifference) == nextColumnVal;
         }
 
         return false;
@@ -387,8 +389,7 @@ public class Board {
 
             int rowDifference = nextRowVal - currentRowVal;
 
-            if (rowDifference == (currentColumnVal - nextColumnVal))
-                return true;
+            return rowDifference == (currentColumnVal - nextColumnVal);
 
         } else if (currentPlayer.equals("C")) {
             int currentRowVal = getRowVal(currentXPosition);
@@ -396,8 +397,7 @@ public class Board {
 
             int rowDifference = nextRowVal - currentRowVal;
 
-            if (rowDifference == (currentColumnVal - nextColumnVal))
-                return true;
+            return rowDifference == (currentColumnVal - nextColumnVal);
         }
 
         return false;
@@ -417,7 +417,7 @@ public class Board {
 
     public boolean validMove(String moveInput, String currentPlayer) { //check if there are forks in the road
         int nextRowVal = getRowVal(moveInput);
-        int nextColumnVal = getColVal(moveInput); 
+        int nextColumnVal = getColVal(moveInput);
 
         if (nextRowVal < 0 || nextRowVal > 7) {
             System.out.println("out of bounds for rows");
@@ -454,63 +454,20 @@ public class Board {
             } else if (isHorizontal(moveInput, currentPlayer)) {
                 if (isWest(moveInput, currentPlayer)) {
                     for (int i = currentColumnVal - 1; i > nextColumnVal; i--) {
-                  
+
                         if (this.gameState[currentRowVal][i] != null) //there is a spot occupied here
                             return false;
                     }
                 }
                 if (isEast(moveInput, currentPlayer)) {
                     for (int i = currentColumnVal + 1; i < nextColumnVal; i++) {
-              
+
                         if (this.gameState[currentRowVal][i] != null) //there is a spot occupied here
                             return false;
                     }
                 }
-            } else if (isDiagonal(moveInput, currentPlayer)) {
-
-                if (isNW(moveInput, currentPlayer)) { //check this
-                    int col = currentColumnVal - 1;
-
-                    for (int i = currentRowVal - 1; i > nextRowVal; i--) {
-                        if (this.gameState[i][col] != null) {
-                            return false;
-                        }
-                        col -= 1;
-                    }
-                }
-
-                if (isSE(moveInput, currentPlayer)) { //WORKS!!!
-                    int col = currentColumnVal + 1;
-                    for (int i = currentRowVal + 1; i < nextRowVal; i++) {
-                        if (this.gameState[i][col] != null) {
-                            return false;
-                        }
-                        col++;
-                    }
-                }
-
-                if (isNE(moveInput, currentPlayer)) {
-                    int col = currentColumnVal + 1;
-
-                    for (int i = currentRowVal - 1; i > nextRowVal; i -= 1) {
-                        if (this.gameState[i][col] != null)
-                            return false;
-
-                        col += 1;
-                    }
-                }
-
-                if (isSW(moveInput, currentPlayer)) {
-                    int col = currentColumnVal - 1;
-                    for (int i = currentRowVal + 1; i < nextRowVal; i += 1) {
-                        if (this.gameState[i][col] != null)
-                            return false;
-                        col -= 1;
-                    }
-                }
-
-            } else if (!(isHorizontal(moveInput, currentPlayer) || isVertical(moveInput, currentPlayer) || isDiagonal(moveInput, currentPlayer))) {
-                return false;
+            } else {
+                return checkDiagonal(moveInput, currentPlayer, nextRowVal, currentRowVal, currentColumnVal);
             }
         } else if (currentPlayer.equals("O")) {
             int currentRowVal = getRowVal(currentOPosition); //A3  its getting the array index of A
@@ -535,7 +492,7 @@ public class Board {
                 if (isWest(moveInput, currentPlayer)) {
                     System.out.println("its going in is west");
                     for (int i = currentRowVal; i > nextRowVal; i--) {
-                
+
                         if (this.gameState[currentRowVal][i] != null) { //there is a spot occupied here
                             System.out.println("GOING WEST != null");
                             return false;
@@ -545,9 +502,9 @@ public class Board {
                 //
                 if (isEast(moveInput, currentPlayer)) {
                     System.out.println("its going in isEast");
-            
-                    for (int i = currentColumnVal+1; i < nextColumnVal; i++) {
-       
+
+                    for (int i = currentColumnVal + 1; i < nextColumnVal; i++) {
+
                         if (this.gameState[currentRowVal][i] != null) //there is a spot occupied here
                         {
                             System.out.println("GOING EAST != null");
@@ -555,54 +512,58 @@ public class Board {
                         }
                     }
                 }
-            } else if (isDiagonal(moveInput, currentPlayer)) {
-
-                if (isNW(moveInput, currentPlayer)) { //check this
-                    int col = currentColumnVal - 1;
-
-                    for (int i = currentRowVal - 1; i > nextRowVal; i--) {
-                        if (this.gameState[i][col] != null) {
-                            return false;
-                        }
-                        col -= 1;
-                    }
-                }
-
-                if (isSE(moveInput, currentPlayer)) { //WORKS!!!
-                    int col = currentColumnVal + 1;
-                    for (int i = currentRowVal + 1; i < nextRowVal; i++) {
-                        if (this.gameState[i][col] != null) {
-                            return false;
-                        }
-                        col++;
-                    }
-                }
-
-                if (isNE(moveInput, currentPlayer)) {
-                    int col = currentColumnVal + 1;
-
-                    for (int i = currentRowVal - 1; i > nextRowVal; i -= 1) {
-                        if (this.gameState[i][col] != null)
-                            return false;
-
-                        col += 1;
-                    }
-                }
-
-                if (isSW(moveInput, currentPlayer)) {
-                    int col = currentColumnVal - 1;
-                    for (int i = currentRowVal + 1; i < nextRowVal; i += 1) {
-                        if (this.gameState[i][col] != null)
-                            return false;
-                        col -= 1;
-                    }
-                }
-
-            } else if (!(isHorizontal(moveInput, currentPlayer) || isVertical(moveInput, currentPlayer) || isDiagonal(moveInput, currentPlayer))) {
-                return false;
-            }
+            } else return checkDiagonal(moveInput, currentPlayer, nextRowVal, currentRowVal, currentColumnVal);
         }
 
+        return true;
+    }
+
+    private boolean checkDiagonal(String moveInput, String currentPlayer, int nextRowVal, int currentRowVal, int currentColumnVal) {
+        if (isDiagonal(moveInput, currentPlayer)) {
+
+            if (isNW(moveInput, currentPlayer)) { //check this
+                int col = currentColumnVal - 1;
+
+                for (int i = currentRowVal - 1; i > nextRowVal; i--) {
+                    if (this.gameState[i][col] != null) {
+                        return false;
+                    }
+                    col -= 1;
+                }
+            }
+
+            if (isSE(moveInput, currentPlayer)) { //WORKS!!!
+                int col = currentColumnVal + 1;
+                for (int i = currentRowVal + 1; i < nextRowVal; i++) {
+                    if (this.gameState[i][col] != null) {
+                        return false;
+                    }
+                    col++;
+                }
+            }
+
+            if (isNE(moveInput, currentPlayer)) {
+                int col = currentColumnVal + 1;
+
+                for (int i = currentRowVal - 1; i > nextRowVal; i -= 1) {
+                    if (this.gameState[i][col] != null)
+                        return false;
+
+                    col += 1;
+                }
+            }
+
+            if (isSW(moveInput, currentPlayer)) {
+                int col = currentColumnVal - 1;
+                for (int i = currentRowVal + 1; i < nextRowVal; i += 1) {
+                    if (this.gameState[i][col] != null)
+                        return false;
+                    col -= 1;
+                }
+            }
+
+        } else
+            return isHorizontal(moveInput, currentPlayer) || isVertical(moveInput, currentPlayer) || isDiagonal(moveInput, currentPlayer);
         return true;
     }
 
@@ -614,9 +575,7 @@ public class Board {
             if (currentRowVal + 1 > 7)
                 return false;
 
-            if (this.gameState[currentRowVal + 1][currentColVal] == null)
-                return true;
-            return false;
+            return this.gameState[currentRowVal + 1][currentColVal] == null;
 
         } else if (currentPlayer.equals("C")) {
 
@@ -626,9 +585,7 @@ public class Board {
             if (currentRowVal + 1 > 7)
                 return false;
 
-            if (this.gameState[currentRowVal + 1][currentColVal] == null)
-                return true;
-            return false;
+            return this.gameState[currentRowVal + 1][currentColVal] == null;
 
         }
 
@@ -644,9 +601,7 @@ public class Board {
             if (currentRowVal - 1 < 0)
                 return false;
 
-            if (this.gameState[currentRowVal - 1][currentColVal] == null)
-                return true;
-            return false;
+            return this.gameState[currentRowVal - 1][currentColVal] == null;
 
         } else if (currentPlayer.equals("C")) {
 
@@ -656,9 +611,7 @@ public class Board {
             if (currentRowVal - 1 < 0)
                 return false;
 
-            if (this.gameState[currentRowVal - 1][currentColVal] == null)
-                return true;
-            return false;
+            return this.gameState[currentRowVal - 1][currentColVal] == null;
 
         }
 
@@ -674,9 +627,7 @@ public class Board {
             if (currentColVal - 1 < 0)
                 return false;
 
-            if (this.gameState[currentRowVal][currentColVal - 1] == null)
-                return true;
-            return false;
+            return this.gameState[currentRowVal][currentColVal - 1] == null;
 
         } else if (currentPlayer.equals("C")) {
 
@@ -686,9 +637,7 @@ public class Board {
             if (currentColVal - 1 < 0)
                 return false;
 
-            if (this.gameState[currentRowVal][currentColVal - 1] == null)
-                return true;
-            return false;
+            return this.gameState[currentRowVal][currentColVal - 1] == null;
         }
 
         return false;
@@ -703,10 +652,7 @@ public class Board {
             if (currentColVal + 1 > 7)
                 return false;
 
-            if (this.gameState[currentRowVal][currentColVal + 1] == null)
-                return true;
-
-            return false;
+            return this.gameState[currentRowVal][currentColVal + 1] == null;
 
         } else if (currentPlayer.equals("C")) {
 
@@ -716,10 +662,7 @@ public class Board {
             if (currentColVal + 1 > 7)
                 return false;
 
-            if (this.gameState[currentRowVal][currentColVal + 1] == null)
-                return true;
-                
-            return false;
+            return this.gameState[currentRowVal][currentColVal + 1] == null;
         }
 
         return false;
@@ -745,9 +688,7 @@ public class Board {
             if (currentRowVal - 1 < 0 || currentColVal + 1 > 7)
                 return false;
 
-            if (this.gameState[currentRowVal - 1][currentColVal + 1] == null)
-                return true;
-            return false;
+            return this.gameState[currentRowVal - 1][currentColVal + 1] == null;
 
         }
 
@@ -762,9 +703,7 @@ public class Board {
             if (currentRowVal - 1 < 0 || currentColVal - 1 < 0)
                 return false;
 
-            if (this.gameState[currentRowVal - 1][currentColVal - 1] == null)
-                return true;
-            return false;
+            return this.gameState[currentRowVal - 1][currentColVal - 1] == null;
 
         } else if (currentPlayer.equals("C")) {
 
@@ -774,9 +713,7 @@ public class Board {
             if (currentRowVal - 1 < 0 || currentColVal - 1 < 0)
                 return false;
 
-            if (this.gameState[currentRowVal - 1][currentColVal - 1] == null)
-                return true;
-            return false;
+            return this.gameState[currentRowVal - 1][currentColVal - 1] == null;
 
         }
 
@@ -791,9 +728,7 @@ public class Board {
             if (currentRowVal + 1 > 7 || currentColVal + 1 > 7)
                 return false;
 
-            if (this.gameState[currentRowVal + 1][currentColVal + 1] == null)
-                return true;
-            return false;
+            return this.gameState[currentRowVal + 1][currentColVal + 1] == null;
 
         } else if (currentPlayer.equals("C")) {
 
@@ -820,9 +755,7 @@ public class Board {
             if (currentRowVal + 1 > 7 || currentColVal - 1 < 0)
                 return false;
 
-            if (this.gameState[currentRowVal + 1][currentColVal - 1] == null)
-                return true;
-            return false;
+            return this.gameState[currentRowVal + 1][currentColVal - 1] == null;
 
         } else if (currentPlayer.equals("C")) {
 
@@ -857,51 +790,15 @@ public class Board {
     //TODO: fix
     //pass the if O or if X player to clean code so we wont have any duplicate code!
     public boolean gameOver(String currentPlayer) {
-        return !(canMoveHorizontal(currentPlayer) || canMoveDiagonal(currentPlayer) || canMoveVertical(currentPlayer));
+        return canMoveHorizontal(currentPlayer) || canMoveDiagonal(currentPlayer) || canMoveVertical(currentPlayer);
     }
 
-	public Board getNewBoard(Board board, int rowNum, int colNum, String player2) {
-		return new Board(board, rowNum, colNum, player2);
+    public String stringValRow(int i) {
+        return getCharacter(i);
     }
 
-    public Board(Board board, int rowNum, int colNum, String player2){  
-
-
-        gameState = copyBoard(board);  //copies the original board.
-
-        //Change X to new position
-        
-        if(player2.equals("X")){
-            //Update X
-            //New X position 
-            currentXPosition = stringValRow(rowNum).concat(String.valueOf(colNum+1));
-            //Previous O position
-            currentOPosition = board.getOPosition();
-            //move X to new board index
-            updateGameState(rowNum, colNum, "X");
-
-                                        // gameState[rowNum][colNum] = "O";
-             //Return original value for O
-             //move O to board index
-            gameState[board.getRowVal(board.getORowNum())][board.getColVal(board.getOColNum())] = "O";
-          
-        }
-        //Change O to new position
-        else{
-            //New O position
-            currentOPosition = stringValRow(rowNum).concat(String.valueOf(colNum+1));
-            //Previous X position
-            currentXPosition = board.getXPosition();
-            //move O to new board index
-            updateGameState(rowNum, colNum, "O");
-            //move X to board index
-            gameState[board.getRowVal(board.getXRowNum())][board.getColVal(board.getXColNum())] = "X";
-        }
-   
-    }
-
-    public String stringValRow (int i){
-        String letter = null;
+    private String getCharacter(int i) {
+        String letter;
 
         if (i == 0)
             letter = "A";
@@ -922,19 +819,20 @@ public class Board {
 
         return letter;
     }
-    
 
     private String[][] copyBoard(Board board) {
         String[][] copyBoard = new String[board.gameState.length][];
-        for(int i = 0; i < board.gameState.length; i++)
-                copyBoard[i] = board.gameState[i].clone();
-    
+        for (int i = 0; i < board.gameState.length; i++)
+            copyBoard[i] = board.gameState[i].clone();
+
         return copyBoard;
     }
-    public int getMaxMoves(){
+
+    public int getNumberOfMoves() {
         return this.numberOfMoves;
     }
-    public void setMaxMoves(int num){
+
+    public void setMaxMoves(int num) {
         this.numberOfMoves = num;
     }
 }
