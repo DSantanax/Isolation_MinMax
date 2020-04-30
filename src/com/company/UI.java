@@ -53,9 +53,9 @@ public class UI {
             }
         }
         if (!board.gameOver("C"))
-            winnerGame = "Computer won!";
+            winnerGame =  "Player won!";
         else {
-            winnerGame = "Player won!";
+            winnerGame = "Computer won!";
         }
         sc.close();
 
