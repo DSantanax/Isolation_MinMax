@@ -32,9 +32,9 @@ public class PossibleBoards extends Board {
 
             colNum = board.getColVal(board.getXColNum());
             rowNum = board.getRowVal(board.getXRowNum());
-            // O player moves
+           
         } else {
-
+        // O player moves
             colNum = board.getColVal(board.getOColNum());
             rowNum = board.getRowVal(board.getORowNum());
         }
@@ -130,6 +130,7 @@ public class PossibleBoards extends Board {
                 break;
         }
         board.setMaxMoves(totalMoves);
+
         return successors;
     }
     

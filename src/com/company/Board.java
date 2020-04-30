@@ -855,6 +855,8 @@ public class Board {
         return copyBoard;
     }
 
+    //TODO: delete
+
     public int getNumberOfMoves() {
         return this.numberOfMoves;
     }
