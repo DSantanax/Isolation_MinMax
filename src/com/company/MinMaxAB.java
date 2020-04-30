@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Implement 'depth' after completing MinMax with AB pruning for efficiency.
  * <p>
- * TODO: Utility, Terminal state, & Successor functions
+ * TODO: Utility, Terminal state, & Successor functions, and cut off timer
  */
 
 public class MinMaxAB {
@@ -57,7 +57,7 @@ public class MinMaxAB {
     }
 
     private static ArrayList<Board> successors(Board state, String player) {
-        return possibleBoard.successorsBoard(state, player);
+        return PossibleBoards.successorsBoard(state, player);
     }
 
     // Evaluation function
@@ -80,7 +80,7 @@ public class MinMaxAB {
         System.out.println(testBoard.toString());
         System.out.println(mainBoard.toString());
 
-        ArrayList<Board> successorsBoard = possibleBoard.successorsBoard(testBoard, "X");
+        ArrayList<Board> successorsBoard = PossibleBoards.successorsBoard(testBoard, "X");
         int counter = 0;
         for (Board board : successorsBoard) {
             counter += 1;

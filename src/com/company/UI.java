@@ -2,11 +2,16 @@ package com.company;
 
 import java.util.Scanner;
 
+/**
+ * UI Class for output and input
+ * 
+ */
+
 public class UI {
+    Scanner input = new Scanner(System.in);
     private String opponentInput;
     private String firstMove;
     private String computerMove;
-    private Scanner input = new Scanner(System.in);
 
     public void startGame(){
 
@@ -15,8 +20,8 @@ public class UI {
         Scanner sc = new Scanner(System.in);
 
         // ask to see who chooses AI symbol.
-        String currentMove = userInterface.chooseAISymbol();
-        String winnerGame = "";
+        String currentMove = userInterface.whoGoesFirst();
+        String winnerWinnerChickenDinner = "";
 
         // TODO: Swap moves using if else for player and CPU for less code
         // use a variable or bool
@@ -53,24 +58,33 @@ public class UI {
             }
         }
         if (!board.gameOver("C"))
-            winnerGame = "Computer won!";
+            winnerWinnerChickenDinner = "Computer won!";
         else {
-            winnerGame = "Player won!";
+            winnerWinnerChickenDinner = "Player won!";
         }
         sc.close();
 
         System.out.println(board.toString());
-        System.out.println("Game Over!" + winnerGame);
+        System.out.println("Game Over!" + winnerWinnerChickenDinner);
         
     }
+    
+    public String whoGoesFirst() { 
 
+        System.out.println("\nWho goes first? C for Computer, O for opponent. (C or O).");
+        firstMove = input.nextLine();
+        System.out.println("Going first: " + firstMove);
+        return firstMove;
+    }
+
+    //Input for opponent move
     public String getOpponentMove(Board board) {
         System.out.println("Enter opponent's move: ");
         opponentInput = input.nextLine();
         System.out.println("Opponent's move is: " + computerMove);
         return opponentInput;
     }
-
+    //Get PC move input
     public String getComputerMove(Board board) { //function will get modified to implement min max
 
         System.out.println("Enter computer move: ");
@@ -80,11 +94,4 @@ public class UI {
         return computerMove;
     }
 
-    public String chooseAISymbol() { //can do input validation
-
-        System.out.println("\nWho goes first? C for Computer, O for opponent. (C or O).");
-        firstMove = input.nextLine();
-        System.out.println("Going first: " + firstMove);
-        return firstMove;
-    }
 }

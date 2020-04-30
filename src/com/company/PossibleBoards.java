@@ -2,20 +2,17 @@ package com.company;
 
 import java.util.ArrayList;
 
-public class possibleBoard extends Board {
+public class PossibleBoards extends Board {
 
     // helper that makes successors
     private static String[][] copyMatrix(Board board) {
         String[][] gameStateCopy = board.getGameState(); // gameState points to Board
-
-        // System.out.println(Arrays.deepToString(gameState));
 
         // create another 2d array that will copy elements of Board
         String[][] res = new String[8][8];
         for (int i = 0; i < 8; i += 1) {
             res[i] = gameStateCopy[i].clone();
         }
-
         return res;
     }
 
@@ -43,10 +40,8 @@ public class possibleBoard extends Board {
         }
         ArrayList<Board> successors = new ArrayList<>();
 
-        // North IS CORRECT!!
+        // North
         for (int i = rowNum - 1; i >= 0; i--) {
-            // new board we changed X only to a new position
-            // [1][3]
 
             if (boardSuccessor[i][colNum] == null) {
                 successors.add(board.getNewBoard(board, i, colNum, player));
