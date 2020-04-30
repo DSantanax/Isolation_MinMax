@@ -62,9 +62,7 @@ public class UI {
         System.out.println(board.toString());
         System.out.println("Game Over!" + winnerGame);
         
-
     }
-
 
     public String getOpponentMove(Board board) {
         System.out.println("Enter opponent's move: ");

@@ -53,21 +53,21 @@ public class Board {
         return this.gameState;
     }
 
-    public String[][] playerTurnToMove(String moveInput, String currentPlayerPosition) {
+    public String[][] playerTurnToMove(String moveInput, String currentPlayer) {
 
-        if (currentPlayerPosition.equals("O")) {
+        if (currentPlayer.equals("O")) {
             int rowVal = getRowVal(moveInput);
             int columnVal = getColVal(moveInput);
 
-            if (validMove(moveInput, currentPlayerPosition))
+            if (validMove(moveInput, currentPlayer))
                 updateGameState(rowVal, columnVal, this.opponentPiece);
 
             this.currentOPosition = moveInput;
-        } else if (currentPlayerPosition.equals("C")) {
+        } else if (currentPlayer.equals("C")) {
             int rowVal = getRowVal(moveInput);
             int columnVal = getColVal(moveInput);
 
-            if (validMove(moveInput, currentPlayerPosition))
+            if (validMove(moveInput, currentPlayer))
                 updateGameState(rowVal, columnVal, this.computerPiece);
 
             this.currentXPosition = moveInput;
@@ -200,18 +200,18 @@ public class Board {
         return !isOccupied(x, y);
     }
 
-    public boolean isNorth(String moveInput, String currentPlayerPosition)  //check if the intended move is North
+    public boolean isNorth(String moveInput, String currentPlayer)  //check if the intended move is North
     {
         int nextRowVal = getRowVal(moveInput);
         int nextColumnVal = getColVal(moveInput);
 
-        if (currentPlayerPosition.equals("O")) {
+        if (currentPlayer.equals("O")) {
             int currentRowVal = getRowVal(currentOPosition);
             int currentColumnVal = getColVal(currentOPosition);
 
             if (currentColumnVal == nextColumnVal && nextRowVal < currentRowVal)
                 return true;
-        } else if (currentPlayerPosition.equals("C")) {
+        } else if (currentPlayer.equals("C")) {
             int currentRowVal = getRowVal(currentXPosition);
             int currentColumnVal = getColVal(currentXPosition);
 
@@ -222,18 +222,18 @@ public class Board {
         return false;
     }
 
-    public boolean isSouth(String moveInput, String currentPlayerPosition)  //check if the intended move is South
+    public boolean isSouth(String moveInput, String currentPlayer)  //check if the intended move is South
     {
         int nextRowVal = getRowVal(moveInput);
         int nextColumnVal = getColVal(moveInput);
 
-        if (currentPlayerPosition.equals("O")) {
+        if (currentPlayer.equals("O")) {
             int currentRowVal = getRowVal(currentOPosition);
             int currentColumnVal = getColVal(currentOPosition);
 
             if (currentColumnVal == nextColumnVal && nextRowVal > currentRowVal)
                 return true;
-        } else if (currentPlayerPosition.equals("C")) {
+        } else if (currentPlayer.equals("C")) {
             int currentRowVal = getRowVal(currentXPosition);
             int currentColumnVal = getColVal(currentXPosition);
 
@@ -244,18 +244,18 @@ public class Board {
         return false;
     }
 
-    public boolean isEast(String moveInput, String currentPlayerPosition)  //check if the intended move is East
+    public boolean isEast(String moveInput, String currentPlayer)  //check if the intended move is East
     {
         int nextRowVal = getRowVal(moveInput);
         int nextColumnVal = getColVal(moveInput);
 
-        if (currentPlayerPosition.equals("O")) {
+        if (currentPlayer.equals("O")) {
             int currentRowVal = getRowVal(currentOPosition);
             int currentColumnVal = getColVal(currentOPosition);
 
             if (currentRowVal == nextRowVal && currentColumnVal < nextColumnVal)
                 return true;
-        } else if (currentPlayerPosition.equals("C")) {
+        } else if (currentPlayer.equals("C")) {
             int currentRowVal = getRowVal(currentXPosition);
             int currentColumnVal = getColVal(currentXPosition);
 
@@ -266,18 +266,18 @@ public class Board {
         return false;
     }
 
-    public boolean isWest(String moveInput, String currentPlayerPosition)  //check if the intended move is West
+    public boolean isWest(String moveInput, String currentPlayer)  //check if the intended move is West
     {
         int nextRowVal = getRowVal(moveInput);
         int nextColumnVal = getColVal(moveInput);
 
-        if (currentPlayerPosition.equals("O")) {
+        if (currentPlayer.equals("O")) {
             int currentRowVal = getRowVal(currentOPosition);
             int currentColumnVal = getColVal(currentOPosition);
 
             if (currentRowVal == nextRowVal && currentColumnVal > nextColumnVal)
                 return true;
-        } else if (currentPlayerPosition.equals("C")) {
+        } else if (currentPlayer.equals("C")) {
             int currentRowVal = getRowVal(currentXPosition);
             int currentColumnVal = getColVal(currentXPosition);
 
@@ -288,12 +288,12 @@ public class Board {
         return false;
     }
 
-    public boolean isNW(String moveInput, String currentPlayerPosition)  //check if the intended move is NW
+    public boolean isNW(String moveInput, String currentPlayer)  //check if the intended move is NW
     {
         int nextRowVal = getRowVal(moveInput);
         int nextColumnVal = getColVal(moveInput);
 
-        if (currentPlayerPosition.equals("O")) {
+        if (currentPlayer.equals("O")) {
             int currentRowVal = getRowVal(currentOPosition);
             int currentColumnVal = getColVal(currentOPosition);
 
@@ -304,7 +304,7 @@ public class Board {
                 return true;
             }
 
-        } else if (currentPlayerPosition.equals("C")) {
+        } else if (currentPlayer.equals("C")) {
             int currentRowVal = getRowVal(currentXPosition);
             int currentColumnVal = getColVal(currentXPosition);
 
@@ -319,12 +319,12 @@ public class Board {
         return false;
     }
 
-    public boolean isSE(String moveInput, String currentPlayerPosition)  //check if the intended move is SE
+    public boolean isSE(String moveInput, String currentPlayer)  //check if the intended move is SE
     {
         int nextRowVal = getRowVal(moveInput);
         int nextColumnVal = getColVal(moveInput);
 
-        if (currentPlayerPosition.equals("O")) {
+        if (currentPlayer.equals("O")) {
             int currentRowVal = getRowVal(currentOPosition);
             int currentColumnVal = getColVal(currentOPosition);
 
@@ -334,7 +334,7 @@ public class Board {
             if (colDifference == rowDifference && currentRowVal < nextRowVal) {
                 return true;
             }
-        } else if (currentPlayerPosition.equals("C")) {
+        } else if (currentPlayer.equals("C")) {
             int currentRowVal = getRowVal(currentXPosition);
             int currentColumnVal = getColVal(currentXPosition);
 
@@ -349,12 +349,12 @@ public class Board {
         return false;
     }
 
-    public boolean isNE(String moveInput, String currentPlayerPosition)  //check if the intended move is SE
+    public boolean isNE(String moveInput, String currentPlayer)  //check if the intended move is SE
     {
         int nextRowVal = getRowVal(moveInput);
         int nextColumnVal = getColVal(moveInput);
 
-        if (currentPlayerPosition.equals("O")) {
+        if (currentPlayer.equals("O")) {
             int currentRowVal = getRowVal(currentOPosition);
             int currentColumnVal = getColVal(currentOPosition);
 
@@ -363,7 +363,7 @@ public class Board {
             if ((currentColumnVal + rowDifference) == nextColumnVal)
                 return true;
 
-        } else if (currentPlayerPosition.equals("C")) {
+        } else if (currentPlayer.equals("C")) {
             int currentRowVal = getRowVal(currentXPosition);
             int currentColumnVal = getColVal(currentXPosition);
 
@@ -376,12 +376,12 @@ public class Board {
         return false;
     }
 
-    public boolean isSW(String moveInput, String currentPlayerPosition)  //check if the intended move is SW
+    public boolean isSW(String moveInput, String currentPlayer)  //check if the intended move is SW
     {
         int nextRowVal = getRowVal(moveInput);
         int nextColumnVal = getColVal(moveInput);
 
-        if (currentPlayerPosition.equals("O")) {
+        if (currentPlayer.equals("O")) {
             int currentRowVal = getRowVal(currentOPosition);
             int currentColumnVal = getColVal(currentOPosition);
 
@@ -390,7 +390,7 @@ public class Board {
             if (rowDifference == (currentColumnVal - nextColumnVal))
                 return true;
 
-        } else if (currentPlayerPosition.equals("C")) {
+        } else if (currentPlayer.equals("C")) {
             int currentRowVal = getRowVal(currentXPosition);
             int currentColumnVal = getColVal(currentXPosition);
 
@@ -403,19 +403,19 @@ public class Board {
         return false;
     }
 
-    public boolean isDiagonal(String moveInput, String currentPlayerPosition) {
-        return isNW(moveInput, currentPlayerPosition) || isNE(moveInput, currentPlayerPosition) || isSW(moveInput, currentPlayerPosition) || isSE(moveInput, currentPlayerPosition);
+    public boolean isDiagonal(String moveInput, String currentPlayer) {
+        return isNW(moveInput, currentPlayer) || isNE(moveInput, currentPlayer) || isSW(moveInput, currentPlayer) || isSE(moveInput, currentPlayer);
     } //check if intended move is Diagonal
 
-    public boolean isHorizontal(String moveInput, String currentPlayerPosition) {
-        return isEast(moveInput, currentPlayerPosition) || isWest(moveInput, currentPlayerPosition);
+    public boolean isHorizontal(String moveInput, String currentPlayer) {
+        return isEast(moveInput, currentPlayer) || isWest(moveInput, currentPlayer);
     } //check if intended move is Horizontal
 
-    public boolean isVertical(String moveInput, String currentPlayerPosition) {
-        return isNorth(moveInput, currentPlayerPosition) || isSouth(moveInput, currentPlayerPosition);
+    public boolean isVertical(String moveInput, String currentPlayer) {
+        return isNorth(moveInput, currentPlayer) || isSouth(moveInput, currentPlayer);
     } //check if intended move is Vertical
 
-    public boolean validMove(String moveInput, String currentPlayerPosition) { //check if there are forks in the road
+    public boolean validMove(String moveInput, String currentPlayer) { //check if there are forks in the road
         int nextRowVal = getRowVal(moveInput);
         int nextColumnVal = getColVal(moveInput); 
 
@@ -434,41 +434,41 @@ public class Board {
         if (moveInput.length() > 2) //A22
             return false;
 
-        if (currentPlayerPosition.equals("C")) {
+        if (currentPlayer.equals("C")) {
             int currentRowVal = getRowVal(currentXPosition);
             int currentColumnVal = getColVal(currentXPosition);
 
-            if (isVertical(moveInput, currentPlayerPosition)) { //check for occupied spaces vertically
-                if (isSouth(moveInput, currentPlayerPosition)) {
+            if (isVertical(moveInput, currentPlayer)) { //check for occupied spaces vertically
+                if (isSouth(moveInput, currentPlayer)) {
                     for (int i = currentRowVal + 1; i < nextRowVal; i++) {
                         if (this.gameState[i][currentRowVal] != null) //there is a spot occupied here
                             return false;
                     }
                 }
-                if (isNorth(moveInput, currentPlayerPosition)) {
+                if (isNorth(moveInput, currentPlayer)) {
                     for (int i = currentRowVal - 1; nextRowVal > i; i++) {   //check this
                         if (this.gameState[i][currentRowVal] != null) //there is a spot occupied here
                             return false;
                     }
                 }
-            } else if (isHorizontal(moveInput, currentPlayerPosition)) {
-                if (isWest(moveInput, currentPlayerPosition)) {
+            } else if (isHorizontal(moveInput, currentPlayer)) {
+                if (isWest(moveInput, currentPlayer)) {
                     for (int i = currentColumnVal - 1; i > nextColumnVal; i--) {
                   
                         if (this.gameState[currentRowVal][i] != null) //there is a spot occupied here
                             return false;
                     }
                 }
-                if (isEast(moveInput, currentPlayerPosition)) {
+                if (isEast(moveInput, currentPlayer)) {
                     for (int i = currentColumnVal + 1; i < nextColumnVal; i++) {
               
                         if (this.gameState[currentRowVal][i] != null) //there is a spot occupied here
                             return false;
                     }
                 }
-            } else if (isDiagonal(moveInput, currentPlayerPosition)) {
+            } else if (isDiagonal(moveInput, currentPlayer)) {
 
-                if (isNW(moveInput, currentPlayerPosition)) { //check this
+                if (isNW(moveInput, currentPlayer)) { //check this
                     int col = currentColumnVal - 1;
 
                     for (int i = currentRowVal - 1; i > nextRowVal; i--) {
@@ -479,7 +479,7 @@ public class Board {
                     }
                 }
 
-                if (isSE(moveInput, currentPlayerPosition)) { //WORKS!!!
+                if (isSE(moveInput, currentPlayer)) { //WORKS!!!
                     int col = currentColumnVal + 1;
                     for (int i = currentRowVal + 1; i < nextRowVal; i++) {
                         if (this.gameState[i][col] != null) {
@@ -489,7 +489,7 @@ public class Board {
                     }
                 }
 
-                if (isNE(moveInput, currentPlayerPosition)) {
+                if (isNE(moveInput, currentPlayer)) {
                     int col = currentColumnVal + 1;
 
                     for (int i = currentRowVal - 1; i > nextRowVal; i -= 1) {
@@ -500,7 +500,7 @@ public class Board {
                     }
                 }
 
-                if (isSW(moveInput, currentPlayerPosition)) {
+                if (isSW(moveInput, currentPlayer)) {
                     int col = currentColumnVal - 1;
                     for (int i = currentRowVal + 1; i < nextRowVal; i += 1) {
                         if (this.gameState[i][col] != null)
@@ -509,30 +509,30 @@ public class Board {
                     }
                 }
 
-            } else if (!(isHorizontal(moveInput, currentPlayerPosition) || isVertical(moveInput, currentPlayerPosition) || isDiagonal(moveInput, currentPlayerPosition))) {
+            } else if (!(isHorizontal(moveInput, currentPlayer) || isVertical(moveInput, currentPlayer) || isDiagonal(moveInput, currentPlayer))) {
                 return false;
             }
-        } else if (currentPlayerPosition.equals("O")) {
+        } else if (currentPlayer.equals("O")) {
             int currentRowVal = getRowVal(currentOPosition); //A3  its getting the array index of A
             int currentColumnVal = getColVal(currentOPosition); //A3 its getting the index 3-1 so 2
 
-            if (isVertical(moveInput, currentPlayerPosition)) { //check for occupied spaces vertically
-                if (isSouth(moveInput, currentPlayerPosition)) {
+            if (isVertical(moveInput, currentPlayer)) { //check for occupied spaces vertically
+                if (isSouth(moveInput, currentPlayer)) {
                     for (int i = currentRowVal + 1; i < nextRowVal; i++) {
                         System.out.println("its going in is south");
                         if (this.gameState[i][currentRowVal] != null) //there is a spot occupied here
                             return false;
                     }
                 }
-                if (isNorth(moveInput, currentPlayerPosition)) {
+                if (isNorth(moveInput, currentPlayer)) {
                     System.out.println("its going in is north");
                     for (int i = currentRowVal - 1; nextRowVal > i; i++) {   //check this
                         if (this.gameState[i][currentRowVal] != null) //there is a spot occupied here
                             return false;
                     }
                 }
-            } else if (isHorizontal(moveInput, currentPlayerPosition)) {
-                if (isWest(moveInput, currentPlayerPosition)) {
+            } else if (isHorizontal(moveInput, currentPlayer)) {
+                if (isWest(moveInput, currentPlayer)) {
                     System.out.println("its going in is west");
                     for (int i = currentRowVal; i > nextRowVal; i--) {
                 
@@ -543,7 +543,7 @@ public class Board {
                     }
                 }
                 //
-                if (isEast(moveInput, currentPlayerPosition)) {
+                if (isEast(moveInput, currentPlayer)) {
                     System.out.println("its going in isEast");
             
                     for (int i = currentColumnVal+1; i < nextColumnVal; i++) {
@@ -555,9 +555,9 @@ public class Board {
                         }
                     }
                 }
-            } else if (isDiagonal(moveInput, currentPlayerPosition)) {
+            } else if (isDiagonal(moveInput, currentPlayer)) {
 
-                if (isNW(moveInput, currentPlayerPosition)) { //check this
+                if (isNW(moveInput, currentPlayer)) { //check this
                     int col = currentColumnVal - 1;
 
                     for (int i = currentRowVal - 1; i > nextRowVal; i--) {
@@ -568,7 +568,7 @@ public class Board {
                     }
                 }
 
-                if (isSE(moveInput, currentPlayerPosition)) { //WORKS!!!
+                if (isSE(moveInput, currentPlayer)) { //WORKS!!!
                     int col = currentColumnVal + 1;
                     for (int i = currentRowVal + 1; i < nextRowVal; i++) {
                         if (this.gameState[i][col] != null) {
@@ -578,7 +578,7 @@ public class Board {
                     }
                 }
 
-                if (isNE(moveInput, currentPlayerPosition)) {
+                if (isNE(moveInput, currentPlayer)) {
                     int col = currentColumnVal + 1;
 
                     for (int i = currentRowVal - 1; i > nextRowVal; i -= 1) {
@@ -589,7 +589,7 @@ public class Board {
                     }
                 }
 
-                if (isSW(moveInput, currentPlayerPosition)) {
+                if (isSW(moveInput, currentPlayer)) {
                     int col = currentColumnVal - 1;
                     for (int i = currentRowVal + 1; i < nextRowVal; i += 1) {
                         if (this.gameState[i][col] != null)
@@ -598,7 +598,7 @@ public class Board {
                     }
                 }
 
-            } else if (!(isHorizontal(moveInput, currentPlayerPosition) || isVertical(moveInput, currentPlayerPosition) || isDiagonal(moveInput, currentPlayerPosition))) {
+            } else if (!(isHorizontal(moveInput, currentPlayer) || isVertical(moveInput, currentPlayer) || isDiagonal(moveInput, currentPlayer))) {
                 return false;
             }
         }
