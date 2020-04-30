@@ -75,7 +75,7 @@ public class MinMaxAB {
     public static void main(String[] args) {
         Board mainBoard = new Board();
         System.out.println(mainBoard.toString());
-        Board testBoard = mainBoard.getNewBoard(mainBoard, 0, 0, "X");
+        Board testBoard = Board.getNewBoard(mainBoard, 0, 0, "X");
 
         System.out.println(testBoard.toString());
         System.out.println(mainBoard.toString());

@@ -44,7 +44,7 @@ public class PossibleBoards extends Board {
         for (int i = rowNum - 1; i >= 0; i--) {
 
             if (boardSuccessor[i][colNum] == null) {
-                successors.add(board.getNewBoard(board, i, colNum, player));
+                successors.add(Board.getNewBoard(board, i, colNum, player));
                 totalMoves++;
             } else
                 break;
@@ -53,7 +53,7 @@ public class PossibleBoards extends Board {
         // South
         for (int i = rowNum + 1; i < 8; i++) {
             if (boardSuccessor[i][colNum] == null) {
-                successors.add(board.getNewBoard(board, i, colNum, player));
+                successors.add(Board.getNewBoard(board, i, colNum, player));
                 totalMoves++;
             } else
                 break;
@@ -62,7 +62,7 @@ public class PossibleBoards extends Board {
         // EAST
         for (int i = colNum + 1; i < 8; i++) {
             if (boardSuccessor[rowNum][i] == null) {
-                successors.add(board.getNewBoard(board, rowNum, i, player));
+                successors.add(Board.getNewBoard(board, rowNum, i, player));
                 totalMoves++;
             }
 
@@ -72,7 +72,7 @@ public class PossibleBoards extends Board {
         // WEST
         for (int i = colNum; i > 0; i--) {
             if (boardSuccessor[rowNum][i - 1] == null) {
-                successors.add(board.getNewBoard(board, rowNum, i - 1, player));
+                successors.add(Board.getNewBoard(board, rowNum, i - 1, player));
                 totalMoves++;
             } else
                 break;
@@ -85,7 +85,7 @@ public class PossibleBoards extends Board {
             curRow -= 1;
             curCol += 1;
             if (boardSuccessor[curRow][curCol] == null)
-                successors.add(board.getNewBoard(board, curRow, curCol, player));
+                successors.add(Board.getNewBoard(board, curRow, curCol, player));
             else
                 break;
         }
@@ -99,7 +99,7 @@ public class PossibleBoards extends Board {
             curCol -= 1;
 
             if (boardSuccessor[curRow][curCol] == null)
-                successors.add(board.getNewBoard(board, curRow, curCol, player));
+                successors.add(Board.getNewBoard(board, curRow, curCol, player));
             else
                 break;
         }
@@ -112,7 +112,7 @@ public class PossibleBoards extends Board {
             curCol += 1;
             curRow += 1;
             if (boardSuccessor[curRow][curCol] == null)
-                successors.add(board.getNewBoard(board, curRow, curCol, player));
+                successors.add(Board.getNewBoard(board, curRow, curCol, player));
             else
                 break;
         }
@@ -125,7 +125,7 @@ public class PossibleBoards extends Board {
             curCol -= 1;
             curRow += 1;
             if (boardSuccessor[curRow][curCol] == null)
-                successors.add(board.getNewBoard(board, curRow, curCol, player));
+                successors.add(Board.getNewBoard(board, curRow, curCol, player));
             else
                 break;
         }
