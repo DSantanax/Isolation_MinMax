@@ -454,16 +454,14 @@ public class Board {
             } else if (isHorizontal(moveInput, currentPlayerPosition)) {
                 if (isWest(moveInput, currentPlayerPosition)) {
                     for (int i = currentColumnVal - 1; i > nextColumnVal; i--) {
-                        System.err.println(currentRowVal);
-                        System.err.println(i);
+                  
                         if (this.gameState[currentRowVal][i] != null) //there is a spot occupied here
                             return false;
                     }
                 }
                 if (isEast(moveInput, currentPlayerPosition)) {
                     for (int i = currentColumnVal + 1; i < nextColumnVal; i++) {
-                        System.err.println(currentRowVal);
-                        System.err.println(i);
+              
                         if (this.gameState[currentRowVal][i] != null) //there is a spot occupied here
                             return false;
                     }
@@ -537,8 +535,7 @@ public class Board {
                 if (isWest(moveInput, currentPlayerPosition)) {
                     System.out.println("its going in is west");
                     for (int i = currentRowVal; i > nextRowVal; i--) {
-                        System.err.println(currentRowVal);
-                        System.err.println(i);
+                
                         if (this.gameState[currentRowVal][i] != null) { //there is a spot occupied here
                             System.out.println("GOING WEST != null");
                             return false;
@@ -548,10 +545,9 @@ public class Board {
                 //
                 if (isEast(moveInput, currentPlayerPosition)) {
                     System.out.println("its going in isEast");
-                    System.err.println(currentRowVal + "  " + nextColumnVal);
+            
                     for (int i = currentColumnVal+1; i < nextColumnVal; i++) {
-                        System.err.println(currentColumnVal);
-                        System.err.println(i);
+       
                         if (this.gameState[currentRowVal][i] != null) //there is a spot occupied here
                         {
                             System.out.println("GOING EAST != null");
