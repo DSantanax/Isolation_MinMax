@@ -58,9 +58,9 @@ public class UI {
             }
         }
         if (!board.gameOver("C"))
-            winnerWinnerChickenDinner = "Computer won!";
+            winnerWinnerChickenDinner =  "Player won!";
         else {
-            winnerWinnerChickenDinner = "Player won!";
+            winnerWinnerChickenDinner = "Computer won!";
         }
         sc.close();
 
