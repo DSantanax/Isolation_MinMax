@@ -132,6 +132,6 @@ public class PossibleBoards extends Board {
         board.setMaxMoves(totalMoves);
         return successors;
     }
-
+    
 
 }

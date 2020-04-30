@@ -1,5 +1,7 @@
 package com.company;
 
+import java.util.ArrayList;
+
 /*
 Implement the rules part of the game:
 -To do:
@@ -9,56 +11,62 @@ Implement the rules part of the game:
 public class Board {
 
     private String[][] gameState;
+    private ArrayList<String> logFile;
     private final int boardLength = 8;
     private String currentXPosition;
     private String currentOPosition;
     private String opponentPiece = "O";
     private String computerPiece = "X";
     private int numberOfMoves;
+    private int maxMovesOpp;
 
     public Board() {
+        logFile = new ArrayList<>();
         currentXPosition = "A1"; //A1
         currentOPosition = "H8"; //H8
         gameState = new String[boardLength][boardLength];
         gameState[0][0] = "X";
         gameState[7][7] = "O";
         numberOfMoves = 0;
+        maxMovesOpp = 0;
     }
 
+    //static function to create new Board
     public static Board getNewBoard(Board board, int rowNum, int colNum, String player2) {
         return new Board(board, rowNum, colNum, player2);
     }
 
-    public Board(Board board, int rowNum, int colNum, String player2) {
+    public Board(Board board, int newRow, int newCol, String player2) {
 
         gameState = copyBoard(board);  //copies the original board.
+        this.logFile = board.logFile;
 
         //Change X to new position
         if (player2.equals("X")) {
             //Update X
             //New X position 
-            currentXPosition = stringValRow(rowNum).concat(String.valueOf(colNum + 1));
+            currentXPosition = board.getXPosition();
             //Previous O position
             currentOPosition = board.getOPosition();
             //move X to new board index
-            updateGameState(rowNum, colNum, "X");
+            updateGameState(newRow, newCol, "X");
 
             // gameState[rowNum][colNum] = "O";
             //Return original value for O
             //move O to board index
-            gameState[board.getRowVal(board.getORowNum())][board.getColVal(board.getOColNum())] = "O";
+            
 
         }
         //Change O to new position
         else {
             //New O position
-            currentOPosition = stringValRow(rowNum).concat(String.valueOf(colNum + 1));
+            currentOPosition = board.getOPosition();
             //Previous X position
             currentXPosition = board.getXPosition();
             //move O to new board index
-            updateGameState(rowNum, colNum, "O");
+            updateGameState(newRow, newCol, "O");
             //move X to board index
-            gameState[board.getRowVal(board.getXRowNum())][board.getColVal(board.getXColNum())] = "X";
+            
         }
 
     }
@@ -152,28 +160,47 @@ public class Board {
     public String[][] getGameState() {
         return this.gameState;
     }
+    //Our version
+    public void printBoard(String currentPlayer) {
+        //TODO: add log to output selection
+        //Use array list size
+        
+        //add to log file the move
+        if (currentPlayer.equals("C"))
+            logFile.add(getXPosition());
+        else if (currentPlayer.equals("O"))
+            logFile.add(getOPosition());
 
-    @Override
-    public String toString() {
+        // logFile.forEach(System.out::println);
 
-        StringBuilder res = new StringBuilder();
-        res.append("  1 2 3 4 5 6 7 8\t\tComputer Vs. Opponent\n");
+        System.out.print("  1 2 3 4 5 6 7 8\t\tComputer Vs. Opponent\n");
 
         for (int i = 0; i < boardLength; i += 1) {
             String letter = getCharacter(i);
-            res.append(letter).append(" ");
-            for (int j = 0; j < boardLength; j++) {
-                if (this.gameState[i][j] == null)
-                    res.append("- ");
-                else {
-                    res.append(this.gameState[i][j]).append(" ");
-                }
-            }
-            res.append("\n");
-        }
+            System.out.print(letter + " ");
 
-        return res.toString();
+            for (int j = 0; j < boardLength; j++) {
+                //add - if null
+                if (this.gameState[i][j] == null)
+                   System.out.print("- ");
+                else {
+                    //Add symbol if not null
+                    System.out.print(this.gameState[i][j] + " ");
+                }
+                
+            //new line
+        }
+        System.out.println();
+
+        //New line after board is printed
+
+        // if(!logFile.isEmpty())
+        //     logFile.forEach(s -> System.out.print("\t" + s + "\t"));
+        // 
     }
+
+        System.out.println();
+     }
 
     public String getXPosition() {
         return currentXPosition;
@@ -835,4 +862,12 @@ public class Board {
     public void setMaxMoves(int num) {
         this.numberOfMoves = num;
     }
+
+	public void setNumberOfMovesOpp(int size) {
+        this.maxMovesOpp = size;
+	}
+
+	public int getNumberOfMovesOpp() {
+		return this.maxMovesOpp;
+	}
 }

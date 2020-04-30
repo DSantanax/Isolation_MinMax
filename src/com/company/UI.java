@@ -15,6 +15,8 @@ public class UI {
         Board board = new Board();
         UI userInterface = new UI();
         Scanner sc = new Scanner(System.in);
+        final String OPPONENT = "O";
+        final String COMP = "C";
 
         // ask to see who chooses AI symbol.
         String currentMove = userInterface.whoGoesFirst();
@@ -23,45 +25,47 @@ public class UI {
         // TODO: Swap moves using if else for player and CPU for less code
         // use a variable or bool
 
-        System.out.println(board.toString());
+        board.printBoard("");
 
-        while (board.gameOver("C") && board.gameOver("O")) {
+        while (board.gameOver(COMP) && board.gameOver(OPPONENT)) {
 
-            if (currentMove.equals("C")) {
+            if (currentMove.equals(COMP)) {
                 String computerMove = userInterface.getComputerMove();
-                while (!board.validMove(computerMove, "C")) {
+                while (!board.validMove(computerMove, COMP)) {
                     System.out.println("Invalid input. Put in something legit.");
                     System.out.println("Current X position" + board.getOPosition());
                     computerMove = userInterface.getComputerMove();
                 }
-                board.playerTurnToMove(computerMove, "C");
+                board.playerTurnToMove(computerMove, COMP);
 
                 System.out.println("New xPosition: " + board.getXPosition());
-                System.out.println(board.toString());
-                currentMove = "O";
+                board.printBoard(COMP);
+                //other player's turn
+                currentMove = OPPONENT;
 
-            } else if (currentMove.equals("O")) {
+            } else if (currentMove.equals(OPPONENT)) {
 
                 String opponentMove = userInterface.getOpponentMove();
-                while (!board.validMove(opponentMove, "O")) {
+                while (!board.validMove(opponentMove, OPPONENT)) {
                     System.out.println("Invalid input. Put in something legit.");
                     System.out.println("Current O position" + board.getOPosition());
                     opponentMove = userInterface.getOpponentMove();
                 }
-                board.playerTurnToMove(opponentMove, "O");
+                board.playerTurnToMove(opponentMove, OPPONENT);
                 System.out.println("New oPosition: " + board.getOPosition());
-                System.out.println(board.toString());
-                currentMove = "C";
+                board.printBoard(OPPONENT);
+                //other player's turn
+                currentMove = COMP;
             }
         }
-        if (board.gameOver("C"))
+        if (board.gameOver(COMP))
             winnerWinnerChickenDinner = "Computer won!";
         else {
             winnerWinnerChickenDinner = "Player won!";
         }
         sc.close();
 
-        System.out.println(board.toString());
+        board.printBoard("");
         System.out.println("---Game Over--- " + winnerWinnerChickenDinner);
 
     }
