@@ -163,11 +163,11 @@ public class Board {
         return Integer.parseInt(moveInput.substring(1)) - 1;
     }
 
-    //Our version of toString()
+  //Our version of toString()
     public void printBoard(String currentPlayer) {
         //TODO: add log to output selection
         //Use array list size
-        
+        int round = 0;
         //add to log file the move
         if (currentPlayer.equals("C"))
             logFile.add(getXPosition());
@@ -190,16 +190,27 @@ public class Board {
                     //Add symbol if not null
                     System.out.print(this.gameState[i][j] + " ");
                 }
+                if(j == 7){
+                    //TODO: fix log board
+                    boolean option = (logFile.size() % 2 == 0); //if odd then player 1, even player 2
+                    if(round < logFile.size()) {
+                        if(!option){
+                            //first move
+                            System.out.print("\t\t" + (round + 1) + ". " + logFile.get(round));
+                        }
+                        else{
+                            //print all
+                            System.out.print("\t\t" + (round+1) +". " + logFile.get(round) + "\t\t" + logFile.get(round+1));
+                            round++;
+                        }
+                  
+                    }
+                 
+                }
                 
             //new line
         }
         System.out.println();
-
-        //New line after board is printed
-
-        // if(!logFile.isEmpty())
-        //     logFile.forEach(s -> System.out.print("\t" + s + "\t"));
-        // 
     }
 
         System.out.println();
