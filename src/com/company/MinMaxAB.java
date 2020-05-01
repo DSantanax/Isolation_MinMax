@@ -12,21 +12,27 @@ import java.util.ArrayList;
 //
 public class MinMaxAB {
 
-    public static void MinMaxDecision(Board state, int depth) {      //choose best board
+    private static Board bestBoard;
+
+    //TODO: return board
+
+    public static Board MinMaxDecision(Board state, int depth) {      //choose best board
 
         maxValue(state, Integer.MIN_VALUE, Integer.MAX_VALUE, depth);
         // return state.max = max
+        return MinMaxAB.bestBoard;
     }
 
     // Main Comp player is MaxValue
     private static int maxValue(Board state, int alpha, int beta, int depth) { 
-        ArrayList<Board> successor = successors(state, "X");
+
+        //generates successor for X player (MAX PLAYER)
+        ArrayList<Board> successor = state.getSuccessorsO();
         // return board here the best board with value X
-        if (terminalTest(state)){
+        if (terminalTest(state, "X")){
             //set final Board here
             return utility(state);
         }
-
         if(depth == 0){ // can end time here
             return state.getNumberOfMovesX();
         }
@@ -36,28 +42,30 @@ public class MinMaxAB {
         // add states to function to loop through them
         // passing each action of the current state
      
+        Board currBoard = state;
         for (Board board : successor) {
-            value = Math.max(value, minValue(board, alpha, beta, depth - 1));
+            value = Math.max(value, minValue(board, alpha, beta, depth - 1)); //value is maxEVAL
 
             if (value >= beta) {
-                System.out.println("alskdjlaksjdlkajlskfjlkasldjalksjdlajslkdjalkjs");
-                state.printBoard("");
-                        // set board with best value as actual board to MOve to
+                currBoard = board;
+                //set board with best value as actual board to Move to
                 return value;
             }
             //add break with depth == 0 
             alpha = Math.max(alpha, value);
         }
+        bestBoard = currBoard;
     
         return value;
     }
 
     // Main opponent is Min value
     private static int minValue(Board state, int alpha, int beta, int depth) {
-        ArrayList<Board> successor = successors(state, "O");
 
+        //generates successor for O player (MIN PLAYER)
+        ArrayList<Board> successor = state.getSuccessorsX();  
         
-        if (terminalTest(state)){
+        if (terminalTest(state, "O")){
             //set final Board here
             return utility(state);
         }
@@ -68,8 +76,6 @@ public class MinMaxAB {
         int value = Integer.MAX_VALUE;
 
         // find actions is successors
-        state.setNumberOfMovesO(successor.size());
-   
         for (Board board : successor) {
             value = Math.min(value, maxValue(board, alpha, beta, depth - 1));
             if (value <= alpha) {
@@ -81,25 +87,44 @@ public class MinMaxAB {
         return value;
     }
 
-    //generates successors
-    private static ArrayList<Board> successors(Board state, String player) { 
-        return PossibleBoards.generateSuccessors(state, player);
-    }
+    // //generates successors
+    // private static ArrayList<Board> successors(Board state, String player) { 
+    //     return PossibleBoards.generateSuccessors(state, player);
+    // }
+    //
+    // Evaluation function that SHOULD return a BOARD
+    private static int utility(Board state) { 
+        //TODO: fix adjust
+        ArrayList<Integer> utilityBoard = new ArrayList<>();
 
-    // Evaluation function
-    private static int utility(Board state) {
+        // utilityBoard = []
+
+        // #populate the array with values to refer to 
+        // for i in range(0, len(successors)):
+        //     utilityBoard.append([getNumberofPossibleMoves - getNumberofPossibleMovesOpponent])
+
+        // utilityBoard.sort(byBestValue)
+        // return successorwithBestValue by index 0(which is a board) successor.getIndex(bestValue);
+
         return state.getNumberOfMovesX()*2 - state.getNumberOfMovesO(); //max Moves - minMoves.   AN INT
     }
 
     // Check if their is moves available
-    private static boolean terminalTest(Board state) {
-        return state.getNumberOfMovesX() == 0 || state.getNumberOfMovesO() == 0;
+    private static boolean terminalTest(Board state, String player) {
+        //Check if number of moves for X is 0 then over
+        if(player.equals("X")){
+                return state.getNumberOfMovesX() == 0;
+         } 
+         //Check if number of moves for O is 0 then over
+         else 
+            return state.getNumberOfMovesO() == 0;
     }
 
+    //TESTING for min max & possible boards
     public static void main(String[] args) {
-        Board mainBoard = new Board();
+        Board mainBoard = new Board("C");
         mainBoard.printBoard("");
-        Board testBoard = Board.getNewBoard(mainBoard, 0, 0, "X");
+        Board testBoard = new Board(mainBoard, 0, 0, "X");
 
         ArrayList<Board> successorsX = PossibleBoards.generateSuccessors(testBoard, "X");
         int counter = 0;
@@ -120,9 +145,11 @@ public class MinMaxAB {
         System.out.println("Total moves O : " + counterO);
         System.out.println("Total moves: " + (counter + counterO));
 
-        //TODO: depth & timer
+        System.out.println(testBoard.getNumberOfMovesO());
+        System.out.println(testBoard.getNumberOfMovesX());
 
-        // MinMaxAB.MinMaxDecision(testBoard, 3);
-     
+         //TODO: depth & timer
+        Board minMaxDecision = MinMaxAB.MinMaxDecision(testBoard, 2);
+        minMaxDecision.printBoard("");
     }
 }

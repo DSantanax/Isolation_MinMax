@@ -12,7 +12,6 @@ public class UI {
 
     public void startGame() {
 
-        Board board = new Board();
         UI userInterface = new UI();
         Scanner sc = new Scanner(System.in);
         final String OPPONENT = "O";
@@ -20,6 +19,7 @@ public class UI {
 
         // ask to see who chooses AI symbol.
         String currentMove = userInterface.whoGoesFirst();
+        Board board = new Board(currentMove);
         String winnerWinnerChickenDinner = "";
 
         // TODO: Swap moves using if else for player and CPU for less code

@@ -8,7 +8,7 @@ package com.company;
  *          We created a UI 
  */
 
-public class MainDriver extends Board {
+public class MainDriver{
     /*
      * Requirements: 
      * - Your computer is required to prompt for “Who goes first, C for computer, O for opponent: 

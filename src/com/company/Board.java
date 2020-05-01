@@ -10,7 +10,7 @@ Implement the rules part of the game:
 
 public class Board {
 
-    private String[][] gameState;
+	private String[][] gameState;
     private ArrayList<String> logFile;
     private final int boardLength = 8;
     private String currentXPosition;
@@ -19,30 +19,50 @@ public class Board {
     private String computerPiece = "X";
     private int maxMovesX;
     private int maxMovesO;
+	private ArrayList<Board> successorsO;
+	private ArrayList<Board> successorsX;
 
-    public Board() {
+    public Board(String player) {
         logFile = new ArrayList<>();
-        currentXPosition = "A1"; //A1
-        currentOPosition = "H8"; //H8
         gameState = new String[boardLength][boardLength];
+        //This we check who is going first
+        if(player.equals("C")){
         gameState[0][0] = "X";
         gameState[7][7] = "O";
+        currentXPosition = "A1"; //A1
+        currentOPosition = "H8"; //H8
+        }
+        else{
+            gameState[7][7] = "X";
+            gameState[0][0] = "O";
+            currentXPosition = "H8"; //H8
+            currentOPosition = "A1"; //A1
+        }
 
-        //generateSuccessors
-        //return int
-        //set the successorsX.set
-        //set the succesorsO.set
-        //(in minMax) get successorY
-        //(in minMax) get successorsX
-       
+        maxMovesO = 0;
+        maxMovesX = 0;
+        successorsO = PossibleBoards.generateSuccessors(this, "O");
+        successorsX = PossibleBoards.generateSuccessors(this, "X");
+
+        //Call successors for X
+        //Call successors for O
+        //must have 2 Array lists for board successors[]
+        //where 1 is the X moves & other the O moves
+        //calling for each already sets the maxMovesX maxMovesY
+        //minMax calls getSuccessorsX & getSuccessorsY
 
     }
 
-    //static function to create new Board
-    public static Board getNewBoard(Board board, int rowNum, int colNum, String player2) {
-        return new Board(board, rowNum, colNum, player2);
+    public ArrayList<Board> getSuccessorsO(){
+        return successorsO;
+    }
+    
+    public ArrayList<Board> getSuccessorsX(){
+        return successorsX;
     }
 
+    //copies board
+    //TODO: fix successors board to generate new
     public Board(Board board, int newRow, int newCol, String player2) {
 
         gameState = copyBoard(board);  //copies the original board.
@@ -50,19 +70,12 @@ public class Board {
 
         //Change X to new position
         if (player2.equals("X")) {
-            //Update X
             //New X position 
             currentXPosition = board.getXPosition();
             //Previous O position
             currentOPosition = board.getOPosition();
             //move X to new board index
             updateGameState(newRow, newCol, "X");
-
-            // gameState[rowNum][colNum] = "O";
-            //Return original value for O
-            //move O to board index
-            
-
         }
         //Change O to new position
         else {
@@ -73,8 +86,14 @@ public class Board {
             //move O to new board index
             updateGameState(newRow, newCol, "O");
             //move X to board index
-            
+
         }
+        //TODO: fix method, loop of generateSuccessors calling new Board
+        //LOOPING
+        // maxMovesO = 0;
+        // maxMovesX = 0;
+        // successorsO = PossibleBoards.generateSuccessors(this, "O"); successorsO = [[],[],[],[]]
+        // successorsX = PossibleBoards.generateSuccessors(this, "X");
     }
     
     private String[][] copyBoard(Board board) {
@@ -173,8 +192,6 @@ public class Board {
     public int getColVal(String moveInput) { //A4  [0][3]
         return Integer.parseInt(moveInput.substring(1)) - 1;
     }
-
-   
 
     //Our version of toString()
     public void printBoard(String currentPlayer) {
@@ -719,9 +736,7 @@ public class Board {
             if (currentRowVal - 1 < 0 || currentColVal + 1 > 7)
                 return false;
 
-            if (this.gameState[currentRowVal - 1][currentColVal + 1] == null)
-                return true;
-            return false;
+            return this.gameState[currentRowVal - 1][currentColVal + 1] == null;
 
         } else if (currentPlayer.equals("C")) {
 
@@ -781,9 +796,7 @@ public class Board {
             if (currentRowVal + 1 > 7 || currentColVal + 1 > 7)
                 return false;
 
-            if (this.gameState[currentRowVal + 1][currentColVal + 1] == null)
-                return true;
-            return false;
+            return this.gameState[currentRowVal + 1][currentColVal + 1] == null;
 
         }
 
@@ -808,9 +821,7 @@ public class Board {
             if (currentRowVal + 1 > 7 || currentColVal - 1 < 0)
                 return false;
 
-            if (this.gameState[currentRowVal + 1][currentColVal - 1] == null)
-                return true;
-            return false;
+            return this.gameState[currentRowVal + 1][currentColVal - 1] == null;
 
         }
 
@@ -867,11 +878,7 @@ public class Board {
 
 
 
-
-
-
-
-
+    
     //TODO: delete
 
     public int getNumberOfMovesX() {
