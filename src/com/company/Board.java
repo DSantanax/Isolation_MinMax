@@ -5,7 +5,8 @@ import java.util.ArrayList;
 public class Board {
 
 	private String[][] gameState;
-    private ArrayList<String> logFile;
+    private ArrayList<String> logFileO;
+    private ArrayList<String> logFileX;
     private final int boardLength = 8;
     private String currentXPosition;
     private String currentOPosition;
@@ -13,9 +14,11 @@ public class Board {
     private String computerPiece = "X";
     private int maxMovesX;
     private int maxMovesO;
+    private int boardRound;
 
     public Board(String player) {
-        logFile = new ArrayList<>();
+        logFileX = new ArrayList<>();
+        logFileO = new ArrayList<>();
         gameState = new String[boardLength][boardLength];
         //This we check who is going first
         if(player.equals("C")){
@@ -32,13 +35,15 @@ public class Board {
         }
         maxMovesO = 0;
         maxMovesX = 0;
+        boardRound=0;
     }
 
     //copies board
     //TODO: fix successors board to generate new
     public Board(Board board, int newRow, int newCol, String player2) {
         gameState = copyBoard(board);  //copies the original board.
-        this.logFile = board.logFile;
+        this.logFileO = board.logFileO;
+        this.logFileX = board.logFileX;
 
         //Change X to new position
         if (player2.equals("X")) {
@@ -163,60 +168,55 @@ public class Board {
     }
 
   //Our version of toString()
-    public void printBoard(String currentPlayer) {
-        //TODO: add log to output selection
-        //Use array list size
-        
-        //add to log file the move
-        if (currentPlayer.equals("C"))
-            logFile.add(getXPosition());
-        else if (currentPlayer.equals("O"))
-            logFile.add(getOPosition());
+  public void printBoard(String currentPlayer) {
+    //TODO: add log to output selection
+    //Use array list size
+    
+    //add to log file the move
+    if (currentPlayer.equals("C"))
+        logFileX.add(getXPosition());
+    else if (currentPlayer.equals("O"))
+        logFileO.add(getOPosition());
+   
+    int counterRound = 0;
 
-        int round = (int) (Math.ceil(logFile.size()/2.0));
-        int index = 0;
-        int counterRound = 0;
-        System.out.print("  1 2 3 4 5 6 7 8\t\tComputer Vs. Opponent\n");
+    System.out.print("  1 2 3 4 5 6 7 8\t\tComputer Vs. Opponent\n");
 
-        for (int i = 0; i < boardLength; i += 1) {
-            String letter = getCharacter(i);
-            System.out.print(letter + " ");
+    for (int i = 0; i < boardLength; i += 1) {
+        String letter = getCharacter(i);
+        System.out.print(letter + " ");
 
-            for (int j = 0; j < boardLength; j++) {
-                //add - if null
-                if (this.gameState[i][j] == null)
-                   System.out.print("- ");
-                else {
-                    //Add symbol if not null
-                    System.out.print(this.gameState[i][j] + " ");
+        for (int j = 0; j < boardLength; j++) {
+            //add - if null
+            if (this.gameState[i][j] == null)
+               System.out.print("- ");
+            else {
+                //Add symbol if not null
+                System.out.print(this.gameState[i][j] + " ");
+            }
+            if(j == 7){
+            }
+            //we need to print after 7
+            else if(this.boardRound > 7){
+
+                for (int l = 0; l < this.boardRound-7; l++) {
+
+                    //print all
+
+                    //else 1 running print 1
+                    System.out.println("\t\t\t\t");
+                    //else print whole
                 }
-                if(j == 7 && counterRound < round){
-                    // if(i > round) //think about I and round 
-                    //     break;
-                    
-                    //TODO: fix log board
-                    //if odd then player 1, even player 2
-                   
-                        if(index % 2 == 0){
-                            //first move
-                            
-                            System.out.print("\t\t" + (counterRound + 1) + ". " + logFile.get(index));
-                        }
-                        else{
-                            //print all
-                            System.out.print("\t\t" + (counterRound + 1) +". " + logFile.get(index) + "\t\t" + logFile.get(index+1));
-                            index++;
-                        }
-                        counterRound++;                        
-                }
-                
-            //new line
-        }
-        System.out.println();
+            }
+            
+        //new line
     }
+    System.out.println();
+}
 
-        System.out.println();
-     }
+    System.out.println();
+ }
+
 
     public String getXPosition() {
         return currentXPosition;
@@ -880,4 +880,12 @@ public class Board {
 	public int getNumberOfMovesO() {
 		return this.maxMovesO;
     }
+
+	public void incrementRound() {
+        this.boardRound++;
+    }
+
+    public int getRound() {
+        return this.boardRound;
+	}
 }

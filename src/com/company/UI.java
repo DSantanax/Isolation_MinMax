@@ -19,44 +19,50 @@ public class UI {
 
         // ask to see who chooses AI symbol.
         String currentMove = userInterface.whoGoesFirst();
+        String roundInc = currentMove;
         Board board = new Board(currentMove);
         String winnerWinnerChickenDinner = "";
 
-        // TODO: Swap moves using if else for player and CPU for less code
+
         // use a variable or bool
 
         board.printBoard("");
 
         while (board.gameOver(COMP) && board.gameOver(OPPONENT)) {
 
+            //COMP turn
             if (currentMove.equals(COMP)) {
-                String computerMove = userInterface.getComputerMove();
+                String computerMove = userInterface.getMove(COMP);
                 while (!board.validMove(computerMove, COMP)) {
                     System.out.println("Invalid input. Put in something legit.");
                     System.out.println("Current X position" + board.getOPosition());
-                    computerMove = userInterface.getComputerMove();
+                    computerMove = userInterface.getMove(COMP);
                 }
                 board.playerTurnToMove(computerMove, COMP);
 
-                System.out.println("New xPosition: " + board.getXPosition());
+                System.out.println("New Computer: " + board.getXPosition());
                 board.printBoard(COMP);
                 //other player's turn
                 currentMove = OPPONENT;
 
-            } else if (currentMove.equals(OPPONENT)) {
+            //Opponent turn
+            } else {
 
-                String opponentMove = userInterface.getOpponentMove();
+                String opponentMove = userInterface.getMove(OPPONENT);
                 while (!board.validMove(opponentMove, OPPONENT)) {
                     System.out.println("Invalid input. Put in something legit.");
                     System.out.println("Current O position" + board.getOPosition());
-                    opponentMove = userInterface.getOpponentMove();
+                    opponentMove = userInterface.getMove(OPPONENT);
                 }
                 board.playerTurnToMove(opponentMove, OPPONENT);
-                System.out.println("New oPosition: " + board.getOPosition());
+                System.out.println("New Opponent: " + board.getOPosition());
                 board.printBoard(OPPONENT);
                 //other player's turn
                 currentMove = COMP;
             }
+            if(roundInc != currentMove)
+                board.incrementRound();
+            
         }
         if (board.gameOver(COMP))
             winnerWinnerChickenDinner = "Computer won!";
@@ -78,32 +84,23 @@ public class UI {
         return firstMove;
     }
 
-    // Input for opponent move
-    public String getOpponentMove() {
+    public String getMove(String player) { // function will get modified to implement min max
 
-        String opponentInput = "";
+        String move = "";
+        String playerMoving = (player.equals("C")) ? "Computer" : "Player";
 
-        while(opponentInput.length() != 2){
-            System.out.println("Enter a valid opponent move: ");
-            opponentInput = input.nextLine();
+        if (player.equals("C")) {
+            while (move.length() != 2) {
+                System.out.println("Enter a valid computer move: ");
+                move = input.nextLine();
+            }
+        } else {
+            while (move.length() != 2) {
+                System.out.println("Enter a valid player move: ");
+                move = input.nextLine();
+            }
         }
-
-        System.out.println("Opponent's move is: " + opponentInput);
-        return opponentInput;
-    }
-
-    // Get PC move input
-    public String getComputerMove() { // function will get modified to implement min max
-
-        String computerMove = "";
-
-        while(computerMove.length() != 2){
-        System.out.println("Enter a valid computer move: ");
-        computerMove = input.nextLine();
-        }
-
-        System.out.println("Computer's move is: " + computerMove);
-        
-        return computerMove;
+        System.out.println(playerMoving + " move is: " + move);
+        return move;
     }
 }
