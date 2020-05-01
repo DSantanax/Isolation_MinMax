@@ -37,7 +37,6 @@ public class Board {
     //copies board
     //TODO: fix successors board to generate new
     public Board(Board board, int newRow, int newCol, String player2) {
-
         gameState = copyBoard(board);  //copies the original board.
         this.logFile = board.logFile;
 
@@ -167,15 +166,16 @@ public class Board {
     public void printBoard(String currentPlayer) {
         //TODO: add log to output selection
         //Use array list size
-        int round = 0;
+        
         //add to log file the move
         if (currentPlayer.equals("C"))
             logFile.add(getXPosition());
         else if (currentPlayer.equals("O"))
             logFile.add(getOPosition());
 
+        int round = (int) Math.ceil(logFile.size()/ 2.0); //if logFile.size() == 1 -> then round is 0.5. if we ceil its 1.
         // logFile.forEach(System.out::println);
-
+        System.out.println("ROUND: " + round);
         System.out.print("  1 2 3 4 5 6 7 8\t\tComputer Vs. Opponent\n");
 
         for (int i = 0; i < boardLength; i += 1) {
@@ -191,20 +191,28 @@ public class Board {
                     System.out.print(this.gameState[i][j] + " ");
                 }
                 if(j == 7){
+                    
+                    if(i > round) //think about I and round 
+                        break;
+
+                    boolean option = (logFile.size() % 2 == 0);
+
+               
+                        
                     //TODO: fix log board
-                    boolean option = (logFile.size() % 2 == 0); //if odd then player 1, even player 2
-                    if(round < logFile.size()) {
+                    //if odd then player 1, even player 2
+                   
                         if(!option){
                             //first move
-                            System.out.print("\t\t" + (round + 1) + ". " + logFile.get(round));
+                            
+                            System.out.print("\t\t" + (round) + ". " + logFile.get(round-1));
                         }
                         else{
                             //print all
-                            System.out.print("\t\t" + (round+1) +". " + logFile.get(round) + "\t\t" + logFile.get(round+1));
-                            round++;
+                            System.out.print("\t\t" + (round) +". " + logFile.get(round) + "\t\t" + logFile.get(round + 1));
+                          
                         }
-                  
-                    }
+                
                  
                 }
                 
