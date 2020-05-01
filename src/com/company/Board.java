@@ -17,8 +17,8 @@ public class Board {
     private String currentOPosition;
     private String opponentPiece = "O";
     private String computerPiece = "X";
-    private int numberOfMoves;
-    private int maxMovesOpp;
+    private int maxMovesX;
+    private int maxMovesO;
 
     public Board() {
         logFile = new ArrayList<>();
@@ -27,8 +27,15 @@ public class Board {
         gameState = new String[boardLength][boardLength];
         gameState[0][0] = "X";
         gameState[7][7] = "O";
-        numberOfMoves = 0;
-        maxMovesOpp = 0;
+
+        //generateSuccessors
+        //return int
+        //set the successorsX.set
+        //set the succesorsO.set
+        //(in minMax) get successorY
+        //(in minMax) get successorsX
+       
+
     }
 
     //static function to create new Board
@@ -68,9 +75,19 @@ public class Board {
             //move X to board index
             
         }
+    }
+    
+    private String[][] copyBoard(Board board) {
+        String[][] copyBoard = new String[board.gameState.length][];
+        for (int i = 0; i < board.gameState.length; i++)
+            copyBoard[i] = board.gameState[i].clone();
 
+        return copyBoard;
     }
 
+     public String[][] getGameState() {
+        return copyBoard(this);
+    }
 
     //call isValid before calling updateGameState method
     public void updateGameState(int newRowMove, int newColMove, String player) { //sample Code of how we utilize this method
@@ -157,10 +174,9 @@ public class Board {
         return Integer.parseInt(moveInput.substring(1)) - 1;
     }
 
-    public String[][] getGameState() {
-        return this.gameState;
-    }
-    //Our version
+   
+
+    //Our version of toString()
     public void printBoard(String currentPlayer) {
         //TODO: add log to output selection
         //Use array list size
@@ -847,29 +863,31 @@ public class Board {
         return letter;
     }
 
-    private String[][] copyBoard(Board board) {
-        String[][] copyBoard = new String[board.gameState.length][];
-        for (int i = 0; i < board.gameState.length; i++)
-            copyBoard[i] = board.gameState[i].clone();
 
-        return copyBoard;
-    }
 
+
+
+
+
+
+
+    
     //TODO: delete
 
-    public int getNumberOfMoves() {
-        return this.numberOfMoves;
+    public int getNumberOfMovesX() {
+        return this.maxMovesX;
     }
 
-    public void setMaxMoves(int num) {
-        this.numberOfMoves = num;
+    public void setNumberOfMovesX(int num) {
+        this.maxMovesX = num;
     }
 
-	public void setNumberOfMovesOpp(int size) {
-        this.maxMovesOpp = size;
+    //change the number of moves for Opponent
+	public void setNumberOfMovesO(int size) { 
+        this.maxMovesO = size;
 	}
 
-	public int getNumberOfMovesOpp() {
-		return this.maxMovesOpp;
-	}
+	public int getNumberOfMovesO() {
+		return this.maxMovesO;
+    }
 }

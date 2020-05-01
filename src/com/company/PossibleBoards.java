@@ -1,22 +1,13 @@
 package com.company;
 
 import java.util.ArrayList;
-
+/*
+copyMatrix- copies current Board (copy to reference to)
+successorsBoard - has global counter to count each possible Move and return []
+*/
 public class PossibleBoards extends Board {
 
-    // helper that makes successors
-    private static String[][] copyMatrix(Board board) {
-        String[][] gameStateCopy = board.getGameState(); // gameState points to Board
-
-        // create another 2d array that will copy elements of Board
-        String[][] res = new String[8][8];
-        for (int i = 0; i < 8; i += 1) {
-            res[i] = gameStateCopy[i].clone();
-        }
-        return res;
-    }
-
-    public static ArrayList<Board> successorsBoard(Board board, String player) { // DONE
+    public static ArrayList<Board> generateSuccessors(Board board, String player) { // DONE
 
         // TODO: add global local counter
         // set that counter in the end to the board.maxMoves()
@@ -24,7 +15,7 @@ public class PossibleBoards extends Board {
         int totalMoves = 0;
         totalMoves++;
 
-        String[][] boardSuccessor = copyMatrix(board); // completely dif board that we're gonna change
+        String[][] boardSuccessor = board.getGameState(); // completely dif board that we're gonna change
         // X player moves
         int colNum = 0;
         int rowNum = 0;
@@ -129,10 +120,21 @@ public class PossibleBoards extends Board {
             else
                 break;
         }
-        board.setMaxMoves(totalMoves);
+
+        if(player.equals("X")){
+            board.setNumberOfMovesX(successors.size());
+        }
+        else
+            board.setNumberOfMovesO(successors.size());
+        
+        //board.setNumberOfMovesX(totalMoves);
+
+        //Possible idea
+        // board.setSuccessorsX(successors);
+        // board.setSuccessorsO(successors);
 
         return successors;
     }
-    
+
 
 }
