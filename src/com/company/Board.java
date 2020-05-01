@@ -2,12 +2,6 @@ package com.company;
 
 import java.util.ArrayList;
 
-/*
-Implement the rules part of the game:
--To do:
-    
- */
-
 public class Board {
 
 	private String[][] gameState;
@@ -36,17 +30,8 @@ public class Board {
             currentXPosition = "H8"; //H8
             currentOPosition = "A1"; //A1
         }
-
         maxMovesO = 0;
         maxMovesX = 0;
-
-        //Call successors for X
-        //Call successors for O
-        //must have 2 Array lists for board successors[]
-        //where 1 is the X moves & other the O moves
-        //calling for each already sets the maxMovesX maxMovesY
-        //minMax calls getSuccessorsX & getSuccessorsY
-
     }
 
     //copies board
