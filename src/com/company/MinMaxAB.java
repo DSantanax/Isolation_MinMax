@@ -96,9 +96,10 @@ public class MinMaxAB {
     // }
     //
     // Evaluation function that SHOULD return a BOARD
+    //TODO: fix numberOfMovesX & numberOfMovesO
+    //since one of them is always 0!
     private static int utility(Board state) { 
         //TODO: fix adjust
-
 
         // utilityBoard = []
 
