@@ -22,19 +22,22 @@ public class MinMaxAB {
         // return state.max = max
         return MinMaxAB.bestBoard;
     }
-
+    //TODO: fix maxMoves & possibly the terminal & utility
     // Main Comp player is MaxValue
     private static int maxValue(Board state, int alpha, int beta, int depth) { 
 
-        //generates successor for X player (MAX PLAYER)
-        ArrayList<Board> successor = state.getSuccessorsO();
+        //generates successor for O player (MAX PLAYER)
+        ArrayList<Board> successor = PossibleBoards.generateSuccessors(state, "O");
+
         // return board here the best board with value X
         if (terminalTest(state, "X")){
             //set final Board here
             return utility(state);
         }
         if(depth == 0){ // can end time here
-            return state.getNumberOfMovesX();
+            //TODO: we are moving the Xs to Os 
+            //also the gen successors changed to inverse
+            return state.getNumberOfMovesO();
         }
 
         int value = Integer.MIN_VALUE; // -inf
@@ -62,8 +65,8 @@ public class MinMaxAB {
     // Main opponent is Min value
     private static int minValue(Board state, int alpha, int beta, int depth) {
 
-        //generates successor for O player (MIN PLAYER)
-        ArrayList<Board> successor = state.getSuccessorsX();  
+        //generates successor for X player (MIN PLAYER)
+        ArrayList<Board> successor = PossibleBoards.generateSuccessors(state, "X"); 
         
         if (terminalTest(state, "O")){
             //set final Board here
@@ -71,7 +74,7 @@ public class MinMaxAB {
         }
 
         if(depth == 0){
-            return state.getNumberOfMovesO();
+            return state.getNumberOfMovesX();
         }
         int value = Integer.MAX_VALUE;
 
@@ -95,7 +98,7 @@ public class MinMaxAB {
     // Evaluation function that SHOULD return a BOARD
     private static int utility(Board state) { 
         //TODO: fix adjust
-        ArrayList<Integer> utilityBoard = new ArrayList<>();
+
 
         // utilityBoard = []
 
@@ -112,7 +115,7 @@ public class MinMaxAB {
     // Check if their is moves available
     private static boolean terminalTest(Board state, String player) {
         //Check if number of moves for X is 0 then over
-        if(player.equals("X")){
+        if(player.equals("O")){
                 return state.getNumberOfMovesX() == 0;
          } 
          //Check if number of moves for O is 0 then over

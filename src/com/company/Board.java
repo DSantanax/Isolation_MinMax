@@ -19,8 +19,6 @@ public class Board {
     private String computerPiece = "X";
     private int maxMovesX;
     private int maxMovesO;
-	private ArrayList<Board> successorsO;
-	private ArrayList<Board> successorsX;
 
     public Board(String player) {
         logFile = new ArrayList<>();
@@ -41,8 +39,6 @@ public class Board {
 
         maxMovesO = 0;
         maxMovesX = 0;
-        successorsO = PossibleBoards.generateSuccessors(this, "O");
-        successorsX = PossibleBoards.generateSuccessors(this, "X");
 
         //Call successors for X
         //Call successors for O
@@ -51,14 +47,6 @@ public class Board {
         //calling for each already sets the maxMovesX maxMovesY
         //minMax calls getSuccessorsX & getSuccessorsY
 
-    }
-
-    public ArrayList<Board> getSuccessorsO(){
-        return successorsO;
-    }
-    
-    public ArrayList<Board> getSuccessorsX(){
-        return successorsX;
     }
 
     //copies board
@@ -88,12 +76,9 @@ public class Board {
             //move X to board index
 
         }
-        //TODO: fix method, loop of generateSuccessors calling new Board
-        //LOOPING
-        // maxMovesO = 0;
-        // maxMovesX = 0;
-        // successorsO = PossibleBoards.generateSuccessors(this, "O"); successorsO = [[],[],[],[]]
-        // successorsX = PossibleBoards.generateSuccessors(this, "X");
+        maxMovesO = 0;
+        maxMovesX = 0;
+        
     }
     
     private String[][] copyBoard(Board board) {
