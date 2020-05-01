@@ -173,9 +173,9 @@ public class Board {
         else if (currentPlayer.equals("O"))
             logFile.add(getOPosition());
 
-        int round = (int) Math.ceil(logFile.size()/ 2.0); //if logFile.size() == 1 -> then round is 0.5. if we ceil its 1.
-        // logFile.forEach(System.out::println);
-        System.out.println("ROUND: " + round);
+        int round = (int) (Math.ceil(logFile.size()/2.0));
+        int index = 0;
+        int counterRound = 0;
         System.out.print("  1 2 3 4 5 6 7 8\t\tComputer Vs. Opponent\n");
 
         for (int i = 0; i < boardLength; i += 1) {
@@ -190,30 +190,24 @@ public class Board {
                     //Add symbol if not null
                     System.out.print(this.gameState[i][j] + " ");
                 }
-                if(j == 7){
+                if(j == 7 && counterRound < round){
+                    // if(i > round) //think about I and round 
+                    //     break;
                     
-                    if(i > round) //think about I and round 
-                        break;
-
-                    boolean option = (logFile.size() % 2 == 0);
-
-               
-                        
                     //TODO: fix log board
                     //if odd then player 1, even player 2
                    
-                        if(!option){
+                        if(index % 2 == 0){
                             //first move
                             
-                            System.out.print("\t\t" + (round) + ". " + logFile.get(round-1));
+                            System.out.print("\t\t" + (counterRound + 1) + ". " + logFile.get(index));
                         }
                         else{
                             //print all
-                            System.out.print("\t\t" + (round) +". " + logFile.get(round) + "\t\t" + logFile.get(round + 1));
-                          
+                            System.out.print("\t\t" + (counterRound + 1) +". " + logFile.get(index) + "\t\t" + logFile.get(index+1));
+                            index++;
                         }
-                
-                 
+                        counterRound++;                        
                 }
                 
             //new line
