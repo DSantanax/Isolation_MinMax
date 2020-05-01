@@ -871,7 +871,7 @@ public class Board {
 
 
 
-    
+
     //TODO: delete
 
     public int getNumberOfMovesX() {
