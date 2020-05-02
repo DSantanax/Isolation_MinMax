@@ -4,42 +4,37 @@ import java.util.ArrayList;
 
 /**
  * Implement 'depth' after completing MinMax with AB pruning for efficiency.
- * <p>
- * TODO: Utility, Terminal state, & Successor functions, and cut off timer
+ * 
+ * TODO: Cut off timer
  */
 
-// TODO TODAY: fix TERMINAL STATE -> fix maxVal/minVal -> TESTING
-//
 public class MinMaxAB {
 
     private static Board bestBoard;
 
-    // TODO: return board
-
     public static Board MinMaxDecision(Board state, int depth) { // choose best board
 
-        maxValue(state, Integer.MIN_VALUE, Integer.MAX_VALUE, depth);
+        int maxValue = maxValue(state, Integer.MIN_VALUE, Integer.MAX_VALUE, depth);
         // return state.max = max
+        System.out.println(maxValue);
         return MinMaxAB.bestBoard;
     }
 
-    // TODO: fix maxMoves & possibly the terminal & utility
     // Main Comp player is MaxValue
     private static int maxValue(Board state, int alpha, int beta, int depth) {
 
         // generates successor for O player (MAX PLAYER)
-        ArrayList<Board> successor = PossibleBoards.generateSuccessors(state, "O");
+        ArrayList<Board> successor = PossibleBoards.generateSuccessors(state, "X");
 
         // return board here the best board with value X
         if (terminalTest(state, "X")) {
             // set final Board here
             // PossibleBoards.generateSuccessors(state, "X");
-            return utility(state);
+            return utility(state, "X");
         }
         if (depth == 0) { // can end time here
-            // TODO: we are moving the Xs to Os
             // also the gen successors changed to inverse
-            return state.getNumberOfMovesO();
+            return utility(state, "X");
         }
 
         int value = Integer.MIN_VALUE; // -inf
@@ -47,20 +42,25 @@ public class MinMaxAB {
         // add states to function to loop through them
         // passing each action of the current state
 
-        Board currBoard = state;
+        //TODO: return board with the value
+
         for (Board board : successor) {
             value = Math.max(value, minValue(board, alpha, beta, depth - 1)); // value is maxEVAL
 
+            if(board.getFitnessFunction() == value)
+                bestBoard = board;
+
             if (value >= beta) {
-                currBoard = board;
                 // set board with best value as actual board to Move to
+                bestBoard = board;
                 return value;
             }
             // add break with depth == 0
+            
+            //if v' > alpha v = alpha
             alpha = Math.max(alpha, value);
-        }
-        bestBoard = currBoard;
 
+        }
         return value;
     }
 
@@ -68,22 +68,24 @@ public class MinMaxAB {
     private static int minValue(Board state, int alpha, int beta, int depth) {
 
         // generates successor for X player (MIN PLAYER)
-        ArrayList<Board> successor = PossibleBoards.generateSuccessors(state, "X");
+        ArrayList<Board> successor = PossibleBoards.generateSuccessors(state, "O");
 
         if (terminalTest(state, "O")) {
             // set final Board here
-            return utility(state);
+            return utility(state, "O");
         }
 
         if (depth == 0) {
-            return state.getNumberOfMovesX();
+            return utility(state, "O");
         }
+
         int value = Integer.MAX_VALUE;
 
         // find actions is successors
         for (Board board : successor) {
             value = Math.min(value, maxValue(board, alpha, beta, depth - 1));
             if (value <= alpha) {
+                
                 return value;
             }
             beta = Math.min(beta, value);
@@ -91,57 +93,28 @@ public class MinMaxAB {
         }
         return value;
     }
+    
+    private static int utility(Board state, String player) {
 
-    // Evaluation function that SHOULD return a BOARD
-    // TODO: fix numberOfMovesX & numberOfMovesO
-    // since one of them is always 0!
-    private static int utility(Board state) {
-        // TODO: fix adjust
-
+        //get successors for X
+        if(player.equals("X"))
+            PossibleBoards.generateSuccessors(state, "O");
+        else{
+            //get successors for O
+            PossibleBoards.generateSuccessors(state, "X");
+        }
+        
         return state.getNumberOfMovesX() * 2 - state.getNumberOfMovesO(); // max Moves - minMoves. AN INT
     }
 
     // Check if their is moves available
     private static boolean terminalTest(Board state, String player) {
         // Check if number of moves for X is 0 then over
-        if (player.equals("O")) {
+        if (player.equals("X")) {
             return state.getNumberOfMovesX() == 0;
         }
         // Check if number of moves for O is 0 then over
         else
             return state.getNumberOfMovesO() == 0;
-    }
-
-    // TESTING for min max & possible boards
-    public static void main(String[] args) {
-        Board mainBoard = new Board("C");
-        mainBoard.printBoard("");
-        Board testBoard = new Board(mainBoard, 0, 0, "X");
-
-        ArrayList<Board> successorsX = PossibleBoards.generateSuccessors(testBoard, "X");
-        int counter = 0;
-        for (Board board : successorsX) {
-            counter += 1;
-            System.out.println(counter);
-            board.printBoard("");
-        }
-        ArrayList<Board> successorsO = PossibleBoards.generateSuccessors(testBoard, "O");
-        int counterO = 0;
-        for (Board board : successorsO) {
-            counterO += 1;
-            System.out.println(counterO);
-            board.printBoard("");
-        }
-
-        System.out.println("Total moves X : " + counter);
-        System.out.println("Total moves O : " + counterO);
-        System.out.println("Total moves: " + (counter + counterO));
-
-        System.out.println(testBoard.getNumberOfMovesO());
-        System.out.println(testBoard.getNumberOfMovesX());
-
-        // TODO: depth & timer
-        Board minMaxDecision = MinMaxAB.MinMaxDecision(testBoard, 2);
-        minMaxDecision.printBoard("");
     }
 }

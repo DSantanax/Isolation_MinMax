@@ -15,6 +15,7 @@ public class Board {
     private int maxMovesX;
     private int maxMovesO;
     private int boardRound;
+    private int fitnessNum;
 
     public Board(String player) {
         logFileX = new ArrayList<>();
@@ -36,10 +37,11 @@ public class Board {
         maxMovesO = 0;
         maxMovesX = 0;
         boardRound=0;
+        fitnessNum = 0;
     }
 
     //copies board
-    //TODO: fix successors board to generate new
+    
     public Board(Board board, int newRow, int newCol, String player2) {
         gameState = copyBoard(board);  //copies the original board.
         this.logFileO = board.logFileO;
@@ -63,11 +65,10 @@ public class Board {
             //move O to new board index
             updateGameState(newRow, newCol, "O");
             //move X to board index
-
         }
         maxMovesO = 0;
         maxMovesX = 0;
-        
+        fitnessNum = 0;
     }
     
     private String[][] copyBoard(Board board) {
@@ -217,7 +218,7 @@ public class Board {
     // res.insert(offset+32*k, "\t   "+ (k + 1) + "." + getOPosition() + " \t"+ getXPosition() +"\n");
 
     //put 1 only alternate
-    int add = 0;
+  
     int counter =0;
         //TODO: add for alternating players & who goes first player
     // if(turn == 0){ //if first move
@@ -896,12 +897,14 @@ public class Board {
         return letter;
     }
 
-
-
-
-
     
-    //TODO: delete
+    public void setFitnessFunction(int num){
+        this.fitnessNum = num;
+    }
+
+    public int getFitnessFunction(){
+        return fitnessNum;
+    }
 
     public int getNumberOfMovesX() {
         return this.maxMovesX;

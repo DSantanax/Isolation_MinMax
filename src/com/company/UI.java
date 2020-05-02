@@ -10,12 +10,13 @@ import java.util.Scanner;
 public class UI {
     Scanner input = new Scanner(System.in);
 
-    public void startGame() {
+    public void startGame(int depth) {
 
         UI userInterface = new UI();
         Scanner sc = new Scanner(System.in);
         final String OPPONENT = "O";
         final String COMP = "C";
+
 
         // ask to see who chooses AI symbol.
         String currentMove = userInterface.whoGoesFirst();
@@ -24,29 +25,32 @@ public class UI {
         Board board = new Board(currentMove);
         String winnerWinnerChickenDinner = "";
 
-
         // use a variable or bool
 
         board.printBoard("");
 
         while (board.gameOver(COMP) && board.gameOver(OPPONENT)) {
-
-            //COMP turn
-
             if(!currentMove.equals(selectedFirst))
                 board.incrementRound();
 
+            //COMP turn
             if (currentMove.equals(COMP)) {
-                String computerMove = userInterface.getMove(COMP);
-                while (!board.validMove(computerMove, COMP)) {
-                    System.out.println("Invalid input. Put in something legit.");
-                    System.out.println("Current X position" + board.getOPosition());
-                    computerMove = userInterface.getMove(COMP);
-                }
-                board.playerTurnToMove(computerMove, COMP);
+                //PVP
+                // String computerMove = userInterface.getMove(COMP);
+                // while (!board.validMove(computerMove, COMP)) {
+                //     System.out.println("Invalid input. Put in something legit.");
+                //     System.out.println("Current X position" + board.getOPosition());
+                //     computerMove = userInterface.getMove(COMP);
+                // }
+                // board.playerTurnToMove(computerMove, COMP);
 
-                System.out.println("New Computer: " + board.getXPosition());
+                //Min max
+                board = MinMaxAB.MinMaxDecision(board, depth);
+                System.out.println("New Computer move: " + board.getXPosition());
+
+                //always print
                 board.printBoard(COMP);
+
                 //other player's turn
                 currentMove = OPPONENT;
 

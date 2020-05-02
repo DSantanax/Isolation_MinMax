@@ -125,20 +125,16 @@ public class PossibleBoards{
                 totalMoves++;
             }
                 else
-                break;
+                    break;
         }
-
         //X
         if(player.equals("X")){
-           // board.setNumberOfMovesX(successors.size());
             board.setNumberOfMovesX(totalMoves);
         }
         else{
             //O
-           // board.setNumberOfMovesO(successors.size());
             board.setNumberOfMovesO(totalMoves);
         }
-        //board.setNumberOfMovesX(totalMoves);
 
         return successors;
     }
