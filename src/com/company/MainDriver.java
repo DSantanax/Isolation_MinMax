@@ -27,7 +27,7 @@ public class MainDriver{
 
     //Main starts the game 
     public static void main(String[] args) {
-        final int depth = 3;
+        final int depth = 4;
         UI game = new UI();
         game.startGame(depth);
     }

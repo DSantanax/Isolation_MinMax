@@ -135,7 +135,8 @@ public class PossibleBoards{
             //O
             board.setNumberOfMovesO(totalMoves);
         }
-
+        board.setChildren(successors);
+        
         return successors;
     }
 }

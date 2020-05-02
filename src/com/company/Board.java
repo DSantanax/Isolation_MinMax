@@ -16,8 +16,10 @@ public class Board {
     private int maxMovesO;
     private int boardRound;
     private int fitnessNum;
+    private ArrayList<Board> children;
 
     public Board(String player) {
+        children = new ArrayList<>();
         logFileX = new ArrayList<>();
         logFileO = new ArrayList<>();
         gameState = new String[boardLength][boardLength];
@@ -929,5 +931,13 @@ public class Board {
 
     public int getRound() {
         return this.boardRound;
-	}
+    }
+    public ArrayList<Board> getChildren(){
+        return this.children;
+    }
+
+	public void setChildren(ArrayList<Board> successors) {
+        this.children = successors;
+    }
+    
 }

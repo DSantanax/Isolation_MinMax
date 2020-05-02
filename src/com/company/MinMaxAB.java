@@ -15,7 +15,13 @@ public class MinMaxAB {
     public static Board MinMaxDecision(Board state, int depth) { // choose best board
 
         int maxValue = maxValue(state, Integer.MIN_VALUE, Integer.MAX_VALUE, depth);
-        // return state.max = max
+        // return state.max = max   
+        ArrayList<Board> children = state.getChildren();
+        for(Board child : children){
+            if(child.getFitnessFunction() == maxValue){
+                return child;
+            }
+        }
         System.out.println(maxValue);
         return MinMaxAB.bestBoard;
     }
@@ -32,6 +38,7 @@ public class MinMaxAB {
             // PossibleBoards.generateSuccessors(state, "X");
             return utility(state, "X");
         }
+        
         if (depth == 0) { // can end time here
             // also the gen successors changed to inverse
             return utility(state, "X");
@@ -44,15 +51,12 @@ public class MinMaxAB {
 
         //TODO: return board with the value
 
-        for (Board board : successor) {
-            value = Math.max(value, minValue(board, alpha, beta, depth - 1)); // value is maxEVAL
-
-            if(board.getFitnessFunction() == value)
-                bestBoard = board;
-
+        for (Board child : successor) {
+            value = Math.max(value, minValue(child, alpha, beta, depth - 1)); // value is maxEVAL
+            child.setFitnessFunction(value);
             if (value >= beta) {
                 // set board with best value as actual board to Move to
-                bestBoard = board;
+             
                 return value;
             }
             // add break with depth == 0
@@ -66,10 +70,10 @@ public class MinMaxAB {
 
     // Main opponent is Min value
     private static int minValue(Board state, int alpha, int beta, int depth) {
-
+        
         // generates successor for X player (MIN PLAYER)
         ArrayList<Board> successor = PossibleBoards.generateSuccessors(state, "O");
-
+        
         if (terminalTest(state, "O")) {
             // set final Board here
             return utility(state, "O");
@@ -82,8 +86,9 @@ public class MinMaxAB {
         int value = Integer.MAX_VALUE;
 
         // find actions is successors
-        for (Board board : successor) {
-            value = Math.min(value, maxValue(board, alpha, beta, depth - 1));
+        for (Board child : successor) {
+            value = Math.min(value, maxValue(child, alpha, beta, depth - 1));
+            child.setFitnessFunction(value);
             if (value <= alpha) {
                 
                 return value;
