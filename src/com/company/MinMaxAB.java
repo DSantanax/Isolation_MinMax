@@ -10,20 +10,19 @@ import java.util.ArrayList;
 
 public class MinMaxAB {
 
-    private static Board bestBoard;
-
     public static Board MinMaxDecision(Board state, int depth) { // choose best board
 
         int maxValue = maxValue(state, Integer.MIN_VALUE, Integer.MAX_VALUE, depth);
         // return state.max = max   
         ArrayList<Board> children = state.getChildren();
+        Board bestBoard = children.get(0);
         for(Board child : children){
             if(child.getFitnessFunction() == maxValue){
                 return child;
             }
         }
         System.out.println(maxValue);
-        return MinMaxAB.bestBoard;
+        return bestBoard;
     }
 
     // Main Comp player is MaxValue

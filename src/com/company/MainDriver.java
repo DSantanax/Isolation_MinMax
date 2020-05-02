@@ -22,12 +22,13 @@ public class MainDriver{
      * - It will help if you also implement this with an iterative deepening.
      */
 
-    // TODO: clean code
+    // TODO: clean code, no duplicates
     // TODO: remove 1 validMoves
     // TODO: add timer
     //TODO: fix SOUTH movement
+    //TODO: fix log alternate
 
-    //Main starts the game 
+    //Main starts the game
     public static void main(String[] args) {
         final int depth = 4;
         UI game = new UI();
