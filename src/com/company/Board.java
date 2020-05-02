@@ -171,51 +171,96 @@ public class Board {
   public void printBoard(String currentPlayer) {
     //TODO: add log to output selection
     //Use array list size
-    
+
+    //once we hit double doubles we use 10
+    int offset = 59;
     //add to log file the move
     if (currentPlayer.equals("C"))
         logFileX.add(getXPosition());
     else if (currentPlayer.equals("O"))
         logFileO.add(getOPosition());
    
-    int counterRound = 0;
+      StringBuilder res = new StringBuilder();
+        String letter = "";
+        res.append("  1 2 3 4 5 6 7 8" + "\t Computer Vs. Opponent\n");
+     for(int i = 0; i < boardLength; i+= 1){
+    
+            if (i == 0)
+                letter = "A";
+            else if(i == 1)
+                letter = "B";
+            else if(i == 2)
+                letter = "C";
+            else if(i == 3)
+                letter = "D";
+            else if(i == 4)
+                letter = "E";
+            else if(i == 5)
+                letter = "F";
+            else if(i == 6)
+                letter =  "G";
+            else if(i == 7)
+                letter = "H";
 
-    System.out.print("  1 2 3 4 5 6 7 8\t\tComputer Vs. Opponent\n");
-
-    for (int i = 0; i < boardLength; i += 1) {
-        String letter = getCharacter(i);
-        System.out.print(letter + " ");
-
-        for (int j = 0; j < boardLength; j++) {
-            //add - if null
-            if (this.gameState[i][j] == null)
-               System.out.print("- ");
-            else {
-                //Add symbol if not null
-                System.out.print(this.gameState[i][j] + " ");
-            }
-            if(j == 7){
-            }
-            //we need to print after 7
-            else if(this.boardRound > 7){
-
-                for (int l = 0; l < this.boardRound-7; l++) {
-
-                    //print all
-
-                    //else 1 running print 1
-                    System.out.println("\t\t\t\t");
-                    //else print whole
+            res.append(letter + " ");
+            for(int j = 0; j < boardLength; j+= 1){
+                if(gameState[i][j] == null)
+                    res.append("-" + " ");
+                else {
+                    res.append(gameState[i][j] + " ");
                 }
             }
-            
-        //new line
+        }
+       
+
+    //if we pass 9 we do this
+    // res.insert(offset+32*k, "\t   "+ (k + 1) + "." + getOPosition() + " \t"+ getXPosition() +"\n");
+
+    //put 1 only alternate
+    int add = 0;
+    int counter =0;
+
+    // if(turn == 0){ //if first move
+    //     res.insert(offset, "\t   "+ (k + 1) + ". " + getXPosition() + " \t  \n");
+    //     counter += 1;
+    // }
+
+    // for (int k = 0; k < boardRound; k++) {
+    //         if(k % 2 == 0){
+    //             res.insert(offset+32*k, "\t   "+ (k + 1) + ". " + getXPosition() + " \t  \n");
+    //         }
+    //         else {
+    //             res.insert(offset+32*k, "\t   "+ (k + 1) + ". " + getOPosition() + " \t  \n");
+    //         } 
+    // }
+
+     //we put both
+     //we run this first to fill values if needed
+     while(counter < boardRound){
+
+            res.insert(offset+32*counter, "\t   "+ (counter + 1) + ". " + logFileX.get(counter) + " \t"+ logFileX.get(counter) +"\n");
+            counter++;
     }
-    System.out.println();
+
+    //pre fill place holders
+    //run last
+    for (int k = counter; k < 8; k++) {
+        //9 space between gap for fill
+        //2 spaces after gap
+        res.insert(offset+32*k, "\t         \t  \n");
+    }
+
+    //add after board
+    // for (int k = 8; k < boardRound; k++) {
+    //     res.insert(offset+32*k, "\t         \t  \n");
+    // }
+
+         //after we hit double digits we add +1 to 34 length
+    
+        System.out.println(res.toString());
+    
 }
 
-    System.out.println();
- }
 
 
     public String getXPosition() {

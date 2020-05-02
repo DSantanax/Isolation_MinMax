@@ -19,7 +19,8 @@ public class UI {
 
         // ask to see who chooses AI symbol.
         String currentMove = userInterface.whoGoesFirst();
-        String roundInc = currentMove;
+     
+        String selectedFirst = currentMove;
         Board board = new Board(currentMove);
         String winnerWinnerChickenDinner = "";
 
@@ -31,6 +32,10 @@ public class UI {
         while (board.gameOver(COMP) && board.gameOver(OPPONENT)) {
 
             //COMP turn
+
+            if(currentMove.equals(selectedFirst))
+                board.incrementRound();
+
             if (currentMove.equals(COMP)) {
                 String computerMove = userInterface.getMove(COMP);
                 while (!board.validMove(computerMove, COMP)) {
@@ -60,9 +65,6 @@ public class UI {
                 //other player's turn
                 currentMove = COMP;
             }
-            if(roundInc != currentMove)
-                board.incrementRound();
-            
         }
         if (board.gameOver(COMP))
             winnerWinnerChickenDinner = "Computer won!";

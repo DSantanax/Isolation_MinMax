@@ -25,7 +25,7 @@ public class MainDriver{
     // TODO: gameOver, heuristic, combine methods, clean
     // TODO: remove 1 validMoves
 
-    //Main starts the game
+    //Main starts the game 
     public static void main(String[] args) {
         UI game = new UI();
         game.startGame();
