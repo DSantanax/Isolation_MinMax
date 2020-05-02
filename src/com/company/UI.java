@@ -69,7 +69,7 @@ public class UI {
         if (board.gameOver(COMP))
             winnerWinnerChickenDinner = "Computer won!";
         else {
-            winnerWinnerChickenDinner = "Player won!";
+            winnerWinnerChickenDinner = "Opponent won!";
         }
         sc.close();
 

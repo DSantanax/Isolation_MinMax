@@ -169,7 +169,7 @@ public class Board {
 
   //Our version of toString()
   public void printBoard(String currentPlayer) {
-    //TODO: add log to output selection
+    
     //Use array list size
 
     //once we hit double doubles we use 10
@@ -219,7 +219,7 @@ public class Board {
     //put 1 only alternate
     int add = 0;
     int counter =0;
-
+        //TODO: add for alternating players & who goes first player
     // if(turn == 0){ //if first move
     //     res.insert(offset, "\t   "+ (k + 1) + ". " + getXPosition() + " \t  \n");
     //     counter += 1;
@@ -236,7 +236,7 @@ public class Board {
 
      //we put both
      //we run this first to fill values if needed
-     while(counter < boardRound){
+     while(counter < boardRound && counter < 8){
             res.insert(offset+32*counter, "\t   "+ (counter + 1) + ". " + logFileX.get(counter) + " \t"+ logFileO.get(counter) +"\n");
             counter++;
     }
@@ -248,16 +248,11 @@ public class Board {
         //2 spaces after gap
         res.insert(offset+32*k, "\t         \t  \n");
     }
-
-    //add after board
-    // for (int k = 8; k < boardRound; k++) {
-    //     res.insert(offset+32*k, "\t         \t  \n");
-    // }
-
-         //after we hit double digits we add +1 to 34 length
-    
-        System.out.println(res.toString());
-    
+        System.out.print(res.toString());
+        for (int j = 8; j < boardRound; j++) {
+            System.out.println("\t\t\t   " + (j+1) + ". " + logFileX.get(j) + "   \t" + logFileO.get(j));
+        }
+        System.out.println();
 }
 
 
