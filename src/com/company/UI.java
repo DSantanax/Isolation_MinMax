@@ -17,19 +17,20 @@ public class UI {
         final String OPPONENT = "O";
         final String COMP = "C";
 
-
         // ask to see who chooses AI symbol.
         String currentMove = userInterface.whoGoesFirst();
      
         String selectedFirst = currentMove;
         Board board = new Board(currentMove);
+        board.setFirstPlayer(selectedFirst);
         String winnerWinnerChickenDinner = "";
 
         // use a variable or bool
-
         board.printBoard("");
 
         while (board.gameOver(COMP) && board.gameOver(OPPONENT)) {
+
+            //TODO: fix to print out log
             if(!currentMove.equals(selectedFirst))
                 board.incrementRound();
 
