@@ -526,13 +526,13 @@ public class Board {
             if (isVertical(moveInput, currentPlayer)) { //check for occupied spaces vertically
                 if (isSouth(moveInput, currentPlayer)) {
                     for (int i = currentRowVal + 1; i < nextRowVal; i++) {
-                        if (this.gameState[i][currentRowVal] != null) //there is a spot occupied here
+                        if (this.gameState[i][currentColumnVal] != null) //there is a spot occupied here
                             return false;
                     }
                 }
                 if (isNorth(moveInput, currentPlayer)) {
                     for (int i = currentRowVal - 1; nextRowVal > i; i++) {   //check this
-                        if (this.gameState[i][currentRowVal] != null) //there is a spot occupied here
+                        if (this.gameState[i][currentColumnVal] != null) //there is a spot occupied here
                             return false;
                     }
                 }
@@ -562,14 +562,14 @@ public class Board {
                 if (isSouth(moveInput, currentPlayer)) {
                     for (int i = currentRowVal + 1; i < nextRowVal; i++) {
                         System.out.println("its going in is south");
-                        if (this.gameState[i][currentRowVal] != null) //there is a spot occupied here
+                        if (this.gameState[i][currentColumnVal] != null) //there is a spot occupied here
                             return false;
                     }
                 }
                 if (isNorth(moveInput, currentPlayer)) {
                     System.out.println("its going in is north");
                     for (int i = currentRowVal - 1; nextRowVal > i; i++) {   //check this
-                        if (this.gameState[i][currentRowVal] != null) //there is a spot occupied here
+                        if (this.gameState[i][currentColumnVal] != null) //there is a spot occupied here
                             return false;
                     }
                 }
