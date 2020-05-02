@@ -33,7 +33,7 @@ public class UI {
 
             //COMP turn
 
-            if(currentMove.equals(selectedFirst))
+            if(!currentMove.equals(selectedFirst))
                 board.incrementRound();
 
             if (currentMove.equals(COMP)) {

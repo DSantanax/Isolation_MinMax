@@ -237,8 +237,7 @@ public class Board {
      //we put both
      //we run this first to fill values if needed
      while(counter < boardRound){
-
-            res.insert(offset+32*counter, "\t   "+ (counter + 1) + ". " + logFileX.get(counter) + " \t"+ logFileX.get(counter) +"\n");
+            res.insert(offset+32*counter, "\t   "+ (counter + 1) + ". " + logFileX.get(counter) + " \t"+ logFileO.get(counter) +"\n");
             counter++;
     }
 
