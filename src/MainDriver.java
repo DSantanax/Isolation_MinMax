@@ -28,7 +28,7 @@ public class MainDriver {
      * ---------------The Opponent (Player) is O ----- The PC Player is X ---------
      */
 
-    // TODO: fix crash depth is long, no dups
+    // TODO: Fix if crash depth is long <6 (due to successors size being large)
 
     // The main method which starts our Isolation game.
     public static void main(String[] args) {
