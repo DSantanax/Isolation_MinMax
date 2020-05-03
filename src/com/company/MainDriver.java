@@ -23,10 +23,8 @@ public class MainDriver{
      */
 
     // TODO: clean code, no duplicates
-    // TODO: remove 1 validMoves
     // TODO: add timer
-    //TODO: fix SOUTH movement
-    //TODO: fix log alternate
+    //TODO: fix crash depth is long
 
     //Main starts the game
     public static void main(String[] args) {

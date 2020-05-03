@@ -8,8 +8,6 @@ successorsBoard - has global counter to count each possible Move and return []
 public class PossibleBoards{
 
     public static ArrayList<Board> generateSuccessors(Board board, String player) { // DONE
-
-        // TODO: add global local counter
         // set that counter in the end to the board.maxMoves()
         // In the min max we call the terminal for the maxMoves()
         int totalMoves = 0;

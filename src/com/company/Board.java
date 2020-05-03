@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class Board {
 
     private String[][] gameState;
-    private ArrayList<String> logFileO;
-    private ArrayList<String> logFileX;
+    public ArrayList<String> logFileO;
+    public ArrayList<String> logFileX;
     private final int boardLength = 8;
     private String currentXPosition;
     private String currentOPosition;
@@ -114,21 +114,21 @@ public class Board {
     }
 
     public void playerTurnToMove(String moveInput, String currentPlayer) {
+        int rowVal = 0;
+        int columnVal = 0;
 
         if (currentPlayer.equals("O")) {
-            int rowVal = getRowVal(moveInput);
-            int columnVal = getColVal(moveInput);
+            rowVal = getRowVal(moveInput);
+            columnVal = getColVal(moveInput);
 
-            if (validMove(moveInput, currentPlayer))
-                updateGameState(rowVal, columnVal, this.opponentPiece);
-
+            updateGameState(rowVal, columnVal, this.opponentPiece);
             this.currentOPosition = moveInput;
-        } else if (currentPlayer.equals("C")) {
-            int rowVal = getRowVal(moveInput);
-            int columnVal = getColVal(moveInput);
 
-            if (validMove(moveInput, currentPlayer))
-                updateGameState(rowVal, columnVal, this.computerPiece);
+        } else if (currentPlayer.equals("C")) {
+
+            rowVal = getRowVal(moveInput);
+            columnVal = getColVal(moveInput);
+            updateGameState(rowVal, columnVal, this.computerPiece);
 
             this.currentXPosition = moveInput;
         }
@@ -137,7 +137,7 @@ public class Board {
     public int getRowVal(String input) { // input = "A3"
         int rowVal = -1;
 
-        String letter = input.substring(0, 1);
+        String letter = input.substring(0, 1).toUpperCase();
 
         switch (letter) {
             case "A":
@@ -165,7 +165,6 @@ public class Board {
                 rowVal = 7;
                 break;
         }
-
         return rowVal;
     }
 
@@ -174,23 +173,15 @@ public class Board {
     }
 
     // Our version of toString()
-    public void printBoard(String currentPlayer) {
-        // once we hit double doubles we use 10
+    public void printBoard(String player) {
         int offset = 59;
-        // add to log file the move
-        if (currentPlayer.equals("C")){
-            logFileX.add(getXPosition());
-        }
-        else if (currentPlayer.equals("O")){
-            logFileO.add(getOPosition());
-        }
 
         StringBuilder res = new StringBuilder();
-        
-        //Print title
-        if(firstPlayer.equals("C"))
+
+        // Print title
+        if (firstPlayer.equals("C"))
             res.append("  1 2 3 4 5 6 7 8" + "\t Computer Vs. Opponent\n");
-        else 
+        else
             res.append("  1 2 3 4 5 6 7 8" + "\t Opponent Vs. Computer\n");
 
         for (int i = 0; i < boardLength; i += 1) {
@@ -206,35 +197,52 @@ public class Board {
             }
         }
 
-        // if we pass 9 we do this
-        // res.insert(offset+32*k, "\t "+ (k + 1) + "." + getOPosition() + " \t"+
-        // getXPosition() +"\n");
-
-        // put 1 only alternate
-
         int counter = 0;
         // TODO: add for alternating players & who goes first player
-        // if(turn == 0){ //if first move
-        // res.insert(offset, "\t "+ (k + 1) + ". " + getXPosition() + " \t \n");
-        // counter += 1;
-        // }
-
-        // for (int k = 0; k < boardRound; k++) {
-        // if(k % 2 == 0){
-        // res.insert(offset+32*k, "\t "+ (k + 1) + ". " + getXPosition() + " \t \n");
-        // }
-        // else {
-        // res.insert(offset+32*k, "\t "+ (k + 1) + ". " + getOPosition() + " \t \n");
-        // }
-        // }
-
-        // we put both
-        // we run this first to fill values if needed
+        // we print both
         while (counter < boardRound && counter < 8) {
-            res.insert(offset + 32 * counter,
-                    "\t   " + (counter + 1) + ". " + logFileX.get(counter) + " \t" + logFileO.get(counter) + "\n");
+
+            if (firstPlayer.equals("C")) {
+                res.insert(offset + 32 * counter,
+                        "\t   " + (counter + 1) + ". " + logFileX.get(counter) + " \t" + logFileO.get(counter) + "\n");
+            } else
+                res.insert(offset + 32 * counter,
+                        "\t   " + (counter + 1) + ". " + logFileO.get(counter) + " \t" + logFileX.get(counter) + "\n");
+
             counter++;
         }
+        
+        // alternate
+        if (!player.equals("")) {
+
+
+            if (firstPlayer.equals("C") && counter < 8) {
+                
+                if (player.equals("X")) {
+                    res.insert(offset + 32 * counter,
+                            "\t   " + (counter + 1) + ". " + logFileX.get(counter) + " \t  \n");
+                    counter++;
+                } else {
+                    res.insert(offset + 32 * counter,
+                            "\t   " + (counter + 1) + ". " + logFileO.get(counter - 1) + " \t  \n");
+                    counter++;
+                }
+            }
+
+            else if (firstPlayer.equals("O") && counter < 8) {
+                // Opponent
+                if (player.equals("O")) {
+                    res.insert(offset + counter * 32,
+                            "\t   " + (counter + 1) + ". " + logFileO.get(counter) + " \t  \n");
+                    counter++;
+                } else {
+                    res.insert(offset + 32 * counter,
+                            "\t   " + (counter + 1) + ". " + logFileX.get(counter - 1) + " \t  \n");
+                    counter++;
+                }
+            }
+        }
+
 
         // pre fill place holders
         // run last
@@ -243,7 +251,9 @@ public class Board {
             // 2 spaces after gap
             res.insert(offset + 32 * k, "\t         \t  \n");
         }
+
         System.out.print(res.toString());
+        // after we pass the size of the board we print this
         for (int j = 8; j < boardRound; j++) {
             System.out.println("\t\t\t   " + (j + 1) + ". " + logFileX.get(j) + "   \t" + logFileO.get(j));
         }
@@ -277,7 +287,7 @@ public class Board {
     // Check if the position is null
     public boolean isOccupied(int rowNum, int colNum) {
         return gameState[rowNum][colNum] != null;
-    } 
+    }
 
     public boolean isNorth(String moveInput, String currentPlayer) // check if the intended move is North
     {
@@ -845,9 +855,6 @@ public class Board {
     }
 
     // gameOver when there are no more moves to make.
-    // TODO: fix
-    // pass the if O or if X player to clean code so we wont have any duplicate
-    // code!
     public boolean gameOver(String currentPlayer) {
         return canMoveHorizontal(currentPlayer) || canMoveDiagonal(currentPlayer) || canMoveVertical(currentPlayer);
     }
@@ -920,7 +927,7 @@ public class Board {
         this.children = successors;
     }
 
-	public void setFirstPlayer(String selectedFirst) {
+    public void setFirstPlayer(String selectedFirst) {
         this.firstPlayer = selectedFirst;
-	}
+    }
 }

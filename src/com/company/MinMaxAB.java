@@ -9,8 +9,12 @@ import java.util.ArrayList;
  */
 
 public class MinMaxAB {
+      long startTime = 0;
+      long currentTime = 0;
+      //Board boardToReturnWhenTimeExceeded = null;
 
     public static Board MinMaxDecision(Board state, int depth) { // choose best board
+        // long startTime = System.currentTimeMillis(); //starts the time
 
         int maxValue = maxValue(state, Integer.MIN_VALUE, Integer.MAX_VALUE, depth);
         // return state.max = max   
@@ -18,15 +22,29 @@ public class MinMaxAB {
         Board bestBoard = children.get(0);
         for(Board child : children){
             if(child.getFitnessFunction() == maxValue){
+                
                 return child;
             }
+            /*
+            if (startTime > Time limit){ //if time is exceeded 
+                return child;
+            }
+            */
         }
+        
+        // if (startTime > Time limit){//if time exceeded here then return best board
+        //   
+        //         throw new RuntimeException();
+        // }
+
+
         System.out.println(maxValue);
         return bestBoard;
     }
 
     // Main Comp player is MaxValue
     private static int maxValue(Board state, int alpha, int beta, int depth) {
+        // long elapsedTime = (System.currentTimeMillis()- startTime) * 100000; //starts the time
 
         // generates successor for O player (MAX PLAYER)
         ArrayList<Board> successor = PossibleBoards.generateSuccessors(state, "X");
@@ -38,7 +56,7 @@ public class MinMaxAB {
             return utility(state, "X");
         }
         
-        if (depth == 0) { // can end time here
+        if (depth == 0) { // can end time here   IF DEPTH == 0 or elapsedTime > timeLimit:
             // also the gen successors changed to inverse
             return utility(state, "X");
         }
@@ -47,8 +65,6 @@ public class MinMaxAB {
 
         // add states to function to loop through them
         // passing each action of the current state
-
-        //TODO: return board with the value
 
         for (Board child : successor) {
             value = Math.max(value, minValue(child, alpha, beta, depth - 1)); // value is maxEVAL
@@ -69,7 +85,8 @@ public class MinMaxAB {
 
     // Main opponent is Min value
     private static int minValue(Board state, int alpha, int beta, int depth) {
-        
+        // long elapsedTime = (System.currentTimeMillis()- startTime) * 100000; //starts the time
+
         // generates successor for X player (MIN PLAYER)
         ArrayList<Board> successor = PossibleBoards.generateSuccessors(state, "O");
         
@@ -78,7 +95,7 @@ public class MinMaxAB {
             return utility(state, "O");
         }
 
-        if (depth == 0) {
+        if (depth == 0) { //IF DEPTH == 0 or elapsedTime > timeLimit:
             return utility(state, "O");
         }
 
@@ -99,7 +116,6 @@ public class MinMaxAB {
     }
     
     private static int utility(Board state, String player) {
-
         //get successors for X
         if(player.equals("X"))
             PossibleBoards.generateSuccessors(state, "O");
@@ -107,7 +123,6 @@ public class MinMaxAB {
             //get successors for O
             PossibleBoards.generateSuccessors(state, "X");
         }
-        
         return state.getNumberOfMovesX() * 2 - state.getNumberOfMovesO(); // max Moves - minMoves. AN INT
     }
 
