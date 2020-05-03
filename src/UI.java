@@ -54,7 +54,7 @@ public class UI {
             } else {
 
                 String opponentMove = userInterface.getMove(OPPONENT);
-                while (!board.validMove(opponentMove, OPPONENT) && opponentMove.length() !=2) {
+                while (!board.validMove(opponentMove, OPPONENT) && opponentMove.length() == 2) {
                     System.out.println("Invalid input. Put in something legit.");
                     System.out.println("Current O position: " + board.getOPosition());
                     System.out.println();

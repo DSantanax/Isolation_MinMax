@@ -445,7 +445,7 @@ public class Board {
             }
         } else if (isHorizontal(moveInput, currentPlayer)) {
             if (isWest(moveInput, currentPlayer)) {
-                for (int i = currentColumnVal - 1; i > nextColumnVal; i--) {
+                for (int i = currentColumnVal; i > nextColumnVal; i--) {
 
                     if (this.gameState[currentRowVal][i] != null) {
                         return false;
