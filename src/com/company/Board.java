@@ -43,7 +43,6 @@ public class Board {
     public Board(Board board, int newRow, int newCol, String player2) {
         gameState = copyBoard(board); // copies the original board.
         this.logFile = board.logFile;
-        
 
         // Change X to new position
         if (player2.equals("X")) {
@@ -84,7 +83,7 @@ public class Board {
 
     // call isValid before calling updateGameState method
     public void updateGameState(int newRowMove, int newColMove, String player) { // sample Code of how we utilize this
-                                                                                 // method
+        // method
         int prevRow;
         int prevCol;
 
@@ -194,58 +193,58 @@ public class Board {
 
         int counter = 0;
         // TODO: add for alternating players & who goes first player
-        // we print both  
+        // we print both
         int round = (int) Math.ceil(turns / 2);
-        int index =0;
+        int index = 0;
 
-        if(turns!=0){
-            //turns is even
-        while (counter < round && counter < 8) {
-            //if turns == 0: break;
+        if (turns != 0) {
+            // turns is even
+            while (counter < round && counter < 8) {
+                // if turns == 0: break;
 
-            if (firstPlayer.equals("C")) {
-                res.insert(offset + 32 * counter,
-                        "\t   " + (counter+1) + ". " + logFile.get(index) + " \t" + logFile.get(index+1) + "\n");
-            } else{
-                res.insert(offset + 32 * counter,
-                        "\t   " + (counter+1) + ". " + logFile.get(index) + " \t" + logFile.get(index+1) + "\n");
-                      
-            }
-            index +=2;
-            counter++;
-        }
-       
-            // if turns  % 2 != 0 and turns < 8
-        if(turns % 2 != 0 && counter < 8){
-            if (firstPlayer.equals("C")) {
-                
-                //turns X
-                if (turns % 2 != 0) {
-                    res.insert(offset + 32 * counter,
-                            "\t   " + (counter+1) + ". " + logFile.get(turns-1) + " \t  \n");
-                    counter++;
+                if (firstPlayer.equals("C")) {
+                    res.insert(offset + 32 * counter, "\t   " + (counter + 1) + ". " + logFile.get(index) + " \t"
+                            + logFile.get(index + 1) + "\n");
                 } else {
-                    //else O
-                    res.insert(offset + 32 * counter,
-                            "\t   " + (counter+1) + ". " + logFile.get(turns-1) + " \t  \n");
-                    counter++;
+                    res.insert(offset + 32 * counter, "\t   " + (counter + 1) + ". " + logFile.get(index) + " \t"
+                            + logFile.get(index + 1) + "\n");
+
+                }
+                index += 2;
+                counter++;
+            }
+
+            // if turns % 2 != 0 and turns < 8
+            if (turns % 2 != 0 && counter < 8) {
+                if (firstPlayer.equals("C")) {
+
+                    // turns X
+                    if (turns % 2 != 0) {
+                        res.insert(offset + 32 * counter,
+                                "\t   " + (counter + 1) + ". " + logFile.get(turns - 1) + " \t  \n");
+                        counter++;
+                    } else {
+                        // else O
+                        res.insert(offset + 32 * counter,
+                                "\t   " + (counter + 1) + ". " + logFile.get(turns - 1) + " \t  \n");
+                        counter++;
+                    }
+                }
+
+                else if (firstPlayer.equals("O")) {
+                    // Opponent turns. //that means if the first player
+                    if (turns % 2 != 0) {
+                        res.insert(offset + counter * 32,
+                                "\t   " + (counter + 1) + ". " + logFile.get(turns - 1) + " \t  \n");
+                        counter++;
+                    } else {
+                        res.insert(offset + 32 * counter,
+                                "\t   " + (counter + 1) + ". " + logFile.get(turns - 1) + " \t  \n");
+                        counter++;
+                    }
                 }
             }
-
-            else if (firstPlayer.equals("O")) {
-                // Opponent turns. //that means if the first player
-                if (turns % 2 != 0) {
-                    res.insert(offset + counter * 32,
-                            "\t   " + (counter+1) + ". " + logFile.get(turns-1) + " \t  \n");
-                    counter++;
-                } else {
-                    res.insert(offset + 32 * counter,
-                            "\t   " + (counter+1) + ". " + logFile.get(turns-1) + " \t  \n");
-                    counter++;
-                }
-            }
         }
-    }
 
         // pre fill place holders
         // run last
@@ -255,17 +254,18 @@ public class Board {
             res.insert(offset + 32 * k, "\t         \t  \n");
         }
 
-        System.out.print(res.toString());                       // 0 - 15 moves
-        // after we pass the size of the board we print this.  logfile.size() = 16
-        for (int j = 8; j <= round ; j++) {
-            System.out.printf("\t\t\t   " + (j + 1) + ". " + logFile.get(turns-1));
-            if(j % 2 != 0){
-                System.out.println("   \t" + logFile.get(turns-1));
+        System.out.print(res.toString()); // 0 - 15 moves
+        // after we pass the size of the board we print this. logfile.size() = 16
+        int countHolder = 9;
+        for (int j = 16; j < turns; j++) {
+            if (j % 2 == 0) { // first player
+                System.out.print("\t\t\t   " + (countHolder) + ". " + logFile.get(j) + "\t");
+            } else { // second player
+                System.out.println(logFile.get(j));
+                countHolder += 1;
             }
-            System.out.println();
         }
         System.out.println();
-     
     }
 
     public String getXPosition() {
@@ -920,11 +920,11 @@ public class Board {
     }
 
     // public void incrementRound() {
-    //     this.boardRound++;
+    // this.boardRound++;
     // }
 
     // public int getRound() {
-    //     return this.boardRound;
+    // return this.boardRound;
     // }
 
     public ArrayList<Board> getChildren() {
