@@ -30,14 +30,14 @@ public class UI {
         String winnerWinnerChickenDinner;
         
         // use a variable or bool
-        board.printBoard("");
+        board.printBoard(turns);
 
         while (board.gameOver(COMP) && board.gameOver(OPPONENT)) {
 
             //TODO: fix to print out log
-            if(!currentMove.equals(selectedFirst)){ 
-                board.incrementRound();          
-            }
+            // if(!currentMove.equals(selectedFirst)){ 
+            //     board.incrementRound();          
+            // }
 
             //COMP turn
             if (currentMove.equals(COMP)) {
@@ -56,11 +56,12 @@ public class UI {
                 //find currentTime: endTime - StartTime
                 
                 //then throw
-                board.logFileX.add(board.getXPosition());
+                board.logFile.add(board.getXPosition());
                 System.out.println("New Computer move: " + board.getXPosition());
 
                 //always print
-                board.printBoard("X");
+                turns++;
+                board.printBoard(turns);
 
                 //other player's turn
                 currentMove = OPPONENT;
@@ -77,12 +78,13 @@ public class UI {
                 System.out.println("Player move is: " + opponentMove);
                 board.playerTurnToMove(opponentMove, OPPONENT);
 
-                board.logFileO.add(board.getOPosition());
+                board.logFile.add(board.getOPosition());
                 System.out.println("New Opponent move: " + board.getOPosition());
-                board.printBoard("O");
+                turns++;
+                board.printBoard(turns);
                 //other player's turn
                 currentMove = COMP;
-                
+              
             }
         }
         if (board.gameOver(COMP))
@@ -92,7 +94,7 @@ public class UI {
         }
         sc.close();
 
-        board.printBoard("");
+        board.printBoard(turns);
         System.out.println("---Game Over--- " + winnerWinnerChickenDinner);
 
     }

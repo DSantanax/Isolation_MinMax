@@ -5,7 +5,7 @@ package com.company;
  * Course: AI 4200
  * 
  * Description:
- *          We created a UI 
+ *          We created a UI  
  */
 
 public class MainDriver{
