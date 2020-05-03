@@ -1,32 +1,42 @@
 package com.company;
 
 import java.util.ArrayList;
-/*
-copyMatrix- copies current Board (copy to reference to)
-successorsBoard - has global counter to count each possible Move and return []
-*/
+
+/**
+ * The possible Board class generates the successors for
+ * the given state
+ */
+
 public class PossibleBoards{
 
-    public static ArrayList<Board> generateSuccessors(Board board, String player) { // DONE
+    /**
+     * Generate successors has global counter to count each possible Move that is
+     * then set to each PC or Opponent and return a list of their successors
+     * 
+     * @param board  - The current board we will be creating children for
+     * @param player - The player we will search the children (successors) for
+     * @return - Return a list of the Successors boards
+     *
+     */
+
+    public static ArrayList<Board> generateSuccessors(Board board, String player) {
         // set that counter in the end to the board.maxMoves()
         // In the min max we call the terminal for the maxMoves()
+        ArrayList<Board> successors = new ArrayList<>();
+        String[][] boardToChange = board.getGameState();
+        int colNum;
+        int rowNum;
         int totalMoves = 0;
 
-        String[][] boardToChange = board.getGameState(); // completely dif board that we're gonna change
-        // X player moves
-        int colNum = 0;
-        int rowNum = 0;
+        //Get the position of either the PC or Player
         if (player.equals("X")) {
-
             colNum = board.getColVal(board.getXColNum());
             rowNum = board.getRowVal(board.getXRowNum());
            
         } else {
-        // O player moves
             colNum = board.getColVal(board.getOColNum());
             rowNum = board.getRowVal(board.getORowNum());
         }
-        ArrayList<Board> successors = new ArrayList<>();
 
         // North
         for (int i = rowNum - 1; i >= 0; i--) {
@@ -125,12 +135,11 @@ public class PossibleBoards{
                 else
                     break;
         }
-        //X
+        //Set the move available for either PC or Opponent
         if(player.equals("X")){
             board.setNumberOfMovesX(totalMoves);
         }
         else{
-            //O
             board.setNumberOfMovesO(totalMoves);
         }
         board.setChildren(successors);

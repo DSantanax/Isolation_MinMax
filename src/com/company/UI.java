@@ -3,8 +3,9 @@ package com.company;
 import java.util.Scanner;
 
 /**
- * UI Class for output and input
- * 
+ * The UI class starts our game & calls the available methods from the MinMax &
+ * the Board class. We prompt the user for a depth & time. This is used for the
+ * min max algorithm.
  */
 
 public class UI {
@@ -12,70 +13,64 @@ public class UI {
 
     public void startGame(int depth) {
         int turns = 0;
-        
         UI userInterface = new UI();
         Scanner sc = new Scanner(System.in);
         final String OPPONENT = "O";
         final String COMP = "C";
 
-        // ask for time limit per move
         MinMaxAB.TIME_SET = userInterface.promptTimePerMove();
-        
-        // ask to see who chooses AI symbol.
+
         String currentMove = userInterface.whoGoesFirst();
-     
+
         String selectedFirst = currentMove;
         Board board = new Board(currentMove);
         board.setFirstPlayer(selectedFirst);
         String winnerWinnerChickenDinner;
-        
-        // use a variable or bool
+
         board.printBoard(turns);
 
         while (board.gameOver(COMP) && board.gameOver(OPPONENT)) {
-            //COMP turn
+            // PC's turn
             if (currentMove.equals(COMP)) {
-                //PVP
+
+                // ------This is used for PVP ---------
                 // String computerMove = userInterface.getMove(COMP);
                 // while (!board.validMove(computerMove, COMP)) {
-                //     System.out.println("Invalid input. Put in something legit.");
-                //     System.out.println("Current X position" + board.getOPosition());
-                //     computerMove = userInterface.getMove(COMP);
+                // System.out.println("Invalid input. Put in something legit.");
+                // System.out.println("Current X position" + board.getOPosition());
+                // computerMove = userInterface.getMove(COMP);
                 // }
                 // board.playerTurnToMove(computerMove, COMP);
 
-                //Min max
+                // ------ PvC -----------
                 board = MinMaxAB.MinMaxDecision(board, depth);
-                //find currentTime: endTime - StartTime
-                
                 board.logFile.add(board.getXPosition());
-                System.out.println("New Computer move: " + board.getXPosition());
+                System.out.println("Computer's move is: " + board.getXPosition());
 
                 turns++;
                 board.printBoard(turns);
-
-                //other player's turn
+                // Other's move
                 currentMove = OPPONENT;
-              
-            //Opponent turn
+
+                // Opponent's turn
             } else {
 
-                String opponentMove = userInterface.getMove(OPPONENT); //input opponent move
-                while (!board.validMove(opponentMove, OPPONENT)) {
+                String opponentMove = userInterface.getMove(OPPONENT);
+                while (!board.validMove(opponentMove, OPPONENT) && opponentMove.length() !=2) {
                     System.out.println("Invalid input. Put in something legit.");
                     System.out.println("Current O position: " + board.getOPosition());
+                    System.out.println();
                     opponentMove = userInterface.getMove(OPPONENT);
                 }
-                System.out.println("Player move is: " + opponentMove);
+                System.out.println("Player's move is: " + opponentMove);
                 board.playerTurnToMove(opponentMove, OPPONENT);
 
                 board.logFile.add(board.getOPosition());
-                System.out.println("New Opponent move: " + board.getOPosition());
                 turns++;
                 board.printBoard(turns);
-                //other player's turn
+                // Other's move
                 currentMove = COMP;
-              
+
             }
         }
         if (board.gameOver(COMP))
@@ -84,10 +79,9 @@ public class UI {
             winnerWinnerChickenDinner = "Opponent won!";
         }
         sc.close();
-
+        
         board.printBoard(turns);
-        System.out.println("---Game Over--- " + winnerWinnerChickenDinner);
-
+        System.out.println("\n\n---Game Over--- " + winnerWinnerChickenDinner);
     }
 
     public String whoGoesFirst() {
@@ -99,24 +93,19 @@ public class UI {
     }
 
     public String getMove(String player) {
-
         String move = "";
-
         if (player.equals("C")) {
-            while (move.length() != 2) {
                 System.out.println("Enter a valid computer move: ");
                 move = input.nextLine();
-            }
+            
         } else {
-            while (move.length() != 2) {
                 System.out.println("Enter a valid player move: ");
                 move = input.nextLine();
-            }
         }
         return move;
     }
 
-    public int promptTimePerMove(){
+    public int promptTimePerMove() {
         System.out.println("Enter the time limit per move in seconds: ");
         int time = input.nextInt();
         System.out.println("The time limit per move is : " + time);

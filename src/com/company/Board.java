@@ -2,6 +2,12 @@ package com.company;
 
 import java.util.ArrayList;
 
+/**
+ * The board class utilizes our methods to check for
+ * moves, copy constructor, validity for moves, our log 
+ * file & the print board method
+ */
+
 public class Board {
 
     private String[][] gameState;
@@ -18,31 +24,35 @@ public class Board {
     private String firstPlayer;
 
     public Board(String player) {
-        children = new ArrayList<>();
-        logFile = new ArrayList<>();
-        gameState = new String[boardLength][boardLength];
-        // This we check who is going first
-        if (player.equals("C")) {
-            gameState[0][0] = "X";
-            gameState[7][7] = "O";
-            currentXPosition = "A1"; // A1
-            currentOPosition = "H8"; // H8
-        } else {
-            gameState[7][7] = "X";
-            gameState[0][0] = "O";
-            currentXPosition = "H8"; // H8
-            currentOPosition = "A1"; // A1
-        }
         maxMovesO = 0;
         maxMovesX = 0;
         fitnessNum = 0;
+        children = new ArrayList<>();
+        logFile = new ArrayList<>();
+        gameState = new String[boardLength][boardLength];
+
+        // This checks who was selected to go first
+        if (player.equals("C")) {
+            gameState[0][0] = "X";
+            gameState[7][7] = "O";
+            currentXPosition = "A1";
+            currentOPosition = "H8";
+        } else {
+            gameState[7][7] = "X";
+            gameState[0][0] = "O";
+            currentXPosition = "H8";
+            currentOPosition = "A1";
+        }
     }
 
-    // copies board
-
+    // Copy constructor method
     public Board(Board board, int newRow, int newCol, String player2) {
-        gameState = copyBoard(board); // copies the original board.
+        gameState = copyBoard(board);
         this.logFile = board.logFile;
+        maxMovesO = 0;
+        maxMovesX = 0;
+        fitnessNum = 0;
+        firstPlayer = board.firstPlayer;
 
         // Change X to new position
         if (player2.equals("X")) {
@@ -61,12 +71,7 @@ public class Board {
             currentXPosition = board.getXPosition();
             // move O to new board index
             updateGameState(newRow, newCol, "O");
-            // move X to board index
         }
-        maxMovesO = 0;
-        maxMovesX = 0;
-        fitnessNum = 0;
-        firstPlayer = board.firstPlayer;
     }
 
     private String[][] copyBoard(Board board) {
@@ -77,39 +82,29 @@ public class Board {
         return copyBoard;
     }
 
-    public String[][] getGameState() {
-        return copyBoard(this);
-    }
-
-    // call isValid before calling updateGameState method
-    public void updateGameState(int newRowMove, int newColMove, String player) { // sample Code of how we utilize this
-        // method
+    // Update the game state
+    public void updateGameState(int newRowMove, int newColMove, String player) {
         int prevRow;
         int prevCol;
 
         if (player.equals("O")) {
-
             prevRow = getRowVal(currentOPosition);
             prevCol = getColVal(currentOPosition);
-            currentOPosition = stringValRow(newRowMove).concat(String.valueOf(newColMove + 1));
+            currentOPosition = getRowCharacter(newRowMove).concat(String.valueOf(newColMove + 1));
         }
         // Movement is X
         else {
-
             prevRow = getRowVal(currentXPosition);
             prevCol = getColVal(currentXPosition);
-            currentXPosition = stringValRow(newRowMove).concat(String.valueOf(newColMove + 1));
+            currentXPosition = getRowCharacter(newRowMove).concat(String.valueOf(newColMove + 1));
         }
-
         this.gameState[prevRow][prevCol] = "#";
-
         this.gameState[newRowMove][newColMove] = player;
-
     }
 
     public void playerTurnToMove(String moveInput, String currentPlayer) {
-        int rowVal = 0;
-        int columnVal = 0;
+        int rowVal;
+        int columnVal;
 
         if (currentPlayer.equals("O")) {
             rowVal = getRowVal(moveInput);
@@ -128,49 +123,15 @@ public class Board {
         }
     }
 
-    public int getRowVal(String input) { // input = "A3"
-        int rowVal = -1;
 
-        String letter = input.substring(0, 1).toUpperCase();
-
-        switch (letter) {
-            case "A":
-                rowVal = 0;
-                break;
-            case "B":
-                rowVal = 1;
-                break;
-            case "C":
-                rowVal = 2;
-                break;
-            case "D":
-                rowVal = 3;
-                break;
-            case "E":
-                rowVal = 4;
-                break;
-            case "F":
-                rowVal = 5;
-                break;
-            case "G":
-                rowVal = 6;
-                break;
-            case "H":
-                rowVal = 7;
-                break;
-        }
-        return rowVal;
-    }
-
-    public int getColVal(String moveInput) { // A4 [0][3]
-        return Integer.parseInt(moveInput.substring(1)) - 1;
-    }
-
-    // Our version of toString()
+    // This method prints the board 
     public void printBoard(int turns) {
+        //offset for StringBuilder
         int offset = 59;
-
         StringBuilder res = new StringBuilder();
+        int counter = 0;
+        int round = turns/2;
+        int index = 0;
 
         // Print title
         if (firstPlayer.equals("C"))
@@ -179,7 +140,7 @@ public class Board {
             res.append("  1 2 3 4 5 6 7 8" + "\t Opponent Vs. Computer\n");
 
         for (int i = 0; i < boardLength; i += 1) {
-            String letter = getCharacter(i);
+            String letter = getRowCharacter(i);
 
             res.append(letter).append(" ");
             for (int j = 0; j < boardLength; j += 1) {
@@ -191,15 +152,9 @@ public class Board {
             }
         }
 
-        int counter = 0;
-        // we print both
-        int round = (int) Math.ceil(turns / 2);
-        int index = 0;
-
         if (turns != 0) {
             // turns is even
             while (counter < round && counter < 8) {
-                // if turns == 0: break;
 
                 if (firstPlayer.equals("C")) {
                     res.insert(offset + 32 * counter, "\t   " + (counter + 1) + ". " + logFile.get(index) + " \t"
@@ -213,10 +168,8 @@ public class Board {
                 counter++;
             }
 
-            // if turns % 2 != 0 and turns < 8
             if (turns % 2 != 0 && counter < 8) {
                 if (firstPlayer.equals("C")) {
-
                     // turns X
                     if (turns % 2 != 0) {
                         res.insert(offset + 32 * counter,
@@ -231,7 +184,7 @@ public class Board {
                 }
 
                 else if (firstPlayer.equals("O")) {
-                    // Opponent turns. //that means if the first player
+                    // First person turns
                     if (turns % 2 != 0) {
                         res.insert(offset + counter * 32,
                                 "\t   " + (counter + 1) + ". " + logFile.get(turns - 1) + " \t  \n");
@@ -244,22 +197,18 @@ public class Board {
                 }
             }
         }
-
-        // pre fill place holders
-        // run last
+        //place holders (no rounds)
         for (int k = counter; k < 8; k++) {
-            // 9 space between gap for fill
-            // 2 spaces after gap
             res.insert(offset + 32 * k, "\t         \t  \n");
         }
 
-        System.out.print(res.toString()); // 0 - 15 moves
-        // after we pass the size of the board we print this. logfile.size() = 16
+        System.out.print(res.toString());
+        // After we pass the size of the board we print this
         int countHolder = 9;
         for (int j = 16; j < turns; j++) {
-            if (j % 2 == 0) { // first player
+            if (j % 2 == 0) {
                 System.out.print("\t\t\t   " + (countHolder) + ". " + logFile.get(j) + "\t");
-            } else { // second player
+            } else {
                 System.out.println(logFile.get(j));
                 countHolder += 1;
             }
@@ -267,36 +216,13 @@ public class Board {
         System.out.println();
     }
 
-    public String getXPosition() {
-        return currentXPosition;
-    }
-
-    public String getOPosition() {
-        return currentOPosition;
-    }
-
-    public String getORowNum() {
-        return currentOPosition;
-    }
-
-    public String getOColNum() {
-        return currentOPosition;
-    }
-
-    public String getXRowNum() {
-        return currentXPosition;
-    }
-
-    public String getXColNum() {
-        return currentXPosition;
-    }
-
-    // Check if the position is null
     public boolean isOccupied(int rowNum, int colNum) {
         return gameState[rowNum][colNum] != null;
     }
+    
+    // These methods check the position for validity & movements 
 
-    public boolean isNorth(String moveInput, String currentPlayer) // check if the intended move is North
+    public boolean isNorth(String moveInput, String currentPlayer)
     {
         int nextRowVal = getRowVal(moveInput);
         int nextColumnVal = getColVal(moveInput);
@@ -316,7 +242,7 @@ public class Board {
         return false;
     }
 
-    public boolean isSouth(String moveInput, String currentPlayer) // check if the intended move is South
+    public boolean isSouth(String moveInput, String currentPlayer)
     {
         int nextRowVal = getRowVal(moveInput);
         int nextColumnVal = getColVal(moveInput);
@@ -336,7 +262,7 @@ public class Board {
         return false;
     }
 
-    public boolean isEast(String moveInput, String currentPlayer) // check if the intended move is East
+    public boolean isEast(String moveInput, String currentPlayer) 
     {
         int nextRowVal = getRowVal(moveInput);
         int nextColumnVal = getColVal(moveInput);
@@ -356,7 +282,7 @@ public class Board {
         return false;
     }
 
-    public boolean isWest(String moveInput, String currentPlayer) // check if the intended move is West
+    public boolean isWest(String moveInput, String currentPlayer) 
     {
         int nextRowVal = getRowVal(moveInput);
         int nextColumnVal = getColVal(moveInput);
@@ -376,7 +302,7 @@ public class Board {
         return false;
     }
 
-    public boolean isNW(String moveInput, String currentPlayer) // check if the intended move is NW
+    public boolean isNW(String moveInput, String currentPlayer) 
     {
         int nextRowVal = getRowVal(moveInput);
         int nextColumnVal = getColVal(moveInput);
@@ -403,7 +329,7 @@ public class Board {
         return false;
     }
 
-    public boolean isSE(String moveInput, String currentPlayer) // check if the intended move is SE
+    public boolean isSE(String moveInput, String currentPlayer) 
     {
         int nextRowVal = getRowVal(moveInput);
         int nextColumnVal = getColVal(moveInput);
@@ -429,7 +355,7 @@ public class Board {
         return false;
     }
 
-    public boolean isNE(String moveInput, String currentPlayer) // check if the intended move is SE
+    public boolean isNE(String moveInput, String currentPlayer) 
     {
         int nextRowVal = getRowVal(moveInput);
         int nextColumnVal = getColVal(moveInput);
@@ -454,7 +380,7 @@ public class Board {
         return false;
     }
 
-    public boolean isSW(String moveInput, String currentPlayer) // check if the intended move is SW
+    public boolean isSW(String moveInput, String currentPlayer) 
     {
         int nextRowVal = getRowVal(moveInput);
         int nextColumnVal = getColVal(moveInput);
@@ -478,21 +404,23 @@ public class Board {
 
         return false;
     }
+
+
 
     public boolean isDiagonal(String moveInput, String currentPlayer) {
         return isNW(moveInput, currentPlayer) || isNE(moveInput, currentPlayer) || isSW(moveInput, currentPlayer)
                 || isSE(moveInput, currentPlayer);
-    } // check if intended move is Diagonal
+    } 
 
     public boolean isHorizontal(String moveInput, String currentPlayer) {
         return isEast(moveInput, currentPlayer) || isWest(moveInput, currentPlayer);
-    } // check if intended move is Horizontal
+    } 
 
     public boolean isVertical(String moveInput, String currentPlayer) {
         return isNorth(moveInput, currentPlayer) || isSouth(moveInput, currentPlayer);
-    } // check if intended move is Vertical
+    } 
 
-    public boolean validMove(String moveInput, String currentPlayer) { // check if there are forks in the road
+    public boolean validMove(String moveInput, String currentPlayer) {
         int nextRowVal = getRowVal(moveInput);
         int nextColumnVal = getColVal(moveInput);
 
@@ -508,23 +436,23 @@ public class Board {
             return false;
         }
 
-        if (moveInput.length() > 2) // A22
+        if (moveInput.length() > 2) 
             return false;
 
         if (currentPlayer.equals("C")) {
             int currentRowVal = getRowVal(currentXPosition);
             int currentColumnVal = getColVal(currentXPosition);
 
-            if (isVertical(moveInput, currentPlayer)) { // check for occupied spaces vertically
+            if (isVertical(moveInput, currentPlayer)) { 
                 if (isSouth(moveInput, currentPlayer)) {
                     for (int i = currentRowVal + 1; i < nextRowVal; i++) {
-                        if (this.gameState[i][currentColumnVal] != null) // there is a spot occupied here
+                        if (this.gameState[i][currentColumnVal] != null) 
                             return false;
                     }
                 }
                 if (isNorth(moveInput, currentPlayer)) {
-                    for (int i = currentRowVal - 1; nextRowVal > i; i++) { // check this
-                        if (this.gameState[i][currentColumnVal] != null) // there is a spot occupied here
+                    for (int i = currentRowVal - 1; nextRowVal > i; i++) {
+                        if (this.gameState[i][currentColumnVal] != null) 
                             return false;
                     }
                 }
@@ -532,14 +460,14 @@ public class Board {
                 if (isWest(moveInput, currentPlayer)) {
                     for (int i = currentColumnVal - 1; i > nextColumnVal; i--) {
 
-                        if (this.gameState[currentRowVal][i] != null) // there is a spot occupied here
+                        if (this.gameState[currentRowVal][i] != null) 
                             return false;
                     }
                 }
                 if (isEast(moveInput, currentPlayer)) {
                     for (int i = currentColumnVal + 1; i < nextColumnVal; i++) {
 
-                        if (this.gameState[currentRowVal][i] != null) // there is a spot occupied here
+                        if (this.gameState[currentRowVal][i] != null) 
                             return false;
                     }
                 }
@@ -547,20 +475,20 @@ public class Board {
                 return checkDiagonal(moveInput, currentPlayer, nextRowVal, currentRowVal, currentColumnVal);
             }
         } else if (currentPlayer.equals("O")) {
-            int currentRowVal = getRowVal(currentOPosition); // A3 its getting the array index of A
-            int currentColumnVal = getColVal(currentOPosition); // A3 its getting the index 3-1 so 2
+            int currentRowVal = getRowVal(currentOPosition); 
+            int currentColumnVal = getColVal(currentOPosition); 
 
-            if (isVertical(moveInput, currentPlayer)) { // check for occupied spaces vertically
+            if (isVertical(moveInput, currentPlayer)) { 
                 if (isSouth(moveInput, currentPlayer)) {
                     for (int i = currentRowVal + 1; i < nextRowVal; i++) {
-                        if (this.gameState[i][currentColumnVal] != null) // there is a spot occupied here
+                        if (this.gameState[i][currentColumnVal] != null) // 
                             return false;
                     }
                 }
                 if (isNorth(moveInput, currentPlayer)) {
                     System.out.println("its going in is north");
-                    for (int i = currentRowVal - 1; nextRowVal > i; i++) { // check this
-                        if (this.gameState[i][currentColumnVal] != null) // there is a spot occupied here
+                    for (int i = currentRowVal - 1; nextRowVal > i; i++) { 
+                        if (this.gameState[i][currentColumnVal] != null) 
                             return false;
                     }
                 }
@@ -569,7 +497,7 @@ public class Board {
                     System.out.println("its going in is west");
                     for (int i = currentRowVal; i > nextRowVal; i--) {
 
-                        if (this.gameState[currentRowVal][i] != null) { // there is a spot occupied here
+                        if (this.gameState[currentRowVal][i] != null) { 
                             System.out.println("GOING WEST != null");
                             return false;
                         }
@@ -581,7 +509,7 @@ public class Board {
 
                     for (int i = currentColumnVal + 1; i < nextColumnVal; i++) {
 
-                        if (this.gameState[currentRowVal][i] != null) // there is a spot occupied here
+                        if (this.gameState[currentRowVal][i] != null) 
                         {
                             System.out.println("GOING EAST != null");
                             return false;
@@ -599,7 +527,7 @@ public class Board {
             int currentColumnVal) {
         if (isDiagonal(moveInput, currentPlayer)) {
 
-            if (isNW(moveInput, currentPlayer)) { // check this
+            if (isNW(moveInput, currentPlayer)) { 
                 int col = currentColumnVal - 1;
 
                 for (int i = currentRowVal - 1; i > nextRowVal; i--) {
@@ -610,7 +538,7 @@ public class Board {
                 }
             }
 
-            if (isSE(moveInput, currentPlayer)) { // WORKS!!!
+            if (isSE(moveInput, currentPlayer)) {
                 int col = currentColumnVal + 1;
                 for (int i = currentRowVal + 1; i < nextRowVal; i++) {
                     if (this.gameState[i][col] != null) {
@@ -669,7 +597,7 @@ public class Board {
         }
 
         return false;
-    } // check to see if current position can move south
+    } 
 
     public boolean canMoveNorth(String currentPlayer) {
 
@@ -695,7 +623,7 @@ public class Board {
         }
 
         return false;
-    } // check to see if current position can move north
+    } 
 
     public boolean canMoveWest(String currentPlayer) {
 
@@ -720,7 +648,7 @@ public class Board {
         }
 
         return false;
-    } // check to see if current position can move west
+    } 
 
     public boolean canMoveEast(String currentPlayer) {
 
@@ -745,7 +673,7 @@ public class Board {
         }
 
         return false;
-    } // check to see if current position can move east
+    }
 
     public boolean canMoveNE(String currentPlayer) {
         if (currentPlayer.equals("O")) {
@@ -770,7 +698,7 @@ public class Board {
         }
 
         return false;
-    } // check to see if current position can move NE
+    } 
 
     public boolean canMoveNW(String currentPlayer) {
         if (currentPlayer.equals("O")) {
@@ -795,7 +723,7 @@ public class Board {
         }
 
         return false;
-    } // check to see if current position can move NW
+    }
 
     public boolean canMoveSE(String currentPlayer) {
         if (currentPlayer.equals("O")) {
@@ -820,7 +748,7 @@ public class Board {
         }
 
         return false;
-    } // check to see if current position can move SE
+    } 
 
     public boolean canMoveSW(String currentPlayer) {
         if (currentPlayer.equals("O")) {
@@ -845,31 +773,55 @@ public class Board {
         }
 
         return false;
-    } // check to see if current position can move SW
+    } 
 
-    public boolean canMoveHorizontal(String currentPlayer) {
+    public boolean canMoveHorizontal(String currentPlayer) {  
         return canMoveEast(currentPlayer) || canMoveWest(currentPlayer);
     }
 
-    public boolean canMoveVertical(String currentPlayer) {
+    public boolean canMoveVertical(String currentPlayer) { 
         return canMoveSouth(currentPlayer) || canMoveNorth(currentPlayer);
     }
 
-    public boolean canMoveDiagonal(String currentPlayer) {
+    public boolean canMoveDiagonal(String currentPlayer) { 
         return canMoveNE(currentPlayer) || canMoveNW(currentPlayer) || canMoveSE(currentPlayer)
                 || canMoveSW(currentPlayer);
     }
 
-    // gameOver when there are no more moves to make.
-    public boolean gameOver(String currentPlayer) {
-        return canMoveHorizontal(currentPlayer) || canMoveDiagonal(currentPlayer) || canMoveVertical(currentPlayer);
-    }
+    public int getRowVal(String input) {
+    int rowVal = -1;
+    String letter = input.substring(0, 1).toUpperCase();
 
-    public String stringValRow(int i) {
-        return getCharacter(i);
+    switch (letter) {
+        case "A":
+            rowVal = 0;
+            break;
+        case "B":
+            rowVal = 1;
+            break;
+        case "C":
+            rowVal = 2;
+            break;
+        case "D":
+            rowVal = 3;
+            break;
+        case "E":
+            rowVal = 4;
+            break;
+        case "F":
+            rowVal = 5;
+            break;
+        case "G":
+            rowVal = 6;
+            break;
+        case "H":
+            rowVal = 7;
+            break;
     }
+    return rowVal;
+}
 
-    private String getCharacter(int i) {
+    private String getRowCharacter(int i) { 
         String letter;
 
         if (i == 0)
@@ -896,44 +848,69 @@ public class Board {
         this.fitnessNum = num;
     }
 
-    public int getFitnessFunction() {
-        return fitnessNum;
-    }
-
-    public int getNumberOfMovesX() {
-        return this.maxMovesX;
-    }
-
     public void setNumberOfMovesX(int num) {
         this.maxMovesX = num;
     }
 
-    // change the number of moves for Opponent
     public void setNumberOfMovesO(int size) {
         this.maxMovesO = size;
     }
-
-    public int getNumberOfMovesO() {
-        return this.maxMovesO;
-    }
-
-    // public void incrementRound() {
-    // this.boardRound++;
-    // }
-
-    // public int getRound() {
-    // return this.boardRound;
-    // }
-
-    public ArrayList<Board> getChildren() {
-        return this.children;
-    }
-
     public void setChildren(ArrayList<Board> successors) {
         this.children = successors;
     }
 
     public void setFirstPlayer(String selectedFirst) {
         this.firstPlayer = selectedFirst;
+    }
+
+    public int getFitnessFunction() {
+        return fitnessNum;
+    }
+
+    public int getNumberOfMovesX() { 
+        return this.maxMovesX;
+    }
+    public int getColVal(String moveInput) { 
+        return Integer.parseInt(moveInput.substring(1)) - 1;
+    }    
+
+    public int getNumberOfMovesO() { 
+        return this.maxMovesO;
+    }
+
+    public ArrayList<Board> getChildren() { 
+        return this.children;
+    }
+
+    public String[][] getGameState() {
+        return copyBoard(this);
+    }
+
+    public String getXPosition() {
+        return currentXPosition;
+    }
+
+    public String getOPosition() {
+        return currentOPosition;
+    }
+
+    public String getORowNum() {
+        return currentOPosition;
+    }
+
+    public String getOColNum() {
+        return currentOPosition;
+    }
+
+    public String getXRowNum() {
+        return currentXPosition;
+    }
+
+    public String getXColNum() {
+        return currentXPosition;
+    }
+
+    public boolean gameOver(String currentPlayer) {
+        return canMoveHorizontal(currentPlayer) || canMoveDiagonal(currentPlayer) || canMoveVertical(currentPlayer);
     }
 }

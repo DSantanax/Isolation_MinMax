@@ -3,135 +3,162 @@ package com.company;
 import java.util.ArrayList;
 
 /**
- * Implement 'depth' after completing MinMax with AB pruning for efficiency.
+ * The min max implementation returns a Board after the timer is up or the a
+ * given depth has been reached. This uses a heuristic (evaluation function) of
+ * the number of moves available for the PC. 
  * 
- * TODO: Cut off timer
  */
 
 public class MinMaxAB {
     public static int TIME_SET;
     public static long START_TIME;
-      //Board boardToReturnWhenTimeExceeded = null;
 
-    public static Board MinMaxDecision(Board state, int depth) { // choose best board
-        // long startTime = System.currentTimeMillis(); //starts the time
-        System.out.println(TIME_SET);
-        START_TIME = System.currentTimeMillis()/1000;
-        System.out.println(START_TIME);
+    public static Board MinMaxDecision(Board state, int depth) {
+
+        // Set timer
+        START_TIME = System.currentTimeMillis() / 1000;
+        // Return Max value
         int maxValue = maxValue(state, Integer.MIN_VALUE, Integer.MAX_VALUE, depth);
-        // return state.max = max   
+
+        // search for the max value of the given State's children
         ArrayList<Board> children = state.getChildren();
         Board bestBoard = children.get(0);
-        for(Board child : children){
-            if(child.getFitnessFunction() == maxValue){   
+        for (Board child : children) {
+            if (child.getFitnessFunction() == maxValue) {
                 return child;
-            }  
+            }
         }
-        
-       System.out.println(maxValue);
         return bestBoard;
     }
 
-    // Main Comp player is MaxValue
+    /**
+     * The max value returns the best possible Board based on the best heuristic
+     * (utility)
+     * 
+     * @param state - The Board
+     * @param alpha - Alpha tries to maximize
+     * @param beta  - Beta tries to minimize
+     * @param depth - Depth of current search
+     * @return - return the best board for min
+     */
     private static int maxValue(Board state, int alpha, int beta, int depth) {
-         long elapsedTime = ((System.currentTimeMillis()/1000)- START_TIME); //starts the time
-        System.out.println(elapsedTime);
-        // generates successor for O player (MAX PLAYER)
+        long elapsedTime = ((System.currentTimeMillis() / 1000) - START_TIME);
+
+        // Generate the successors (children) of the current Board
+        // In other words the action available in 1 move
         ArrayList<Board> successor = PossibleBoards.generateSuccessors(state, "X");
-        System.out.println(elapsedTime);
-        if(elapsedTime >= TIME_SET){
+
+        // If statements check whether the we return based on
+        // time, end state, or depth, respectively.
+        if (elapsedTime >= TIME_SET) {
             return utility(state, "X");
         }
-        // return board here the best board with value X
+
         if (terminalTest(state, "X")) {
-            // set final Board here
-            // PossibleBoards.generateSuccessors(state, "X");
-            return utility(state, "X");
-        }
-        
-        if (depth == 0) { // can end time here   IF DEPTH == 0 or elapsedTime > timeLimit:
-            // also the gen successors changed to inverse
             return utility(state, "X");
         }
 
-        int value = Integer.MIN_VALUE; // -inf
+        if (depth == 0) {
+            return utility(state, "X");
+        }
+        // Initially set to -INF
+        int value = Integer.MIN_VALUE;
 
-        // add states to function to loop through them
-        // passing each action of the current state
-
+        // Loop through the successors (children) of the given state.
         for (Board child : successor) {
-            value = Math.max(value, minValue(child, alpha, beta, depth - 1)); // value is maxEVAL
+            value = Math.max(value, minValue(child, alpha, beta, depth - 1));
             child.setFitnessFunction(value);
+
+            // set the best value for Max
             if (value >= beta) {
-                // set board with best value as actual board to Move to
-             
                 return value;
             }
-            // add break with depth == 0
-            
-            //if v' > alpha v = alpha
+            // if v' > alpha v = alpha
             alpha = Math.max(alpha, value);
 
         }
         return value;
     }
 
-    // Main opponent is Min value
-    private static int minValue(Board state, int alpha, int beta, int depth) {
-         //starts the time
-        long elapsedTime = ((System.currentTimeMillis()/1000)- START_TIME); //starts the time
+    /**
+     * The min value returns the the best possible Board based on the lowest
+     * heuristic value (utility) test.
+     * 
+     * @param state - The Board
+     * @param alpha - Minimize alpha
+     * @param beta  - Maximize beta
+     * @param depth - The current depth of the state
+     * @return - returns the best board for min
+     * 
+     */
 
-        // generates successor for X player (MIN PLAYER)
+    private static int minValue(Board state, int alpha, int beta, int depth) {
+        long elapsedTime = ((System.currentTimeMillis() / 1000) - START_TIME);
+
+        // generate successors (children) for the Player
         ArrayList<Board> successor = PossibleBoards.generateSuccessors(state, "O");
-        
-        if(elapsedTime >= TIME_SET){
+
+        // If statements check whether the we return based on
+        // time, end state, or depth, respectively.
+        if (elapsedTime >= TIME_SET) {
             return utility(state, "O");
         }
 
         if (terminalTest(state, "O")) {
-            // set final Board here
             return utility(state, "O");
         }
 
-        if (depth == 0) { //IF DEPTH == 0 or elapsedTime > timeLimit:
+        if (depth == 0) {
             return utility(state, "O");
         }
-
+        // Max value is initially set to +INF
         int value = Integer.MAX_VALUE;
 
-        // find actions is successors
+        // Find the successors(children) of the current state
+        // In other words the action available in 1 move
         for (Board child : successor) {
             value = Math.min(value, maxValue(child, alpha, beta, depth - 1));
             child.setFitnessFunction(value);
             if (value <= alpha) {
-                
                 return value;
             }
             beta = Math.min(beta, value);
-
         }
         return value;
     }
-    
+
+    /**
+     * The utility function is our (evaluation/heuristic) this returns the Board's
+     * value which we use to calculate for min & max based on the number of moves
+     * available.
+     * 
+     * @param state  - The current state to check heuristic
+     * @param player - The player we wish to generate the other's children used for
+     *               heuristic
+     * @return - The heuristic value of the given state
+     */
     private static int utility(Board state, String player) {
-        //get successors for X
-        if(player.equals("X"))
+        if (player.equals("X"))
             PossibleBoards.generateSuccessors(state, "O");
-        else{
-            //get successors for O
+        else {
             PossibleBoards.generateSuccessors(state, "X");
         }
-        return state.getNumberOfMovesX() * 2 - state.getNumberOfMovesO(); // max Moves - minMoves. AN INT
+        return state.getNumberOfMovesX() * 2 - state.getNumberOfMovesO();
     }
 
-    // Check if their is moves available
+    /**
+     * The terminal test checks whether the state (board) has any movement left
+     * 
+     * @param state  - Current state to test
+     * @param player - The player we wish to check their moves
+     * @return - if there is no more moves available
+     * 
+     */
+
     private static boolean terminalTest(Board state, String player) {
-        // Check if number of moves for X is 0 then over
         if (player.equals("X")) {
             return state.getNumberOfMovesX() == 0;
-        }
-        // Check if number of moves for O is 0 then over
-        else
+        } else
             return state.getNumberOfMovesO() == 0;
     }
 }
