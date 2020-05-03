@@ -9,46 +9,39 @@ import java.util.ArrayList;
  */
 
 public class MinMaxAB {
-      long startTime = 0;
-      long currentTime = 0;
+    public static int TIME_SET;
+    public static long START_TIME;
       //Board boardToReturnWhenTimeExceeded = null;
 
     public static Board MinMaxDecision(Board state, int depth) { // choose best board
         // long startTime = System.currentTimeMillis(); //starts the time
-
+        System.out.println(TIME_SET);
+        START_TIME = System.currentTimeMillis()/1000;
+        System.out.println(START_TIME);
         int maxValue = maxValue(state, Integer.MIN_VALUE, Integer.MAX_VALUE, depth);
         // return state.max = max   
         ArrayList<Board> children = state.getChildren();
         Board bestBoard = children.get(0);
         for(Board child : children){
-            if(child.getFitnessFunction() == maxValue){
-                
+            if(child.getFitnessFunction() == maxValue){   
                 return child;
-            }
-            /*
-            if (startTime > Time limit){ //if time is exceeded 
-                return child;
-            }
-            */
+            }  
         }
         
-        // if (startTime > Time limit){//if time exceeded here then return best board
-        //   
-        //         throw new RuntimeException();
-        // }
-
-
-        System.out.println(maxValue);
+       System.out.println(maxValue);
         return bestBoard;
     }
 
     // Main Comp player is MaxValue
     private static int maxValue(Board state, int alpha, int beta, int depth) {
-        // long elapsedTime = (System.currentTimeMillis()- startTime) * 100000; //starts the time
-
+         long elapsedTime = ((System.currentTimeMillis()/1000)- START_TIME); //starts the time
+        System.out.println(elapsedTime);
         // generates successor for O player (MAX PLAYER)
         ArrayList<Board> successor = PossibleBoards.generateSuccessors(state, "X");
-
+        System.out.println(elapsedTime);
+        if(elapsedTime >= TIME_SET){
+            return utility(state, "X");
+        }
         // return board here the best board with value X
         if (terminalTest(state, "X")) {
             // set final Board here
@@ -85,11 +78,16 @@ public class MinMaxAB {
 
     // Main opponent is Min value
     private static int minValue(Board state, int alpha, int beta, int depth) {
-        // long elapsedTime = (System.currentTimeMillis()- startTime) * 100000; //starts the time
+         //starts the time
+        long elapsedTime = ((System.currentTimeMillis()/1000)- START_TIME); //starts the time
 
         // generates successor for X player (MIN PLAYER)
         ArrayList<Board> successor = PossibleBoards.generateSuccessors(state, "O");
         
+        if(elapsedTime >= TIME_SET){
+            return utility(state, "O");
+        }
+
         if (terminalTest(state, "O")) {
             // set final Board here
             return utility(state, "O");

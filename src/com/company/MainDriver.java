@@ -23,12 +23,11 @@ public class MainDriver{
      */
 
     // TODO: clean code, no duplicates
-    // TODO: add timer
     //TODO: fix crash depth is long
 
     //Main starts the game
     public static void main(String[] args) {
-        final int depth = 5;
+        final int depth = 6;
         UI game = new UI();
         game.startGame(depth);
     }

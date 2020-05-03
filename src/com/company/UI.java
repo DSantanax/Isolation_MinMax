@@ -19,7 +19,7 @@ public class UI {
         final String COMP = "C";
 
         // ask for time limit per move
-        int timeLimit = userInterface.promptTimePerMove();
+        MinMaxAB.TIME_SET = userInterface.promptTimePerMove();
         
         // ask to see who chooses AI symbol.
         String currentMove = userInterface.whoGoesFirst();
@@ -33,12 +33,6 @@ public class UI {
         board.printBoard(turns);
 
         while (board.gameOver(COMP) && board.gameOver(OPPONENT)) {
-
-            //TODO: fix to print out log
-            // if(!currentMove.equals(selectedFirst)){ 
-            //     board.incrementRound();          
-            // }
-
             //COMP turn
             if (currentMove.equals(COMP)) {
                 //PVP
@@ -51,15 +45,12 @@ public class UI {
                 // board.playerTurnToMove(computerMove, COMP);
 
                 //Min max
-                //Time here
                 board = MinMaxAB.MinMaxDecision(board, depth);
                 //find currentTime: endTime - StartTime
                 
-                //then throw
                 board.logFile.add(board.getXPosition());
                 System.out.println("New Computer move: " + board.getXPosition());
 
-                //always print
                 turns++;
                 board.printBoard(turns);
 
@@ -107,7 +98,7 @@ public class UI {
         return firstMove;
     }
 
-    public String getMove(String player) { // function will get modified to implement min max
+    public String getMove(String player) {
 
         String move = "";
 
@@ -126,12 +117,10 @@ public class UI {
     }
 
     public int promptTimePerMove(){
-        System.out.println("Enter the time limit per move: ");
+        System.out.println("Enter the time limit per move in seconds: ");
         int time = input.nextInt();
-        System.out.println("The time limit per move is :" + time);
+        System.out.println("The time limit per move is : " + time);
         input.nextLine();
         return time;
     }
-
-
 }
