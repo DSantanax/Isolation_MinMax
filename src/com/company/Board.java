@@ -15,8 +15,6 @@ public class Board {
     private final int boardLength = 8;
     private String currentXPosition;
     private String currentOPosition;
-    private String opponentPiece = "O";
-    private String computerPiece = "X";
     private int maxMovesX;
     private int maxMovesO;
     private int fitnessNum;
@@ -110,14 +108,16 @@ public class Board {
             rowVal = getRowVal(moveInput);
             columnVal = getColVal(moveInput);
 
-            updateGameState(rowVal, columnVal, this.opponentPiece);
+            String opponentPiece = "O";
+            updateGameState(rowVal, columnVal, opponentPiece);
             this.currentOPosition = moveInput;
 
         } else if (currentPlayer.equals("C")) {
 
             rowVal = getRowVal(moveInput);
             columnVal = getColVal(moveInput);
-            updateGameState(rowVal, columnVal, this.computerPiece);
+            String computerPiece = "X";
+            updateGameState(rowVal, columnVal, computerPiece);
 
             this.currentXPosition = moveInput;
         }
@@ -130,7 +130,7 @@ public class Board {
         int offset = 59;
         StringBuilder res = new StringBuilder();
         int counter = 0;
-        int round = turns/2;
+        int round = turns / 2;
         int index = 0;
 
         // Print title
@@ -181,9 +181,7 @@ public class Board {
                                 "\t   " + (counter + 1) + ". " + logFile.get(turns - 1) + " \t  \n");
                         counter++;
                     }
-                }
-
-                else if (firstPlayer.equals("O")) {
+                } else if (firstPlayer.equals("O")) {
                     // First person turns
                     if (turns % 2 != 0) {
                         res.insert(offset + counter * 32,
@@ -219,11 +217,10 @@ public class Board {
     public boolean isOccupied(int rowNum, int colNum) {
         return gameState[rowNum][colNum] != null;
     }
-    
+
     // These methods check the position for validity & movements 
 
-    public boolean isNorth(String moveInput, String currentPlayer)
-    {
+    public boolean isNorth(String moveInput, String currentPlayer) {
         int nextRowVal = getRowVal(moveInput);
         int nextColumnVal = getColVal(moveInput);
 
@@ -238,12 +235,10 @@ public class Board {
 
             return currentColumnVal == nextColumnVal && nextRowVal < currentRowVal;
         }
-
         return false;
     }
 
-    public boolean isSouth(String moveInput, String currentPlayer)
-    {
+    public boolean isSouth(String moveInput, String currentPlayer) {
         int nextRowVal = getRowVal(moveInput);
         int nextColumnVal = getColVal(moveInput);
 
@@ -258,12 +253,10 @@ public class Board {
 
             return currentColumnVal == nextColumnVal && nextRowVal > currentRowVal;
         }
-
         return false;
     }
 
-    public boolean isEast(String moveInput, String currentPlayer) 
-    {
+    public boolean isEast(String moveInput, String currentPlayer) {
         int nextRowVal = getRowVal(moveInput);
         int nextColumnVal = getColVal(moveInput);
 
@@ -278,12 +271,10 @@ public class Board {
 
             return currentRowVal == nextRowVal && currentColumnVal < nextColumnVal;
         }
-
         return false;
     }
 
-    public boolean isWest(String moveInput, String currentPlayer) 
-    {
+    public boolean isWest(String moveInput, String currentPlayer) {
         int nextRowVal = getRowVal(moveInput);
         int nextColumnVal = getColVal(moveInput);
 
@@ -298,12 +289,10 @@ public class Board {
 
             return currentRowVal == nextRowVal && currentColumnVal > nextColumnVal;
         }
-
         return false;
     }
 
-    public boolean isNW(String moveInput, String currentPlayer) 
-    {
+    public boolean isNW(String moveInput, String currentPlayer) {
         int nextRowVal = getRowVal(moveInput);
         int nextColumnVal = getColVal(moveInput);
 
@@ -315,7 +304,6 @@ public class Board {
             int colDifference = currentColumnVal - nextColumnVal;
 
             return colDifference == rowDifference && currentRowVal > nextRowVal;
-
         } else if (currentPlayer.equals("C")) {
             int currentRowVal = getRowVal(currentXPosition);
             int currentColumnVal = getColVal(currentXPosition);
@@ -325,12 +313,10 @@ public class Board {
 
             return colDifference == rowDifference && currentRowVal > nextRowVal;
         }
-
         return false;
     }
 
-    public boolean isSE(String moveInput, String currentPlayer) 
-    {
+    public boolean isSE(String moveInput, String currentPlayer) {
         int nextRowVal = getRowVal(moveInput);
         int nextColumnVal = getColVal(moveInput);
 
@@ -351,12 +337,10 @@ public class Board {
 
             return colDifference == rowDifference && currentRowVal < nextRowVal;
         }
-
         return false;
     }
 
-    public boolean isNE(String moveInput, String currentPlayer) 
-    {
+    public boolean isNE(String moveInput, String currentPlayer) {
         int nextRowVal = getRowVal(moveInput);
         int nextColumnVal = getColVal(moveInput);
 
@@ -376,12 +360,10 @@ public class Board {
 
             return (currentColumnVal + rowDifference) == nextColumnVal;
         }
-
         return false;
     }
 
-    public boolean isSW(String moveInput, String currentPlayer) 
-    {
+    public boolean isSW(String moveInput, String currentPlayer) {
         int nextRowVal = getRowVal(moveInput);
         int nextColumnVal = getColVal(moveInput);
 
@@ -401,24 +383,22 @@ public class Board {
 
             return rowDifference == (currentColumnVal - nextColumnVal);
         }
-
         return false;
     }
-
 
 
     public boolean isDiagonal(String moveInput, String currentPlayer) {
         return isNW(moveInput, currentPlayer) || isNE(moveInput, currentPlayer) || isSW(moveInput, currentPlayer)
                 || isSE(moveInput, currentPlayer);
-    } 
+    }
 
     public boolean isHorizontal(String moveInput, String currentPlayer) {
         return isEast(moveInput, currentPlayer) || isWest(moveInput, currentPlayer);
-    } 
+    }
 
     public boolean isVertical(String moveInput, String currentPlayer) {
         return isNorth(moveInput, currentPlayer) || isSouth(moveInput, currentPlayer);
-    } 
+    }
 
     public boolean validMove(String moveInput, String currentPlayer) {
         int nextRowVal = getRowVal(moveInput);
@@ -435,90 +415,56 @@ public class Board {
         if (isOccupied(nextRowVal, nextColumnVal)) {
             return false;
         }
-
-        if (moveInput.length() > 2) 
+        if (moveInput.length() > 2)
             return false;
 
         if (currentPlayer.equals("C")) {
             int currentRowVal = getRowVal(currentXPosition);
             int currentColumnVal = getColVal(currentXPosition);
-
-            if (isVertical(moveInput, currentPlayer)) { 
-                if (isSouth(moveInput, currentPlayer)) {
-                    for (int i = currentRowVal + 1; i < nextRowVal; i++) {
-                        if (this.gameState[i][currentColumnVal] != null) 
-                            return false;
-                    }
-                }
-                if (isNorth(moveInput, currentPlayer)) {
-                    for (int i = currentRowVal - 1; nextRowVal > i; i++) {
-                        if (this.gameState[i][currentColumnVal] != null) 
-                            return false;
-                    }
-                }
-            } else if (isHorizontal(moveInput, currentPlayer)) {
-                if (isWest(moveInput, currentPlayer)) {
-                    for (int i = currentColumnVal - 1; i > nextColumnVal; i--) {
-
-                        if (this.gameState[currentRowVal][i] != null) 
-                            return false;
-                    }
-                }
-                if (isEast(moveInput, currentPlayer)) {
-                    for (int i = currentColumnVal + 1; i < nextColumnVal; i++) {
-
-                        if (this.gameState[currentRowVal][i] != null) 
-                            return false;
-                    }
-                }
-            } else {
-                return checkDiagonal(moveInput, currentPlayer, nextRowVal, currentRowVal, currentColumnVal);
-            }
+            return validMoveHelper(currentRowVal, currentColumnVal, moveInput, currentPlayer, nextRowVal, nextColumnVal);
         } else if (currentPlayer.equals("O")) {
-            int currentRowVal = getRowVal(currentOPosition); 
-            int currentColumnVal = getColVal(currentOPosition); 
-
-            if (isVertical(moveInput, currentPlayer)) { 
-                if (isSouth(moveInput, currentPlayer)) {
-                    for (int i = currentRowVal + 1; i < nextRowVal; i++) {
-                        if (this.gameState[i][currentColumnVal] != null) // 
-                            return false;
-                    }
-                }
-                if (isNorth(moveInput, currentPlayer)) {
-                    System.out.println("its going in is north");
-                    for (int i = currentRowVal - 1; nextRowVal > i; i++) { 
-                        if (this.gameState[i][currentColumnVal] != null) 
-                            return false;
-                    }
-                }
-            } else if (isHorizontal(moveInput, currentPlayer)) {
-                if (isWest(moveInput, currentPlayer)) {
-                    System.out.println("its going in is west");
-                    for (int i = currentRowVal; i > nextRowVal; i--) {
-
-                        if (this.gameState[currentRowVal][i] != null) { 
-                            System.out.println("GOING WEST != null");
-                            return false;
-                        }
-                    }
-                }
-                //
-                if (isEast(moveInput, currentPlayer)) {
-                    System.out.println("its going in isEast");
-
-                    for (int i = currentColumnVal + 1; i < nextColumnVal; i++) {
-
-                        if (this.gameState[currentRowVal][i] != null) 
-                        {
-                            System.out.println("GOING EAST != null");
-                            return false;
-                        }
-                    }
-                }
-            } else
-                return checkDiagonal(moveInput, currentPlayer, nextRowVal, currentRowVal, currentColumnVal);
+            int currentRowVal = getRowVal(currentOPosition);
+            int currentColumnVal = getColVal(currentOPosition);
+            return validMoveHelper(currentRowVal, currentColumnVal, moveInput, currentPlayer, nextRowVal, nextColumnVal);
         }
+        return true;
+    }
+
+    private boolean validMoveHelper(int currentRowVal, int currentColumnVal, String moveInput, String currentPlayer, int nextRowVal, int nextColumnVal) {
+
+        if (isVertical(moveInput, currentPlayer)) {
+            if (isSouth(moveInput, currentPlayer)) {
+                for (int i = currentRowVal + 1; i < nextRowVal; i++) {
+                    if (this.gameState[i][currentColumnVal] != null)
+                        return false;
+                }
+            }
+            if (isNorth(moveInput, currentPlayer)) {
+                for (int i = currentRowVal - 1; nextRowVal > i; i++) {
+                    if (this.gameState[i][currentColumnVal] != null)
+                        return false;
+                }
+            }
+        } else if (isHorizontal(moveInput, currentPlayer)) {
+            if (isWest(moveInput, currentPlayer)) {
+                for (int i = currentColumnVal - 1; i > nextColumnVal; i--) {
+
+                    if (this.gameState[currentRowVal][i] != null) {
+                        return false;
+                    }
+                }
+            }
+            if (isEast(moveInput, currentPlayer)) {
+
+                for (int i = currentColumnVal + 1; i < nextColumnVal; i++) {
+
+                    if (this.gameState[currentRowVal][i] != null) {
+                        return false;
+                    }
+                }
+            }
+        } else
+            return checkDiagonal(moveInput, currentPlayer, nextRowVal, currentRowVal, currentColumnVal);
 
         return true;
     }
@@ -578,202 +524,161 @@ public class Board {
         if (currentPlayer.equals("O")) {
             int currentRowVal = getRowVal(currentOPosition);
             int currentColVal = getColVal(currentOPosition);
-
-            if (currentRowVal + 1 > 7)
-                return false;
-
-            return this.gameState[currentRowVal + 1][currentColVal] == null;
-
+            return canMoveSouthHelper(currentRowVal, currentColVal);
         } else if (currentPlayer.equals("C")) {
-
             int currentRowVal = getRowVal(currentXPosition);
             int currentColVal = getColVal(currentXPosition);
-
-            if (currentRowVal + 1 > 7)
-                return false;
-
-            return this.gameState[currentRowVal + 1][currentColVal] == null;
-
+            return canMoveSouthHelper(currentRowVal, currentColVal);
         }
-
         return false;
-    } 
+    }
+
+    private boolean canMoveSouthHelper(int currentRowVal, int currentColVal) {
+        if (currentRowVal + 1 > 7)
+            return false;
+        return this.gameState[currentRowVal + 1][currentColVal] == null;
+    }
 
     public boolean canMoveNorth(String currentPlayer) {
 
         if (currentPlayer.equals("O")) {
             int currentRowVal = getRowVal(currentOPosition);
             int currentColVal = getColVal(currentOPosition);
-
-            if (currentRowVal - 1 < 0)
-                return false;
-
-            return this.gameState[currentRowVal - 1][currentColVal] == null;
-
+            return canMoveNorthHelper(currentRowVal, currentColVal);
         } else if (currentPlayer.equals("C")) {
-
             int currentRowVal = getRowVal(currentXPosition);
             int currentColVal = getColVal(currentXPosition);
-
-            if (currentRowVal - 1 < 0)
-                return false;
-
-            return this.gameState[currentRowVal - 1][currentColVal] == null;
-
+            return canMoveNorthHelper(currentRowVal, currentColVal);
         }
-
         return false;
-    } 
+    }
+
+    private boolean canMoveNorthHelper(int currentRowVal, int currentColVal) {
+        if (currentRowVal - 1 < 0)
+            return false;
+        return this.gameState[currentRowVal - 1][currentColVal] == null;
+    }
 
     public boolean canMoveWest(String currentPlayer) {
 
         if (currentPlayer.equals("O")) {
             int currentRowVal = getRowVal(currentOPosition);
             int currentColVal = getColVal(currentOPosition);
-
-            if (currentColVal - 1 < 0)
-                return false;
-
-            return this.gameState[currentRowVal][currentColVal - 1] == null;
-
+            return canMoveWestHelper(currentRowVal, currentColVal);
         } else if (currentPlayer.equals("C")) {
-
             int currentRowVal = getRowVal(currentXPosition);
             int currentColVal = getColVal(currentXPosition);
-
-            if (currentColVal - 1 < 0)
-                return false;
-
-            return this.gameState[currentRowVal][currentColVal - 1] == null;
+            return canMoveWestHelper(currentRowVal, currentColVal);
         }
-
         return false;
-    } 
+    }
+
+    private boolean canMoveWestHelper(int currentRowVal, int currentColVal) {
+        if (currentColVal - 1 < 0)
+            return false;
+        return this.gameState[currentRowVal][currentColVal - 1] == null;
+    }
 
     public boolean canMoveEast(String currentPlayer) {
 
         if (currentPlayer.equals("O")) {
             int currentRowVal = getRowVal(currentOPosition);
             int currentColVal = getColVal(currentOPosition);
-
-            if (currentColVal + 1 > 7)
-                return false;
-
-            return this.gameState[currentRowVal][currentColVal + 1] == null;
-
+            return canMoveEastHelper(currentRowVal, currentColVal);
         } else if (currentPlayer.equals("C")) {
-
             int currentRowVal = getRowVal(currentXPosition);
             int currentColVal = getColVal(currentXPosition);
-
-            if (currentColVal + 1 > 7)
-                return false;
-
-            return this.gameState[currentRowVal][currentColVal + 1] == null;
+            return canMoveEastHelper(currentRowVal, currentColVal);
         }
 
         return false;
+    }
+
+    private boolean canMoveEastHelper(int currentRowVal, int currentColVal) {
+        if (currentColVal + 1 > 7)
+            return false;
+        return this.gameState[currentRowVal][currentColVal + 1] == null;
     }
 
     public boolean canMoveNE(String currentPlayer) {
         if (currentPlayer.equals("O")) {
             int currentRowVal = getRowVal(currentOPosition);
             int currentColVal = getColVal(currentOPosition);
-
-            if (currentRowVal - 1 < 0 || currentColVal + 1 > 7)
-                return false;
-
-            return this.gameState[currentRowVal - 1][currentColVal + 1] == null;
-
+            return canMoveNEHelper(currentRowVal, currentColVal);
         } else if (currentPlayer.equals("C")) {
-
             int currentRowVal = getRowVal(currentXPosition);
             int currentColVal = getColVal(currentXPosition);
-
-            if (currentRowVal - 1 < 0 || currentColVal + 1 > 7)
-                return false;
-
-            return this.gameState[currentRowVal - 1][currentColVal + 1] == null;
-
+            return canMoveNEHelper(currentRowVal, currentColVal);
         }
+            return false;
+    }
 
-        return false;
-    } 
+    private boolean canMoveNEHelper(int currentRowVal, int currentColVal) {
+        if (currentRowVal - 1 < 0 || currentColVal + 1 > 7)
+            return false;
+
+        return this.gameState[currentRowVal - 1][currentColVal + 1] == null;
+
+    }
 
     public boolean canMoveNW(String currentPlayer) {
         if (currentPlayer.equals("O")) {
             int currentRowVal = getRowVal(currentOPosition);
             int currentColVal = getColVal(currentOPosition);
-
-            if (currentRowVal - 1 < 0 || currentColVal - 1 < 0)
-                return false;
-
-            return this.gameState[currentRowVal - 1][currentColVal - 1] == null;
+            return canMoveNWHelper(currentRowVal, currentColVal);
 
         } else if (currentPlayer.equals("C")) {
-
             int currentRowVal = getRowVal(currentXPosition);
             int currentColVal = getColVal(currentXPosition);
-
-            if (currentRowVal - 1 < 0 || currentColVal - 1 < 0)
-                return false;
-
-            return this.gameState[currentRowVal - 1][currentColVal - 1] == null;
-
+            return canMoveNWHelper(currentRowVal, currentColVal);
         }
-
         return false;
+    }
+
+    private boolean canMoveNWHelper(int currentRowVal, int currentColVal) {
+        if (currentRowVal - 1 < 0 || currentColVal - 1 < 0)
+            return false;
+        return this.gameState[currentRowVal - 1][currentColVal - 1] == null;
     }
 
     public boolean canMoveSE(String currentPlayer) {
         if (currentPlayer.equals("O")) {
             int currentRowVal = getRowVal(currentOPosition);
             int currentColVal = getColVal(currentOPosition);
-
-            if (currentRowVal + 1 > 7 || currentColVal + 1 > 7)
-                return false;
-
-            return this.gameState[currentRowVal + 1][currentColVal + 1] == null;
-
+            return canMoveSEHelper(currentRowVal, currentColVal);
         } else if (currentPlayer.equals("C")) {
-
             int currentRowVal = getRowVal(currentXPosition);
             int currentColVal = getColVal(currentXPosition);
-
-            if (currentRowVal + 1 > 7 || currentColVal + 1 > 7)
-                return false;
-
-            return this.gameState[currentRowVal + 1][currentColVal + 1] == null;
-
+            return canMoveSEHelper(currentRowVal, currentColVal);
         }
-
         return false;
-    } 
+    }
+
+    private boolean canMoveSEHelper(int currentRowVal, int currentColVal) {
+        if (currentRowVal + 1 > 7 || currentColVal + 1 > 7)
+            return false;
+        return this.gameState[currentRowVal + 1][currentColVal + 1] == null;
+    }
 
     public boolean canMoveSW(String currentPlayer) {
         if (currentPlayer.equals("O")) {
             int currentRowVal = getRowVal(currentOPosition);
             int currentColVal = getColVal(currentOPosition);
-
-            if (currentRowVal + 1 > 7 || currentColVal - 1 < 0)
-                return false;
-
-            return this.gameState[currentRowVal + 1][currentColVal - 1] == null;
-
+            return canMoveSWHelper(currentRowVal, currentColVal);
         } else if (currentPlayer.equals("C")) {
-
             int currentRowVal = getRowVal(currentXPosition);
             int currentColVal = getColVal(currentXPosition);
-
-            if (currentRowVal + 1 > 7 || currentColVal - 1 < 0)
-                return false;
-
-            return this.gameState[currentRowVal + 1][currentColVal - 1] == null;
-
+            return canMoveSWHelper(currentRowVal, currentColVal);
         }
 
         return false;
-    } 
+    }
+
+    private boolean canMoveSWHelper(int currentRowVal, int currentColVal) {
+        if (currentRowVal + 1 > 7 || currentColVal - 1 < 0)
+            return false;
+        return this.gameState[currentRowVal + 1][currentColVal - 1] == null;
+    }
 
     public boolean canMoveHorizontal(String currentPlayer) {  
         return canMoveEast(currentPlayer) || canMoveWest(currentPlayer);
