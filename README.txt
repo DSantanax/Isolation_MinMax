@@ -11,7 +11,7 @@ Description:
     given depth from the user.
 
 Compile:
-javac -d \out src\com\company\*.java
+javac -d \out src\*.java
 
 Execute:
-java -cp \out src\com\company\MainDriver.java
+java -cp \out src\MainDriver.java

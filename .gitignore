@@ -1,3 +1,5 @@
 /.idea/
 /out
 settings.json
+/IsolatedMinMax.iml
+/.vscode

@@ -1,5 +1,3 @@
-package com.company;
-
 /**
  * Authors: Brandon Dayauon 
  *          Daniel Santana 
